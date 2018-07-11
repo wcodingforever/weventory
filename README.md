@@ -1,7 +1,7 @@
-WEventory!
+WEventory!\
     Test before you put anything into the finished column
     
-#TODO
+# TODO
     -JSON formated requests!
     -Before you send password anywhere hash it in JS
     -Hashing password is:
@@ -22,7 +22,7 @@ WEventory!
 
 
 
-API:
+# API:
     sign_log.php #for log in and sign up
         expect: (clicked)BUTTON with name("login" or "signup")
             login::clicked:
