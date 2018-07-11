@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>login</title>
+
+
+    <style>
+
+        @media screen and (max-width: 481px) {
+
+        }
+
+        body {
+            padding: 0;
+            margin: 0;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #divcontainer {
+                text-align: center;
+        }
+
+        input, #loginbutton {
+            display: block;
+            width: 260px;
+            height: 50px;
+            margin: 18px 0px 18px 10px;
+        }
+
+        #loginbutton{
+            border: 1px solid lightgrey;
+        }
+    </style>
+
+</head>
+<body>
+    <div id="divcontainer">
+        <div>SIGN IN</div>
+        <input placeholder="Email Adress Or Username" id="user"><!--user name-->
+        <input placeholder="Password" id="password" type="password"><!--password-->
+        <button id="loginbutton">Log In</button><!--log in button-->
+        <div>Dont have an account?<a href="signup.html">Signup</a></div><!--dont have an account?-->
+    </div>
+
+    <script>
+        var logInButton = document.querySelector("#loginbutton")
+        var logInName = document.querySelector("#user")
+        var logInPass = document.querySelector("#password")
+
+        String.prototype.hashCode = function() {
+            var hash = 0;
+            if (this.length == 0) {
+                return hash;
+            }
+            for (var i = 0; i < this.length; i++) {
+                var char = this.charCodeAt(i);
+                hash = ((hash<<5)-hash)+char; // bitwise operation left shift
+                hash = hash & hash; // Convert to 32bit integer
+            }
+            return hash;
+        };        
+        
+        logInButton.addEventListener("click", function(){
+            if(logInName.value !== "" && logInPass.value !== "" ){
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        alert("yay it worked")//this will bring you to the homepage later on
+                    }
+                };
+                xhttp.open("POST", "sign_log.php");
+                
+                var user = {
+                    user_login: logInName.value,
+                    user_pswrd: logInPass.value.hashCode()
+                }
+                var sendUser = JSON.stringify(user);
+                console.log(sendUser)
+                xhttp.send(sendUser);
+            }
+            else
+            alert("Please make sure to fill out the fileds.")
+        })
+    </script>
+</body>
+</html>
