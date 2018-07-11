@@ -24,12 +24,19 @@ WEventory!\
 
 # API:
     sign_log.php #for log in and sign up
-        expect: (clicked)BUTTON with name("login" or "signup")
-            login::clicked:
+        expect: AJAX request `POST` method 
+            login, pswd
                 key_value_pairs:
-                    -user_name: value
-                    -user_pswed: hashed password
-            signup::clocked:
+                    -user_login: value
+                    -user_pswrd: hashed password
+            login, pswd, bday, 
                 key_value_pairs:
-                    -user_name
-                    ???
+                    -user_login
+                    -user_pswd
+                    -user_email
+                    -user_firstName
+                    -iser_lastName
+                    -user_bday
+                    -user_bio
+                    -user_pic
+                    -user_inetersts?
