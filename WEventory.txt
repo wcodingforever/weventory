@@ -1,0 +1,75 @@
+﻿HOMEPAGE
+----------------------------------------------------------------------------------
+-----------------------------
+MOBILE+DESKTOP
+-----------------------------
+Header
+	Search Bar
+		by date, distance, name 
+	In addition to Danielle's idea for displaying groups: pics for groups can be enlarged when clicked on (maybe modal?)
+	Groups and events should have two sections for each. 1)By Suggested 2)Popular in the near proximity
+	If events are paid, it should list the price or display "free"(maybe in green) 
+
+-----------------------------
+MOBILE ONLY
+-----------------------------
+	Be able to add the event to "attending" without having to directly visit the page. 
+	(+) button at the bottom right corner that has a popup for creating group or event 
+-----------------------------
+DESKTOP ONLY
+-----------------------------
+	Create groups/events will be displayed in the menu or header area
+
+
+----------------------------------------------------------------------------------
+SIGN UP
+----------------------------------------------------------------------------------
+-----------------------------
+MOBILE+DESKTOP
+-----------------------------
+	Check database so that users do not have same username/id/email address
+	Passwords should be at least 6 characters with a number
+		should be entered twice to make sure input is correct
+	REQUIRED) ID, PW, email,b-day, first and last name (marked with *)
+	OPTIONAL) pic, description, interest(max of 5)
+-----------------------------
+MOBILE
+-----------------------------
+	Multiple pages each handles different name
+		if required inputs are not entered, next button is greyed out
+-----------------------------
+DESKTOP
+-----------------------------
+	Single Page
+	Boxes have description of required info on the top
+
+----------------------------------------------------------------------------------
+MESSAGES
+----------------------------------------------------------------------------------
+-----------------------------
+MOBILE+DESKTOP
+-----------------------------
+	Start new chat button
+		if a chat with that button already exists, it takes to that chat room
+	Chat boxes should display name, time stamp, last dialogue (up to certain characters and then ...) picture, if the message was read or not, # of unread messages
+	Leave chat room option
+-----------------------------
+MOBILE
+-----------------------------
+	2 Pages-1)list of all convos, start new convo (maybe use the same type of button from create new group or event
+		2)chat room dialogue, leave chat room option
+-----------------------------
+DESKTOP
+-----------------------------
+	Hove over chatroom displays leave option
+
+----------------------------------------------------------------------------------
+PROFILE
+----------------------------------------------------------------------------------
+-----------------------------
+MOBILE+DESKTOP
+-----------------------------
+	Picture, Name,b-day, bio
+		other people's profile displays events/groups that are public
+		if own, displays all events/groups
+	Report Button
