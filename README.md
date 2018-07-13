@@ -43,3 +43,18 @@
                     -user_bio
                     -user_pic
                     -user_inetersts?
+
+
+
+    for event 
+    new_event.php
+    key_value_pairs:
+                event_name
+                event_date_from
+                event_date_to
+                event_description
+                event_location
+                event_category
+                event_price
+                event_pic
+                event_capacity
