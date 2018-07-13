@@ -22,17 +22,24 @@
     -To hash it use `your password`.hashCode() and send it `POST`
 
 
+# Limits
+    account bio: 400
+    group desc: 400
+    tags: 30 max
+        total length: 400
+    message: content 100
+    
 
 
 
 # API:
     sign_log.php #for log in and sign up
         expect: AJAX request `POST` method 
-            login, pswd
+            login, pswd (sign in)
                 key_value_pairs:
                     -user_login: value #email and login check for API
                     -user_pswrd: hashed password
-            login, pswd, bday, 
+            login, pswd, bday(registration)
                 key_value_pairs:
                     -user_login
                     -user_pswrd
@@ -43,3 +50,8 @@
                     -user_bio
                     -user_pic
                     -user_inetersts?
+        returns(JSON formatted):
+            (sign in):
+                log_in: Success/Fail
+            (sign up):
+                sign_up: Success/Fail
