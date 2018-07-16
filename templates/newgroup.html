@@ -40,11 +40,8 @@
 </head>
 <body>
     <div>
-        <input id="eventtitle" placeholder="Event Title"> <!--name-->
-        <input id="datefrom" placeholder="From" type="text" onfocus="(this.type='date')"> <!--from -->
-        <input id="dateto" placeholder="To" type="text" onfocus="(this.type='date')"> <!--to-->
+        <input id="groupname" placeholder="Name of the group"> <!--name-->
         <textarea id="description" placeholder="Description"></textarea>
-        <input id="location" placeholder="Location"> <!--location-->
         <select id="category"> <!--category-->
             <option>Category</option>
             <option >Outdoors and Adventure</option>
@@ -60,48 +57,39 @@
             <option>Fashion and Beauty</option>
             <option>Career and Buissiness</option>
         </select>
-        <input type="number" id="price" placeholder="price"> <!--price-->
-        <input type="number" id="capacity" placeholder="capacity"> <!--capacity-->
+        <input type="file" id="pic" accept="image/*"> 
         <button id="submitbutton">submit</button>
     </div>
 
     <script>
         var submitButton = document.querySelector("#submitbutton")
-        var eventTitle = document.querySelector("#eventtitle")
-        var dateFrom = document.querySelector("#datefrom")
-        var dateTo = document.querySelector("#dateto")
-        var eventDesc = document.querySelector("#description")
-        var eventLocation = document.querySelector("#location")
-        var eventCategory = document.querySelector("#category")
-        var eventPrice = document.querySelector("#price")
-        var eventCapacity = document.querySelector("#capacity")
-        
+        var groupCategory = document.querySelector("#category")
+        var groupName = document.querySelector("#groupname")
+        var groupDescription = document.querySelector("#description")
+        var groupPic = document.querySelector("#pic")
         
 
         submitButton.addEventListener("click", function(){
-            if(eventTitle.value !== "" ){
+            if(groupName.value !== "" ){
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
-                        alert("yay it worked")//this will bring you to the page of event 
+                        alert("yay it worked")//this will bring you to the page of group
                     }
                 };
-                xhttp.open("POST", "new_event.php");
+                xhttp.open("POST", "new_group.php");
                 
-                var event = {
-                    event_name: eventTitle.value,
-                    event_date_from: dateFrom.value,
-                    event_date_to: dateTo.value,
-                    event_description: eventDesc.value,
-                    event_location: eventLocation.value,
-                    event_category: eventCategory.value,
-                    event_price: eventPrice.value,
-                    // event_pic,
-                    event_capacity: eventCapacity.value
+                var group = {
+                    group_name: groupName.value,
+                    group_description: groupDescription.value,
+                    group_category: groupCategory.value,
+                    group_pic: groupPic.value,
+                    // group_host_id
+                    
                 }
-                var sendEvent = JSON.stringify(event);
-                console.log(sendEvent)
-                xhttp.send(sendEvent);
+                var sendGroup = JSON.stringify(group);
+                console.log(sendGroup)
+                xhttp.send(sendGroup);
             }
             else
             alert("Please make sure to fill out the fileds.")
