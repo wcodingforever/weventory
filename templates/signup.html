@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 
-
+ 
     <style>
 
         
@@ -72,6 +72,7 @@
         var birthday = document.querySelector("#birthday")
         var bio = document.querySelector("#bio")
         var userPic = document.querySelector("#pic")
+        var userName = document.querySelector("#user")
 
         
         String.prototype.hashCode = function() {
@@ -86,6 +87,25 @@
             }
             return hash;
         };
+
+        userName.addEventListener("change", function(){
+            var xhttp = new XMLHttpRequest();
+                    xhttp.onreadystatechange = function() {
+                        if (this.readyState === 4 && this.status === 200) {
+                            if(xhttp.responseText === "exists"){
+                                alert("already in use")
+                                userName.value = ""
+                            }
+                        }
+                    };
+                    xhttp.open("POST", "../backend/sign_log.php");
+                    var login = {
+                        loginCheck: userName.value
+                    }
+                    checkUser = JSON.stringify(login)
+
+                    xhttp.send(checkUser);
+        })
     
     
         signUpButton.addEventListener("click", function(){
@@ -93,14 +113,15 @@
                     var xhttp = new XMLHttpRequest();
                     xhttp.onreadystatechange = function() {
                         if (this.readyState == 4 && this.status == 200) {
-                            alert("yay it worked")//this will bring you to the homepage later on
+                            console.log(xhttp.responseText);
                         }
                     };
-                    xhttp.open("POST", "sign_log.php");
+                    xhttp.open("POST", "../backend/sign_log.php");
                     
                     var newUser = {
                         user_firstName: firstName.value,
                         user_lastName: lastName.value,
+                        user_login: userName.value,
                         user_email: email.value,
                         user_pswrd: pass.value.hashCode(),
                         user_bday: birthday.value,
@@ -111,8 +132,10 @@
                     console.log(sendUser)
                     xhttp.send(sendUser);
                 }
-                else
-                alert("Please make sure to fill out the fileds.")
+                else{
+                    alert("Please make sure to fill out the fileds.")
+
+                }
             })
     </script>
     
