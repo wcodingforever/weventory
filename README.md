@@ -70,3 +70,13 @@
                 event_price
                 event_pic
                 event_capacity
+
+
+
+            for groups 
+            new_group.php
+                    group_name
+                    group_description
+                    group_category
+                    group_host_id
+                    gruop_pic
