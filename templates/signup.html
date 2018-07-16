@@ -93,10 +93,10 @@
                     var xhttp = new XMLHttpRequest();
                     xhttp.onreadystatechange = function() {
                         if (this.readyState == 4 && this.status == 200) {
-                            alert("yay it worked")//this will bring you to the homepage later on
+                            console.log(xhttp.responseText);
                         }
                     };
-                    xhttp.open("POST", "sign_log.php");
+                    xhttp.open("POST", "../backend/sign_log.php");
                     
                     var newUser = {
                         user_firstName: firstName.value,
@@ -111,8 +111,10 @@
                     console.log(sendUser)
                     xhttp.send(sendUser);
                 }
-                else
-                alert("Please make sure to fill out the fileds.")
+                else{
+                    alert("Please make sure to fill out the fileds.")
+
+                }
             })
     </script>
     

@@ -7,7 +7,7 @@
     $password = '';
     $dbname = 'weventory';
 
-    if (isset($_REQUEST['user_bday'])){
+    if (isset($receive->user_bday)){
         try{
             $connection = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
             $stmt = $connection->prepare("
@@ -15,26 +15,28 @@
                     (`username`, `password`, `firstname`, `lastname`, `birthday`, `email`, `bio`, `pic`,`interests`)
                 VALUES
                     (:un, :pw, :firn, :famn, :birthday, :email, :bio, :pic, :interests);");
-            $lowerCase = strtolower($_REQUEST['user_login']);
-            $stmt->bindParam(':un',        $lowerCase);
-            $stmt->bindParam(':pw',        $_REQUEST['user_pswrd']);
-            $stmt->bindParam(':firn',      $_REQUEST['user_firstName']);
-            $stmt->bindParam(':famn',      $_REQUEST['iser_lastName']);
-            $stmt->bindParam(':birthday',  $_REQUEST['user_bday']);
-            $stmt->bindParam(':email',     $_REQUEST['user_email']);
-            $stmt->bindParam(':bio',       $_REQUEST['user_bio']);
-            $stmt->bindParam(':pic',       $_REQUEST['user_pic']);
-            $stmt->bindParam(':interests', $_REQUEST['user_inetersts']);
+            $lowerCase = strtolower($receive->user_bday);
+            $stmt->bindParam(':un', $lowerCase);
+            $stmt->bindParam(':pw', $receive->user_pswrd);
+            $stmt->bindParam(':firn', $receive->user_firstName);
+            $stmt->bindParam(':famn', $receive->user_lastName);
+            $stmt->bindParam(':birthday', $receive->user_bday);
+            $stmt->bindParam(':email', $receive->user_email);
+            $stmt->bindParam(':bio', $receive->user_bio);
+            $stmt->bindParam(':pic', $receive->user_pic);
+            $stmt->bindParam(':interests', $receive->user_inetersts);
         
             $stmt->execute();
-            $affectedRows = mysql_affected_rows($stmt);
+            // $affectedRows = mysql_affected_rows($stmt);
+            // echo($affectedRows);
+            echo("tried");
 
-            if (!$affectedRows){
-                // echo("Success")
-            }
-            else{
-                // echo("Fail")
-            }
+            // if (!$affectedRows){
+            //     // echo("Success")
+            // }
+            // else{
+            //     // echo("Fail")
+            // }
 
             $connection = null;
             $stmt = null;
@@ -43,14 +45,14 @@
         catch(PDOException $e) {
         }
     }
-    else{
-        try{
-            session_start()
+    // else{
+    //     try{
+    //         session_start()
 
-        }
-        catch(PDOException $e) {
-        }
-    }
+    //     }
+    //     catch(PDOException $e) {
+    //     }
+    // }
 
 
 ?>
