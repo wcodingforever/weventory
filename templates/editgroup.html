@@ -69,19 +69,21 @@
         var groupPic = document.querySelector("#pic")
 
 
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                var thisGroup = JSON.parse(xhr.responseText);
-                groupName.value = thisGroup.thisName;
-                groupDescription.value = thisGroup.thisDescription;
-                groupCategory.value = thisGroup.thisCategory;
-                groupPic.value = thisGroup.thisPic;
-            }
-        };
-        xhttp.open("GET", "new_group.php");
-        xhttp.send();
-        
+        window.addEventListener("load", function() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var thisGroup = JSON.parse(xhr.responseText);
+                    groupName.value = thisGroup.thisName;
+                    groupDescription.value = thisGroup.thisDescription;
+                    groupCategory.value = thisGroup.thisCategory;
+                    groupPic.value = thisGroup.thisPic;
+                }
+            };
+            xhttp.open("GET", "new_group.php");
+            xhttp.send();
+        })
+            
 
         submitButton.addEventListener("click", function(){
             if(groupName.value !== "" ){
