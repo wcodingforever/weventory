@@ -1,6 +1,6 @@
 CREATE TABLE `account`(
     `id` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `user_id` VARCHAR(15) NOT NULL,
+    `user_login` VARCHAR(25) NOT NULL,
     `password` VARCHAR(64) NOT NULL,
     `email` VARCHAR(255) NOT NULL,
     `f_name` VARCHAR(30) NOT NULL,
@@ -9,7 +9,7 @@ CREATE TABLE `account`(
     `pic` VARCHAR(200) NULL,
     `bio` VARCHAR(400) NULL,
     `interests` VARCHAR(200) NULL,
-    `create_date` DATE NOT NULL
+    `create_date` datetime NOT NULL DEFAULT NOW()
 );
 
 
