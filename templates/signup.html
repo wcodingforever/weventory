@@ -128,14 +128,14 @@
                 var emailSendxhl=new XMLHttpRequest(); 
                 emailSendxhl.onreadystatechange = function(){
                     if (this.readyState == 4 && this.status == 200) {
-                        alert("Email has been sent!")
                         var validEmail=JSON.parse(emailSendxhl.responseText);
                         if(validEmail.email_varif === "sent"){
+                            alert("Email has been sent!")
                             document.getElementById("vericode").disabled=false;
                             document.getElementById("confirmcodebutton").disabled=false;
                         }
                         else if (validEmail.email_varif === "not sent"){
-                            alert("cyka blyat");
+                            alert("Invalid Email. Check your email address again, or try a different one.");
                         }
                         else{
                             console.log("Unknown error:Email")
@@ -160,6 +160,7 @@
                     if(validCode.codeVerif==="true"){
                         alert("Correct Verification Code");
                         document.getElementById("signupbutton").disabled=false;
+                        document.getElementById("vericode").disabled=true;
                     }
                     else if(validCode.codeVerif==="false"){
                         alert("wrong Verification Code. Try Again");
@@ -185,35 +186,38 @@
                 passcfrm.value!=="" && passwordCheck===true){
                     if(pass.value===passcfrm.value){
                     var xhttp = new XMLHttpRequest();
-                    xhttp.onreadystatechange = function() {
-                        if (this.readyState == 4 && this.status == 200) {
-                            console.log(xhttp.responseText);
-                        }
-                    };
-                    xhttp.open("POST", "sign_log.php", true);
+                        xhttp.onreadystatechange = function() {
+                            if (this.readyState == 4 && this.status == 200) {
+                                console.log(xhttp.responseText);
+                            }
+                        };
 
-                    function checkPasswordCount(){
-                        if(pass.value.length>=6)
-                            var passwordCheck=false;
-                        else
-                            passwordCheck=true;    
-                        return passwordCheck;    
-                    };
-                  
-                    var newUser = {
-                        user_firstName: firstName.value,
-                        user_lastName: lastName.value,
-                        user_login: userName.value,
-                        user_email: email.value,
-                        user_pswrd: pass.value.hashCode(),
-                        user_bday: birthday.value,
-                        user_bio: bio.value,
-                        user_pic: userPic.value
-                    }
-                    var sendUser = JSON.stringify(newUser);
-                    console.log(sendUser)
-                    xhttp.send(sendUser);
-                    }
+                        xhttp.open("POST", "sign_log.php", true);
+
+                        function checkPasswordCount(){
+                            if(pass.value.length>=6)
+                                var passwordCheck=false;
+                            else
+                                passwordCheck=true;    
+                            return passwordCheck;    
+                        };
+                    
+                        var newUser = {
+                            user_firstName: firstName.value,
+                            user_lastName: lastName.value,
+                            user_login: userName.value,
+                            user_email: email.value,
+                            user_pswrd: pass.value.hashCode(),
+                            user_bday: birthday.value,
+                            user_bio: bio.value,
+                            user_pic: userPic.value
+                        }
+                        var sendUser = JSON.stringify(newUser);
+                        console.log(sendUser)
+                        xhttp.send(sendUser);
+                        }
+                    else
+                        alert("Password confirmation do not match. Please check again")
                 }
                 else{
                     alert("Please make sure to fill out the fileds.")
