@@ -38,7 +38,7 @@
         #signupbutton{
             border: 1px solid lightgrey;
         }
-    
+        
     
     </style>
 </head>
@@ -49,14 +49,18 @@
             <input placeholder="First Name" id="firstname">
             <input placeholder="Last Name" id="lastname">
             <input placeholder="Username" id="user"><!--user name-->
-            <input placeholder="Email Adress" id="email" type="email">
+            <input placeholder="Email Address" id="email" type="email">
             <input placeholder="Password" id="password" type="password"><!--password-->
+            <input placeholder="Confirm Password" id="passwordcfrm" type="password"> <!--password confirmation-->
             <input type="date" id="birthday">
             <textarea id="bio"> </textarea>
             <input type="file" id="pic" accept="image/*"> 
+            <input type="number" id="vericode" placeholder="Verification Code">
 
 
             <button id="signupbutton">Sign Up</button><!--log in button-->
+            <button id="sendemailbutton"> Send Verification Code</button>
+            <button id="confirmcodebutton"> Confirm Verification Code </button>
             <div>Already have an account?<a href="login.html">Sign in</a></div><!--dont have an account?-->
 
 
@@ -64,14 +68,18 @@
 
 
     <script>
-        var signUpButton = document.querySelector("#signupbutton")
-        var firstName = document.querySelector("#firstname")
-        var lastName = document.querySelector("#lastname")
-        var email = document.querySelector("#email")
-        var pass = document.querySelector("#password")
-        var birthday = document.querySelector("#birthday")
-        var bio = document.querySelector("#bio")
-        var userPic = document.querySelector("#pic")
+        var signUpButton = document.querySelector("#signupbutton").disabled=true;
+        var sendEmailButton = document.getElementById("sendemailbutton").disabled=true;
+        var confirmVeriCodeButton= document.getElementById("confirmcodebutton").disabled=true;
+        var firstName = document.querySelector("#firstname");
+        var lastName = document.querySelector("#lastname");
+        var pass = document.getElementById("password");
+        var passcfrm= document.getElementById("passwordcfrm");
+        var email = document.querySelector("#email");
+        var birthday = document.querySelector("#birthday");
+        var bio = document.querySelector("#bio");
+        var userPic = document.querySelector("#pic");
+        var veriCode = document.getElementById("vericode").disabled=true;
 
         
         String.prototype.hashCode = function() {
@@ -87,17 +95,92 @@
             return hash;
         };
     
-    
+        email.addEventListener("change",function(){
+            var emailAddress=email.value;
+            console.log(typeof emailAddress);
+
+            if(email.value===""||!(emailAddress.includes("@")))
+            document.getElementById("sendemailbutton").disabled=true;
+            else
+            document.getElementById("sendemailbutton").disabled=false;
+        })
+        sendEmailButton.addEventListener("click",function(){ //key=email_varif
+            if(email.value !==""){
+                var emailSendxhl=new XMLHttpRequest(); 
+                emailSendxhl.onreadystatechange = function(){
+                    if (this.readyState == 4 && this.status == 200) {
+                        alert("Email has been sent!")
+                        var validEmail=JSON.parse(emailSendxhl.responseText);
+                        if(validEmail.email_varif === "sent"){
+                            document.getElementById("vericode").disabled=false;
+                            document.getElementById("confirmcodebutton").disabled=false;
+                        }
+                        else if (validEmail.email_varif === "not sent"){
+                            alert("cyka blyat");
+                        }
+                        else{
+                            console.log("Unknown error:Email")
+                            console.log(validEmail)
+                        }
+                    }
+                }
+                emailSendxhl.open("POST","sign_log.php",true);
+                var emailSend={
+                    valid_email: email.value
+                }
+                var verifyEmail=JSON.stringify(emailSend); //JSON format(obj)
+                emailSendxhl.send(verifyEmail);
+            }
+            
+        })
+        confirmVeriCodeButton.addEventListener("click",function(){ //key=codeVerif
+            var sendCodexhl= new XMLHttpRequest();
+            sendCodexhl.onreadystatechange = function(){
+                if (this.readyState == 4 && this.status == 200) {
+                    var validCode=JSON.parse(sendCodexhl.responseText);
+                    if(validCode.codeVerif==="true"){
+                        alert("Correct Verification Code");
+                        document.getElementById("signupbutton").disabled=false;
+                    }
+                    else if(validCode.codeVerif==="false"){
+                        alert("wrong Verification Code. Try Again");
+                    }
+                    else{
+                        console.log("Unknown Error: Verification");
+                        console.log(validCode);
+                    }
+                }
+            }
+            validCode.open("POST","sign_log.php",true);
+            var verifyCode={
+                valid_code: veriCode.value
+            }
+            var correctCode=JSON.stringify(verifyCode);
+            sendCodexhl.send(correctCode);
+        })
+
+
+        
         signUpButton.addEventListener("click", function(){
-                if(firstName.value !== "" && lastName.value !== "" && email.value !== "" && pass.value !== ""){
+                if(firstName.value !== "" && lastName.value !== "" && email.value !== "" && pass.value !== "" && 
+                passcfrm.value!=="" && passwordCheck===true){
+                    if(pass.value===passcfrm.value){
                     var xhttp = new XMLHttpRequest();
                     xhttp.onreadystatechange = function() {
                         if (this.readyState == 4 && this.status == 200) {
                             alert("yay it worked")//this will bring you to the homepage later on
                         }
                     };
-                    xhttp.open("POST", "sign_log.php");
-                    
+                    xhttp.open("POST", "sign_log.php", true);
+
+                    function checkPasswordCount(){
+                        if(pass.value.length>=6)
+                            var passwordCheck=false;
+                        else
+                            passwordCheck=true;    
+                        return passwordCheck;    
+                    };
+                  
                     var newUser = {
                         user_firstName: firstName.value,
                         user_lastName: lastName.value,
@@ -110,6 +193,7 @@
                     var sendUser = JSON.stringify(newUser);
                     console.log(sendUser)
                     xhttp.send(sendUser);
+                    }
                 }
                 else
                 alert("Please make sure to fill out the fileds.")
