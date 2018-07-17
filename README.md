@@ -40,6 +40,15 @@
                     -user_login: value #email and login check for API
                     -user_pswrd: hashed password
             login, pswd, bday(registration)
+            email confirmation(email,verification code)
+                send email
+                    receive validity of email
+                        key:
+                            -email_varif  //"sent" or "not sent"
+                send verification code
+                    receive validity of code
+                        key:
+                            -codeVerif //"true" or "false"            
                 key_value_pairs:
                     -user_login
                     -user_pswrd
