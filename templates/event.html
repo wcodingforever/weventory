@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <style>
+        @media screen and (max-width: 481px) {
+
+            }
+
+            body {
+                padding: 0;
+                margin: 0;
+                height: 100vh;
+                /* width: 100vw; */
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            #divcontainer {
+                    text-align: center;
+            }
+
+            input, #submitbutton {
+                display: block;
+                width: 260px;
+                height: 50px;
+                margin: 18px 0px 18px 10px;
+            }
+
+            #submitbutton{
+                border: 1px solid lightgrey;
+            }
+    
+    </style>
+</head>
+<body>
+    <div>
+        <div id="eventtitle"></div>
+        <div id="datefrom"></div>
+        <div id="dateto"></div>
+        <div id="description"></div>
+        <div id="location"></div>
+        <!-- <div id="category"></div> -->
+        <div id="price" ></div>
+        <div id="capacity"></div>
+        <div id="pic"></div>
+        <div id="hostname"></div>
+        <div id="hostdescription"></div>
+        <div id="hostpic"></div>
+        <button id="reportbutton">report</button>
+        <button id="likebutton">like</button>
+        <button id="joinbutton">join</button>
+    </div>
+
+    <script>
+        var eventTitle = document.querySelector("#eventtitle")
+        var dateFrom = document.querySelector("#datefrom")
+        var dateTo = document.querySelector("#dateto")
+        var eventDesc = document.querySelector("#description")
+        var eventLocation = document.querySelector("#location")
+        var eventCategory = document.querySelector("#category")
+        var eventPrice = document.querySelector("#price")
+        var eventCapacity = document.querySelector("#capacity")
+        var eventPic = document.querySelector("#pic")
+        var eventHostName = document.querySelector("#hostname")
+        var eventHostDescription = document.querySelector("#hostdescription")
+        var eventHostPic = document.querySelector("hostpic")
+
+
+        window.onload = function () {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                var thisEvent = JSON.parse(xhr.responseText);
+                eventTitle.innerHTML = thisEvent.thisEventName;
+                dateFrom.innerHTML = thisEvent.thisEventDateFrom;
+                dateTo.innerHTML = thisEvent.thisEventDateTo;
+                eventDesc.innerHTML = thisEvent.thisEventDescription;
+                eventLocation.innerHTML = thisEvent.thisEventLocation;
+                eventCategory.innerHTML = thisEvent.thisEventCategory;
+                // eventPic.innerHTML = thisEvent.thisEventPic;
+                eventPrice.innerHTML = thisEvent.thisEventPrice;
+                eventCapacity.innerHTML = thisEvent.thisEventCapacity;
+                eventHostName.innerHTML = thisEvent.hostName;
+                eventHostDescription.innerHTML = thisEvent.hostDescription;
+                // eventHostPic.innerHTML = thisEven.hostPic;
+                }
+            };
+        xhttp.open("GET", "new_event.php");
+        xhttp.send();
+        }
+    </script>
+    
+</body>
+
+</html>
