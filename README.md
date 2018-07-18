@@ -89,3 +89,15 @@
                     group_category
                     group_host_id
                     gruop_pic
+
+
+
+        for report 
+        report.php
+            report_name
+            report_category
+            report_description
+            account_id
+            group_id
+            event_id
+            author.id
