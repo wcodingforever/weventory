@@ -80,6 +80,18 @@
                 event_pic
                 event_capacity
 
+        edit event: 
+            expects to get obj
+            thisEvent 
+                thisEvent.thisEventName;
+                thisEvent.thisEventDateFrom;
+                thisEvent.thisEventDateTo;
+                thisEvent.thisEventDescription;
+                thisEvent.thisEventLocation;
+                thisEvent.thisEventCategory;
+                thisEvent.thisEventPrice;
+                thisEvent.thisEventCapacity;
+
 
 
             for groups 
@@ -92,6 +104,7 @@
 
 
 
+
         for report 
         report.php
             report_name
@@ -101,3 +114,41 @@
             group_id
             event_id
             author.id
+
+            edit groups 
+            expects obj 
+                thisGroup
+                    thisGroup.thisName;
+                    thisGroup.thisDescription;
+                    thisGroup.thisCategory;
+                    thisGroup.thisPic;
+
+
+            edit profile 
+            expects obj 
+                thisProfile
+                    thisProfile.thisFirstName;
+                    thisProfile.thisLastName;
+                    thisProfile.thisEmail;
+                    thisProfile.thisBio;
+                    thisProfile.thisPic;
+
+
+
+        homepage 
+        expects obj 
+            date
+            title
+            description
+            location 
+            members  (this is the number of memebers) 
+            likes     (number of likes)
+            price
+            id
+
+            hostPicture
+            hostName
+            hostDescription
+
+            key values for POST 
+            all_events
