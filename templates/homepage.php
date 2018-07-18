@@ -86,7 +86,7 @@
                         };
                     }
                 };
-            xhttp.open("POST", "");
+            xhttp.open("POST", "../backend/event.php");
                 var eventObj = {
                     all_events: "events",
                 }
