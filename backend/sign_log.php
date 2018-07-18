@@ -7,31 +7,7 @@
     $password = '';
     $dbname = 'weventory'; 
 
-    function GUID(){
-        if (function_exists('com_create_guid') === true){
-            return trim(com_create_guid(), '{}');
-        }
-        return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
-    }
-    function get_client_ip_server() {
-        $ipaddress = '';
-        if ($_SERVER['HTTP_CLIENT_IP'])
-            $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
-        else if($_SERVER['HTTP_X_FORWARDED_FOR'])
-            $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        else if($_SERVER['HTTP_X_FORWARDED'])
-            $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
-        else if($_SERVER['HTTP_FORWARDED_FOR'])
-            $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
-        else if($_SERVER['HTTP_FORWARDED'])
-            $ipaddress = $_SERVER['HTTP_FORWARDED'];
-        else if($_SERVER['REMOTE_ADDR'])
-            $ipaddress = $_SERVER['REMOTE_ADDR'];
-        else
-            $ipaddress = 'UNKNOWN';
-        return $ipaddress;
-    }
-
+    include 'functions.php';
     if (isset($receive->user_bday)){
         try{
             $connection = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
@@ -98,7 +74,7 @@
         try{
             $connection = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
             $stmt = $connection->prepare("
-                    SELECT `user_login`, `password` 
+                    SELECT `id`, `user_login`, `password` 
                     FROM `account`
                     WHERE `user_login` = :uc AND `password` = :pw;");
             $lowerCase = strtolower($receive->user_login);
@@ -114,12 +90,16 @@
                 $_SESSION['session'] = GUID();
                 $stmt2 = $connection2->prepare("
                     INSERT INTO `sessions`
-                        (`user_login`, `password`, `session_id`, `expir_date`)
+                        (`user_id`, `user_login`, `password`, `session_id`, `expir_date`)
                     VALUES
-                        (:user_login, :password, :session_id, NOW() + INTERVAL 1 DAY;");
+                        (:userid, :user_login, :password, :session_id, NOW() + INTERVAL 1 DAY;");
+                
+                $currentIp = get_client_ip_server();
+                $hashWithIp = hash('sha256', $currentIp.$_SESSION['session']);
+                $stmt->bindParam(':userid', $result['id']);
                 $stmt->bindParam(':user_login', $result['user_login']);
                 $stmt->bindParam(':password', $result['password']);
-                $stmt->bindParam(':session_id', $_SESSION['session']);
+                $stmt->bindParam(':session_id', $hashWithIp);
                 $stmt->execute();
                 echo 'YAY';
             }
