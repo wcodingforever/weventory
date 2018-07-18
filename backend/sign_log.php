@@ -7,6 +7,31 @@
     $password = '';
     $dbname = 'weventory'; 
 
+    function GUID(){
+        if (function_exists('com_create_guid') === true){
+            return trim(com_create_guid(), '{}');
+        }
+        return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
+    }
+    function get_client_ip_server() {
+        $ipaddress = '';
+        if ($_SERVER['HTTP_CLIENT_IP'])
+            $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+        else if($_SERVER['HTTP_X_FORWARDED_FOR'])
+            $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        else if($_SERVER['HTTP_X_FORWARDED'])
+            $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+        else if($_SERVER['HTTP_FORWARDED_FOR'])
+            $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+        else if($_SERVER['HTTP_FORWARDED'])
+            $ipaddress = $_SERVER['HTTP_FORWARDED'];
+        else if($_SERVER['REMOTE_ADDR'])
+            $ipaddress = $_SERVER['REMOTE_ADDR'];
+        else
+            $ipaddress = 'UNKNOWN';
+        return $ipaddress;
+    }
+
     if (isset($receive->user_bday)){
         try{
             $connection = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
@@ -45,27 +70,31 @@
             
         }
         catch(PDOException $e) {
+            echo($e);
         }
     }
     else if(isset($receive->loginCheck)){
-        $connection = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-        $stmt = $connection->prepare("
-                SELECT `user_login` 
-                FROM `account`
-                WHERE `user_login` = :uc;");
-        $lowerCase = strtolower($receive->loginCheck);
-        $stmt->bindParam(':uc', $lowerCase);
-        $stmt->execute();
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        if(isset($result['user_login'])){
-            echo 'exists';
+        try{
+            $connection = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+            $stmt = $connection->prepare("
+                    SELECT `user_login` 
+                    FROM `account`
+                    WHERE `user_login` = :uc;");
+            $lowerCase = strtolower($receive->loginCheck);
+            $stmt->bindParam(':uc', $lowerCase);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            if(isset($result['user_login'])){
+                echo 'exists';
+            }
+    
+            $connection = null;
+            $stmt = null;
         }
-
-        $connection = null;
-        $stmt = null;
-
+        catch(PDOException $e) {
+        }
     }
-    else if($receive->user_login){
+    else if(isset($receive->user_login)){
         try{
             $connection = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
             $stmt = $connection->prepare("
@@ -82,7 +111,16 @@
             
             if (isset($result['user_login'])){
                 session_start();
-                $_SESSION['user_login'] = $result['user_login'];
+                $_SESSION['session'] = GUID();
+                $stmt2 = $connection2->prepare("
+                    INSERT INTO `sessions`
+                        (`user_login`, `password`, `session_id`, `expir_date`)
+                    VALUES
+                        (:user_login, :password, :session_id, NOW() + INTERVAL 1 DAY;");
+                $stmt->bindParam(':user_login', $result['user_login']);
+                $stmt->bindParam(':password', $result['password']);
+                $stmt->bindParam(':session_id', $_SESSION['session']);
+                $stmt->execute();
                 echo 'YAY';
             }
             else{
