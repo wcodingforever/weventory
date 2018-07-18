@@ -65,10 +65,10 @@
                         var myId = thisEvent.id
                         var allEvents = document.querySelector("#allevents");
                         allEvents.innerHTML += 
-                        "<div class='oneevent' id='eventid" + thisEvent.id + ""'>" +
+                        "<div class='oneevent' id='eventid" + thisEvent.id + "'>" +
                             "<div class='eventinfo'>" +
                                 "div class='date'>" + thisEvent.date + "</div>" +
-                                "div class='title'>" + thisEvent.title + "</div>" +
+                                "div class='title'> <a href='event.html?id=" + thisEvent.id + "'>" + thisEvent.title + " </a> </div>" +
                                 "div class='description'>" + thisEvent.description + "</div>" +
                                 "div class='location'>" + thisEvent.location + "</div>" +
                                 "div class='members'>" + thisEvent.members + "</div>" +
@@ -83,21 +83,9 @@
                                 "<div class='hostdescription'>" + thisEvent.hostDescription + "</div>" +
                             "</div>" +
                         "</div>";
-                    };
-
-                    var goToEvent = document.querySelector(".oneevent");
-                    for(var i = 0; i < goToEvent.length; i++){
-                        var oneEvent = goToEvent[i];
-                        oneEvent.addeventlistener("click" function(){
-                            console.log("id here" this.id)
-                            // window.location.href = "event.html" 
-                            // bring id of element ? 
-                        })
-
+                        };
                     }
                 };
-            };
-            
             xhttp.open("POST", "");
                 var eventObj = {
                     all_events: "events",

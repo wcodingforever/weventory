@@ -119,8 +119,8 @@
             title
             description
             location 
-            members  (this is the number on memebers) 
-            likes
+            members  (this is the number of memebers) 
+            likes     (number of likes)
             price
             id
 
