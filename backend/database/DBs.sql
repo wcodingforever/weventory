@@ -12,6 +12,14 @@ CREATE TABLE `account`(
     `create_date` datetime NOT NULL DEFAULT NOW()
 );
 
+CREATE TABLE `sessions`(
+    `id` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `user_id` INT(11) NOT NULL,
+    `user_login` VARCHAR(25) NOT NULL,
+    `password` VARCHAR(64) NOT NULL,
+    `session_id` VARCHAR(64) NOT NULL,
+    `expir_date`datetime NOT NULL
+);
 
 CREATE TABLE `group` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -79,7 +87,7 @@ CREATE TABLE `report` (
   `reason` varchar(100)  NOT NULL,
   `group_id` int(11)  NULL,
   `account_id` int(11) NULL,
-  `event_id` int(1) NULL,  
+  `event_id` int(11) NULL,  
   `submitdate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 );
