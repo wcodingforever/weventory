@@ -91,7 +91,8 @@
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
-                    var thisProfile = JSON.parse(xhr.responseText);
+                    console.log(JSON.parse(xhttp.responseText));
+                    var thisProfile = JSON.parse(xhttp.responseText);
                     firstName.value = thisProfile.thisFirstName;
                     lastName.value = thisProfile.thisLastName;
                     email.value = thisProfile.thisEmail;
@@ -100,7 +101,7 @@
                     
                 }
             };
-            xhttp.open("GET", "sign_log.php");
+            xhttp.open("POST", "../backend/user_profile.php");
             xhttp.send();
         })
 

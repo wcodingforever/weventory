@@ -84,23 +84,22 @@
             $stmt->bindParam(':pw', $hashedForCheck);
             $stmt->execute();
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            
             if (isset($result['user_login'])){
                 session_start();
                 $_SESSION['session'] = GUID();
-                $stmt2 = $connection2->prepare("
+                $stmt2 = $connection->prepare("
                     INSERT INTO `sessions`
                         (`user_id`, `user_login`, `password`, `session_id`, `expir_date`)
                     VALUES
-                        (:userid, :user_login, :password, :session_id, NOW() + INTERVAL 1 DAY;");
+                        (:userid, :user_login, :password, :session_id, NOW()+INTERVAL 2 MINUTE);");
                 
                 $currentIp = get_client_ip_server();
                 $hashWithIp = hash('sha256', $currentIp.$_SESSION['session']);
-                $stmt->bindParam(':userid', $result['id']);
-                $stmt->bindParam(':user_login', $result['user_login']);
-                $stmt->bindParam(':password', $result['password']);
-                $stmt->bindParam(':session_id', $hashWithIp);
-                $stmt->execute();
+                $stmt2->bindParam(':userid', $result['id']);
+                $stmt2->bindParam(':user_login', $result['user_login']);
+                $stmt2->bindParam(':password', $result['password']);
+                $stmt2->bindParam(':session_id', $hashWithIp);
+                $stmt2->execute();
                 echo 'YAY';
             }
             else{
