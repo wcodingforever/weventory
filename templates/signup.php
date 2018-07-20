@@ -112,6 +112,8 @@
     </style>
 </head>
 <body>
+    <?php include 'headerandsidebar.php';?>
+
     <div id="loader">
         <div class="sk-cube-grid">
             <div class="sk-cube sk-cube1"></div>
@@ -125,6 +127,9 @@
             <div class="sk-cube sk-cube9"></div>
           </div>
     </div>
+    
+    
+
     <div>
         <div id="divcontainer">SIGN UP
             <input placeholder="First Name" id="firstname">
@@ -142,7 +147,7 @@
             <button id="signupbutton">Sign Up</button><!--log in button-->
             <button id="sendemailbutton"> Send Verification Code</button>
             <button id="confirmcodebutton"> Confirm Verification Code </button>
-            <div>Already have an account?<a href="login.html">Sign in</a></div><!--dont have an account?-->
+            <div>Already have an account?<a href="login.php">Sign in</a></div><!--dont have an account?-->
 
 
     </div>

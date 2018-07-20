@@ -48,7 +48,7 @@
                 send verification code
                     receive validity of code
                         key:
-                            -codeVerif //"true" or "false"            
+                            -codeVerif //"true" or "false"
                 key_value_pairs:
                     -user_login
                     -user_pswrd

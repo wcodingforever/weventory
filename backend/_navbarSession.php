@@ -28,7 +28,6 @@
                 $user_login = $result['user_login'];
                 $user_id = $result['user_id'];
             }
-                        
         }
         catch(PDOException $e){
         }
