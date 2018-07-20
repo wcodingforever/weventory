@@ -81,8 +81,8 @@
         var bio = document.querySelector("#bio");
         var userPic = document.querySelector("#pic");
         var veriCode = document.getElementById("vericode").disabled=true;
-
         var userNameCheck=false;
+
 
         
         String.prototype.hashCode = function() {
@@ -192,7 +192,6 @@
         signUpButton.addEventListener("click", function(){
                 if(firstName.value !== "" && lastName.value !== "" && email.value !== "" && pass.value !== "" && 
                 passcfrm.value!=="" && passwordCheck===true){
-
                     function checkUserValid(){
                         var xhttp = new XMLHttpRequest();
                         xhttp.onreadystatechange = function() {
@@ -216,6 +215,7 @@
                         
                     }
                     if(pass.value===passcfrm.value&&userNameCheck===true){
+
                     var xhttp = new XMLHttpRequest();
                         xhttp.onreadystatechange = function() {
                             if (this.readyState == 4 && this.status == 200) {

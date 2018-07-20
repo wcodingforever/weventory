@@ -5,13 +5,13 @@
     $toSend = array(
         'user_login'=>'login',
         'password'=>'pswrd',
-        'f_name'=>'first name',
-        'l_name'=>'last name',
+        'thisFirstName'=>'first name',
+        'thisLastName'=>'last name',
         'b_day'=>'bday',
-        'email'=>'email',
-        'bio'=>'a bit more infoa bit more infoa bit more infoa bit more infoa bit more info',
-        'pic'=>'picLINK'
+        'thisEmail'=>'email',
+        'thisBio'=>'a bit more infoa bit more infoa bit more infoa bit more infoa bit more info',
+        'thisPic'=>'picLINK'
     );
-    echo(JSON_encode($toSend))
+    echo(JSON_encode($toSend));
 
 ?>
