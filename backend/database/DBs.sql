@@ -32,6 +32,15 @@ CREATE TABLE `group` (
   PRIMARY KEY (`id`)
 );
 
+CREATE TABLE `grouplist` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `group_id` int(11) NOT NULL,
+  `person_id` int(11) NOT NULL,
+  `role` varchar(32) NOT NULL,
+  `submitdate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+);
+
 
 CREATE TABLE `event` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
