@@ -43,6 +43,9 @@
     </style>
 </head>
 <body>
+    
+    <?php include 'headerandsidebar.php';?>
+    
 
     <div>
         <div id="divcontainer">SIGN UP
@@ -61,7 +64,7 @@
             <button id="signupbutton">Sign Up</button><!--log in button-->
             <button id="sendemailbutton"> Send Verification Code</button>
             <button id="confirmcodebutton"> Confirm Verification Code </button>
-            <div>Already have an account?<a href="login.html">Sign in</a></div><!--dont have an account?-->
+            <div>Already have an account?<a href="login.php">Sign in</a></div><!--dont have an account?-->
 
 
     </div>
@@ -149,7 +152,7 @@
                         }
                     }
                 }
-                emailSendxhl.open("POST","sign_log.php",true);
+                emailSendxhl.open("POST","../backend/sign_log.php",true);
                 var emailSend={
                     valid_email: email.value
                 }

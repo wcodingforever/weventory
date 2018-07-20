@@ -22,7 +22,7 @@
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if (!isset($result['user_login'])){
-                header("Location: ../templates/login.html");
+                header("Location: ../templates/login.php");
             }
             else{
                 $user_login = $result['user_login'];
@@ -34,7 +34,7 @@
         }
     }
     else{
-        header("Location: ../templates/login.html");
+        header("Location: ../templates/login.php");
     }
 ?><!DOCTYPE html>
 <html lang="en">

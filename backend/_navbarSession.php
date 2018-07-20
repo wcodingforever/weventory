@@ -28,7 +28,6 @@
                 $user_login = $result['user_login'];
                 $user_id = $result['user_id'];
             }
-                        
         }
         catch(PDOException $e){
         }
@@ -45,6 +44,6 @@
     <title>Document</title>
 </head>
 <body>
-    HTML with <?php if(!$user_login)echo('Log In and Sign Up with html tags and id\'s); else{echo($user_login);?>
+    HTML with <?php if(!$user_login)echo('Log In and Sign Up with html tags and id\'s'); else{echo($user_login);}?>
 </body>
 </html>

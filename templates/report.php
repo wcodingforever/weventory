@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<?php include '../backend/_sessionCheck.php';
+?><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -39,6 +40,9 @@
     </style>
 </head>
 <body>
+    
+    <?php include 'headerandsidebar.php';?>
+    
     <div>
         <input id="reporttitle" placeholder="Title"> <!--name-->
         <select id="category"> <!--category-->
@@ -67,7 +71,7 @@
                         alert("yay it worked")//this will bring you to the page of event 
                     }
                 };
-                xhttp.open("POST", "report.php");
+                xhttp.open("POST", "../backend/report.php");
                 
                 var report = {
                     report_name: reportTitle.value,
