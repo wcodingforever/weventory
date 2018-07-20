@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<?php include '../backend/_sessionCheck.php';
+?><!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -8,6 +9,8 @@
     
 </head>
 <body>
+    <?php include 'headerandsidebar.php';?>
+    
     <div>
         <div id="divcontainer">
             <div id="firstName" ></div>
