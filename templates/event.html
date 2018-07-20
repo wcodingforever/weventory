@@ -22,30 +22,30 @@
             }
 
             #divcontainer {
-                    text-align: center;
+                text-align: center;
             }
 
-            input, #submitbutton {
+            input, #reportbutton {
                 display: block;
                 width: 260px;
                 height: 50px;
                 margin: 18px 0px 18px 10px;
             }
 
-            #submitbutton{
+            #reportbutton{
                 border: 1px solid lightgrey;
             }
     
     </style>
 </head>
 <body>
-    <div>
+    <div id="divcontainer">
         <div id="eventtitle"></div>
         <div id="datefrom"></div>
         <div id="dateto"></div>
         <div id="description"></div>
         <div id="location"></div>
-        <!-- <div id="category"></div> -->
+        <div id="category"></div>
         <div id="price" ></div>
         <div id="capacity"></div>
         <div id="pic"></div>
@@ -83,17 +83,23 @@
                 eventDesc.innerHTML = thisEvent.thisEventDescription;
                 eventLocation.innerHTML = thisEvent.thisEventLocation;
                 eventCategory.innerHTML = thisEvent.thisEventCategory;
-                // eventPic.innerHTML = thisEvent.thisEventPic;
+                eventPic.src = thisEvent.thisEventPic;
                 eventPrice.innerHTML = thisEvent.thisEventPrice;
                 eventCapacity.innerHTML = thisEvent.thisEventCapacity;
                 eventHostName.innerHTML = thisEvent.hostName;
                 eventHostDescription.innerHTML = thisEvent.hostDescription;
-                // eventHostPic.innerHTML = thisEven.hostPic;
+                eventHostPic.src = thisEven.hostPic;
                 }
             };
         xhttp.open("GET", "new_event.php");
         xhttp.send();
         }
+
+        // join/leave button 
+        // like dislike button 
+        // handle price and if free 
+        // report button 
+        
     </script>
     
 </body>
