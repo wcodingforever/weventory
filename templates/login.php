@@ -41,12 +41,15 @@
 
 </head>
 <body>
+    
+    <?php include 'headerandsidebar.php';?>
+    
     <div id="divcontainer">
         <div>SIGN IN</div>
         <input placeholder="Email Adress Or Username" id="user"><!--user name-->
         <input placeholder="Password" id="password" type="password"><!--password-->
         <button id="loginbutton">Log In</button><!--log in button-->
-        <div>Dont have an account?<a href="signup.html">Signup</a></div><!--dont have an account?-->
+        <div>Dont have an account?<a href="signup.php">Signup</a></div><!--dont have an account?-->
     </div>
 
     <script>
@@ -74,7 +77,7 @@
                     if (this.readyState === 4 && this.status === 200) {
                         var gotThis = xhttp.responseText;
                         if(gotThis === "YAY"){
-                            window.location.href = "homepage.html"
+                            window.location.href = "homepage.php"
 
                         }
                         else {

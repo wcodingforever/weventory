@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<?php include '../backend/_navbarSession.php';
+?><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -102,28 +103,25 @@
         }
 
     }
-    
-    
     </style>
 </head>
 <body>
+    
     <div id="desktop">
         <div id="header"><!--header container-->
-            <div>logo</div>
-            <div id="slogan">WEventory</div>
-            <div id="logindiv">
-                <div>sign up</div>
-                <div>sign in</div>
+            <div><a href="homepage.php">logo</a></div>
+            <div id="slogan"><a href="homepage.php">WEventory</a></div>
+            <div id="userdiv">
+                <div><a href="signup.php">sign up</a></div>
+                <div><a href="login.php">sign in</a></div>
             </div>
         </div>
 
         <div id="sidebar">
             <div class="menuoption">Search<i class="fas fa-search"></i></div>
-            <div class="menuoption">New Event <i class="far fa-plus-square"></i></div>
-            <div class="menuoption">New Group <i class="far fa-plus-square"></i></div>
-            <div class="menuoption">My Profile</div>
-            <div class="menuoption">My Events</div>
-            <div class="menuoption">My Groups</div>
+            <div class="menuoption" ><a href="newevent.php">New Event <i class="far fa-plus-square"></i></a></div>
+            <div class="menuoption"><a href="newgroup.php">New Group <i class="far fa-plus-square"></i></a></div>
+            <div class="menuoption"><a href="profile.php">My Profile</a></div>
             <div class="menuoption">Chat <i class="far fa-comments"></i></div>
         </div>
     </div>
@@ -134,23 +132,20 @@
             <div class="icon"><i class="far fa-comments"></i></div>
         </div>
         <div id="mobilemenu">
-                <div class="mobileoption">New Event</div>
-                <div class="mobileoption">New Group</div>
-                <div class="mobileoption">My Profile</div>
-                <div class="mobileoption">My Events</div>
-                <div class="mobileoption">My Groups</div>
-            </div>
+                <div class="mobileoption"><a href="newevent.php">New Event <i class="far fa-plus-square"></i></a></div>
+                <div class="mobileoption"><a href="newgroup.php">New Group <i class="far fa-plus-square"></i></a></div>
+        </div>
         <div id="fixedmenu">
-            <div class="icon"><i class="fas fa-home"></i></div>
-            <div class="icon"><i class="fas fa-search"></i></div>
-            <div class="icon"><i class="fas fa-user"></i></div>
-
+            <div class="icon"><a href="homepage.php"><i class="fas fa-home"></i></a></div>
+            <div class="icon"><a href="search.php"><i class="fas fa-search"></i></a></div>
+            <div class="icon"><a href="profile.php"><i class="fas fa-user"></i></a></div>
         </div>
     </div>
 
     <script>
         var mobileMenuButton = document.querySelector("#mobilemenubutton");
-        var mobileMenu = document.querySelector("#mobilemenu")
+        var mobileMenu = document.querySelector("#mobilemenu");
+        var userButtons = document.querySelector("#userdiv");
 
 
         mobileMenuButton.addEventListener("click", function(){
@@ -162,8 +157,5 @@
             }
         });
     </script>
-
-
-    
 </body>
 </html>

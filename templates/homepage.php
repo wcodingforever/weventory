@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,7 +43,7 @@
     </style>
 </head>
 <body>
-    <?php include 'headerandsidebar.html';?>
+    <?php include 'headerandsidebar.php';?>
 
     <div id="allevents"><!--all events container-->
     </div>
@@ -68,7 +67,7 @@
                         "<div class='oneevent' id='eventid" + thisEvent.id + "'>" +
                             "<div class='eventinfo'>" +
                                 "div class='date'>" + thisEvent.date + "</div>" +
-                                "div class='title'> <a href='event.html?id=" + thisEvent.id + "'>" + thisEvent.title + " </a> </div>" +
+                                "div class='title'> <a href='event.php?id=" + thisEvent.id + "'>" + thisEvent.title + " </a> </div>" +
                                 "div class='description'>" + thisEvent.description + "</div>" +
                                 "div class='location'>" + thisEvent.location + "</div>" +
                                 "div class='members'>" + thisEvent.members + "</div>" +

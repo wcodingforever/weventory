@@ -43,9 +43,12 @@
     </style>
 </head>
 <body>
+    
+    <?php include 'headerandsidebar.php';?>
+    
 
     <div>
-            <div id="divcontainer">SIGN UP</div>
+        <div id="divcontainer">SIGN UP
             <input placeholder="First Name" id="firstname">
             <input placeholder="Last Name" id="lastname">
             <input placeholder="Username" id="user"><!--user name-->
@@ -56,12 +59,12 @@
             <textarea id="bio"> </textarea>
             <input type="file" id="pic" accept="image/*"> 
             <input type="number" id="vericode" placeholder="Verification Code">
-
+        </div>
 
             <button id="signupbutton">Sign Up</button><!--log in button-->
             <button id="sendemailbutton"> Send Verification Code</button>
             <button id="confirmcodebutton"> Confirm Verification Code </button>
-            <div>Already have an account?<a href="login.html">Sign in</a></div><!--dont have an account?-->
+            <div>Already have an account?<a href="login.php">Sign in</a></div><!--dont have an account?-->
 
 
     </div>
@@ -73,6 +76,7 @@
         var confirmVeriCodeButton= document.getElementById("confirmcodebutton").disabled=true;
         var firstName = document.querySelector("#firstname");
         var lastName = document.querySelector("#lastname");
+        var userName = document.getElementById("user");
         var pass = document.getElementById("password");
         var passcfrm= document.getElementById("passwordcfrm");
         var email = document.querySelector("#email");
@@ -80,6 +84,8 @@
         var bio = document.querySelector("#bio");
         var userPic = document.querySelector("#pic");
         var veriCode = document.getElementById("vericode").disabled=true;
+        var userNameCheck=false;
+
 
         
         String.prototype.hashCode = function() {
@@ -100,12 +106,15 @@
                     xhttp.onreadystatechange = function() {
                         if (this.readyState === 4 && this.status === 200) {
                             if(xhttp.responseText === "exists"){
-                                alert("already in use")
+                                alert("Username is taken")
                                 userName.value = ""
+                                userNameCheck=false;
                             }
+                            else
+                                userNameCheck=true;
                         }
                     };
-                    xhttp.open("POST", "../backend/sign_log.php");
+                    xhttp.open("POST", "../backend/sign_log.php",true);
                     var login = {
                         loginCheck: userName.value
                     }
@@ -143,13 +152,15 @@
                         }
                     }
                 }
-                emailSendxhl.open("POST","sign_log.php",true);
+                emailSendxhl.open("POST","../backend/sign_log.php",true);
                 var emailSend={
                     valid_email: email.value
                 }
                 var verifyEmail=JSON.stringify(emailSend); //JSON format(obj)
                 emailSendxhl.send(verifyEmail);
             }
+            else
+                alert("email has not been entered");
             
         })
         confirmVeriCodeButton.addEventListener("click",function(){ //key=codeVerif
@@ -184,7 +195,30 @@
         signUpButton.addEventListener("click", function(){
                 if(firstName.value !== "" && lastName.value !== "" && email.value !== "" && pass.value !== "" && 
                 passcfrm.value!=="" && passwordCheck===true){
-                    if(pass.value===passcfrm.value){
+                    function checkUserValid(){
+                        var xhttp = new XMLHttpRequest();
+                        xhttp.onreadystatechange = function() {
+                            if (this.readyState === 4 && this.status === 200) {
+                                if(xhttp.responseText === "exists"){
+                                    alert("Username is taken");
+                                    userName.value = "";
+                                    userNameCheck=false;
+                                }
+                                else
+                                    userNameCheck=true;
+                            }
+                            return userNameCheck;
+                        };
+                        xhttp.open("POST", "../backend/sign_log.php",true);
+                        var login = {
+                            loginCheck: userName.value
+                        }
+                        checkUser = JSON.stringify(login)
+                        xhttp.send(checkUser);
+                        
+                    }
+                    if(pass.value===passcfrm.value&&userNameCheck===true){
+
                     var xhttp = new XMLHttpRequest();
                         xhttp.onreadystatechange = function() {
                             if (this.readyState == 4 && this.status == 200) {
