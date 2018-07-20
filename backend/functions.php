@@ -34,6 +34,15 @@ function get_client_location(){
     $location = array($country, $city, $lat, $lon);
     return $location;
 }
+function generatePIN($digits = 4){
+    $i = 0;
+    $pin = "";
+    while($i < $digits){
+        $pin .= mt_rand(0, 9);
+        $i++;
+    }
+    return $pin;
+}
 //Haversine formula
 // $stmt = $dbh->prepare("SELECT  name, lat, lng, ( 3959 * acos( cos( radians(?) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians(?) ) + sin( radians(?) ) * sin( radians( lat ) ) ) ) AS distance FROM mytable HAVING distance < ? ORDER BY distance LIMIT 0 , 20");
 //     // Assign parameters
