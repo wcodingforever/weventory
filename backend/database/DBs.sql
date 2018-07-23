@@ -100,3 +100,13 @@ CREATE TABLE `report` (
   `submitdate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 );
+
+CREATE TABLE 'messages' (  
+  'id' int(11) NOT NULL AUTO_INCREMENT,
+  'sender_id' int(11) NOT NULL,
+  'receiver_id' int(11) NOT NULL,
+  'message' varchar(400) NOT NULL,
+  'send_time' datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY ('id')
+);/* instead of allowing multiple people into the chatroom, pm's can be done only between two individuals */
+
