@@ -42,11 +42,15 @@
                 echo 'sent';
                 try{
                     $connection = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+                    $stmtb4 = $connection->prepare("
+                        DELETE FROM verification
+                        WHERE NOW() > `createdate`");
+                    $stmtb4->execute();
                     $stmt = $connection->prepare("
-                        INSERT INTO `verification`
-                            (`user_login`, `f_name`, `pin`)
+                        INSERT INTO verification
+                            (`user_login`, `f_name`, `pin`, `createdate`)
                         VALUES
-                            (:ul, :firn, :pin);");
+                            (:ul, :firn, :pin, NOW()+INTERVAL 1 DAY);");
                     $lowerCase = strtolower($receive->valid_name);
                     $stmt->bindParam(':ul', $lowerCase);
                     $stmt->bindParam(':firn', $receive->valid_name);
@@ -55,7 +59,7 @@
         
                     $connection = null;
                     $stmt = null;
-                    
+                    $stmtb4 = null;
                 }
                 catch(PDOException $e) {
                 }

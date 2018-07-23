@@ -89,8 +89,10 @@
                     group_description: groupDescription.value,
                     group_category: groupCategory.value,
                     group_pic: groupPic.value,
-                    // group_host_id
-                    
+                    group_host_id
+                    group_tags
+                    group_country
+                    group_city
                 }
                 var sendGroup = JSON.stringify(group);
                 console.log(sendGroup)

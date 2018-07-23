@@ -38,6 +38,9 @@ function generatePIN($digits = 4){
     $i = 0;
     $pin = "";
     while($i < $digits){
+        if($i === 0){
+            $pin .= mt_rand(1, 9);
+        }
         $pin .= mt_rand(0, 9);
         $i++;
     }
