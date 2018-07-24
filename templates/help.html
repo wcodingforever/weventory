@@ -322,6 +322,7 @@ function remove_file(e){
 //     `re_step` SMALLINT(2) NULL,  
 //     `password` VARCHAR(4) NULL,
 //     `hits` INT(11) NOT NULL,
+//     `files`
 // ); -->
 
 // const write_article_submit_button = document.getElementById("write_article_submit_button");
@@ -345,7 +346,7 @@ function sendArticle(e){
 
     //var author_id  = session!*****
     let author_id = "user1";
-    let stickyOrNot = form.querySelector("input[name=sticky]");
+    let sticky = form.querySelector("input[name=sticky]").checked;
     let title = form.querySelector("input[name=title]").value;
     let password = form.querySelector("input[name=password").value;
     let kind = select.options[select.selectedIndex].value;
@@ -356,6 +357,7 @@ function sendArticle(e){
     if(title !== "" && content !== ""){
 
         let obj = {
+            sticky:sticky,
             author_id: author_id,        
             title: title,
             password: password,
@@ -371,7 +373,7 @@ function sendArticle(e){
         ajax.onreadystatechange = function(){
 
             if(this.status == 200 && this.readyState == 4){
-                console.log(ajax.responseText);
+                console.log(json);
             }
 
         }
