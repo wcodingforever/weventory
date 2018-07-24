@@ -41,12 +41,15 @@
 
 </head>
 <body>
+    
+    <?php include 'headerandsidebar.php';?>
+    
     <div id="divcontainer">
         <div>SIGN IN</div>
         <input placeholder="Email Adress Or Username" id="user"><!--user name-->
         <input placeholder="Password" id="password" type="password"><!--password-->
         <button id="loginbutton">Log In</button><!--log in button-->
-        <div>Dont have an account?<a href="signup.html">Signup</a></div><!--dont have an account?-->
+        <div>Dont have an account?<a href="signup.php">Signup</a></div><!--dont have an account?-->
     </div>
 
     <script>
@@ -71,11 +74,20 @@
             if(logInName.value !== "" && logInPass.value !== "" ){
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
-                    if (this.readyState == 4 && this.status == 200) {
-                        alert("yay it worked")//this will bring you to the homepage later on
+                    if (this.readyState === 4 && this.status === 200) {
+                        var gotThis = xhttp.responseText;
+                        if(gotThis === "YAY"){
+                            window.location.href = "homepage.php"
+
+                        }
+                        else {
+                            alert("Wrong Username or Password")
+                            logInName.value = ""
+                            logInPass.value = "" 
+                        }
                     }
                 };
-                xhttp.open("POST", "sign_log.php");
+                xhttp.open("POST", "../backend/sign_log.php");
                 
                 var user = {
                     user_login: logInName.value,
@@ -85,8 +97,9 @@
                 console.log(sendUser)
                 xhttp.send(sendUser);
             }
-            else
-            alert("Please make sure to fill out the fileds.")
+            else{
+                alert("Please make sure to fill out the fileds.")
+            }
         })
     </script>
 </body>
