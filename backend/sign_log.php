@@ -103,12 +103,7 @@
             $connection = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
             $stmt = $connection->prepare("
                 INSERT INTO `account`
-<<<<<<< HEAD
-                (`user_login`, `password`, `f_name`, `l_name`, `b_day`, `email`, `bio`, `pic`,`interests`)
-=======
                     (`user_login`, `password`, `f_name`, `l_name`, `b_day`, `email`, `bio`, `pic`,`interests`)
-
->>>>>>> 37f90ef0e8e6f439db915950c0b7c25106a39043
                 VALUES
                     (:un, :pw, :firn, :famn, :birthday, :email, :bio, :pic, :interests);");
             $lowerCase = strtolower($receive->user_login);
