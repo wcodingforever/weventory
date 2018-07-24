@@ -11,7 +11,7 @@
         try{
             $connection = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
             $stmt = $connection->prepare("
-                INSERT INTO `users`
+                INSERT INTO `users`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
                     (`username`, `password`, `firstname`, `lastname`, `birthday`, `email`, `bio`, `pic`,`interests`)
                 VALUES
                     (:un, :pw, :firn, :famn, :birthday, :email, :bio, :pic, :interests);");

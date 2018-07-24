@@ -1,0 +1,43 @@
+
+
+
+
+In PHP...
+
+
+1. all 'p's..
+all 'p's = [p1, p2]
+
+2. all 'c's of p1
+all 'c's of p1 = [c1, c2, c3]
+
+
+3. all 'c's of c1
+all 'c's of c1 = [c11, c12]
+
+4. all `c`s of c11
+all `c`s of c11 = [c111]
+
+5. c111 has no child..
+   -> go to the parent of c111(c11)
+   -> find other children of c11
+   -> c12
+
+6. find the children of c12
+    ->no chlid of c12 
+    ->go to the parent of c12(c1)
+    ->other children of c1****
+    ***(other than c11, c12)=> needs to be stored in somewhere. 
+    ->Not anymore children of c1..
+    ->Go to the parent of c1(p1)
+    ->find other children of c
+
+7.  
+
+
+
+
+
+
+   
+
