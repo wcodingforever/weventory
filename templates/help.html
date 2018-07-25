@@ -185,7 +185,7 @@ form.addEventListener("keypress", function(e){
     }
 });
 //Get the id of a user by using $_SESSION('user_id')
-// const user = "user01";
+// const user = "user02";
 
 //For sticky field!! => (default) invisioble!!
 // var sticky_field = form.querySelector("#sticky_field");
@@ -367,7 +367,7 @@ function sendArticle(e){
     
 
     //var author_id  = session!*****
-    let author_id = "user1";
+    let author_id = "user2";
     let sticky = form.querySelector("input[name=sticky]").checked;
     let title = form.querySelector("input[name=title]").value;
     let password = form.querySelector("input[name=password").value;
@@ -396,6 +396,10 @@ function sendArticle(e){
 
             if(this.status == 200 && this.readyState == 4){
                 // console.log(json);
+                let result = ajax.responseText;
+                if(result !== "OK"){
+                    console.log(result);
+                }
             }
 
         }
