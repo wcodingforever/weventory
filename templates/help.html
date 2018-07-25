@@ -24,6 +24,7 @@
         margin: 0 2px;
         color: #2b2a2a;
         font-size: 0.8em;
+        cursor: pointer;
     } 
     input[type=file]{
         display: none;
@@ -142,9 +143,9 @@
                 <div class="field_name">File</div>
                 <input id="file_button" type="button" value="Choose Files">
                 <label for="file_button"> MAX. 3 files</label>
-                <input type="file" name="file" accept="audio/*,video/*,image/*" multiple>
-                <input type="file" name="file" accept="audio/*,video/*,image/*" multiple>                
-                <input type="file" name="file" accept="audio/*,video/*,image/*" multiple>                
+                <input type="file" name="file" accept="audio/*,video/*,image/*" >
+                <input type="file" name="file" accept="audio/*,video/*,image/*" >                
+                <input type="file" name="file" accept="audio/*,video/*,image/*" >                
                 <div id="added_files"></div>
             </div>
             <input id="write_article_submit_button" type="submit" value="Submit" onClick="sendArticle(event);">
@@ -156,6 +157,27 @@
 
 
 <script>
+////////////////////////////////////////Bullutine board/////////////////////////////////////////
+window.onload = display_bullutine_board();
+
+
+const bullutine_board = document.getElementById("bullutine_board");
+
+function display_bullutine_board(){
+    const ajax = new XMLHttpRequest();
+    ajax.onreadystatechange = function(){
+        if(this.status == 200 && this.readyState == 4){
+            console.log("works");
+            // console.log
+        }
+    }
+    ajax.open( "POST", "../backend/getArticles_help.php",true);
+    ajax.send( "all"); 
+}
+
+
+
+///////////////////////////////////////////Wirte part///////////////////////////////////////////
 const form = document.getElementsByTagName("form")[0];
 form.addEventListener("keypress", function(e){
     if(e.keyCode === 13){
@@ -373,7 +395,7 @@ function sendArticle(e){
         ajax.onreadystatechange = function(){
 
             if(this.status == 200 && this.readyState == 4){
-                console.log(json);
+                // console.log(json);
             }
 
         }

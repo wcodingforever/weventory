@@ -139,7 +139,7 @@ CREATE TABLE `help_articles`(
     `parent_article_id` INT(11) NULL,
     `re_step` SMALLINT(2) NULL,  
     `password` VARCHAR(4) NULL,
-    `hits` INT(11) NOT NULL,
+    `hits` INT(11) NOT NULL DEFAULT 0,
     `tags` VARCHAR(250) NULL,
     `files` VARCHAR(500) NULL
 );
