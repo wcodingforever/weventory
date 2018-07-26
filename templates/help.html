@@ -24,6 +24,7 @@
         margin: 0 2px;
         color: #2b2a2a;
         font-size: 0.8em;
+        cursor: pointer;
     } 
     input[type=file]{
         display: none;
@@ -142,9 +143,9 @@
                 <div class="field_name">File</div>
                 <input id="file_button" type="button" value="Choose Files">
                 <label for="file_button"> MAX. 3 files</label>
-                <input type="file" name="file" accept="audio/*,video/*,image/*" multiple>
-                <input type="file" name="file" accept="audio/*,video/*,image/*" multiple>                
-                <input type="file" name="file" accept="audio/*,video/*,image/*" multiple>                
+                <input type="file" name="file" accept="audio/*,video/*,image/*" >
+                <input type="file" name="file" accept="audio/*,video/*,image/*" >                
+                <input type="file" name="file" accept="audio/*,video/*,image/*" >                
                 <div id="added_files"></div>
             </div>
             <input id="write_article_submit_button" type="submit" value="Submit" onClick="sendArticle(event);">
@@ -156,6 +157,27 @@
 
 
 <script>
+////////////////////////////////////////Bullutine board/////////////////////////////////////////
+window.onload = display_bullutine_board();
+
+
+const bullutine_board = document.getElementById("bullutine_board");
+
+function display_bullutine_board(){
+    const ajax = new XMLHttpRequest();
+    ajax.onreadystatechange = function(){
+        if(this.status == 200 && this.readyState == 4){
+            console.log("works");
+            // console.log
+        }
+    }
+    ajax.open( "POST", "../backend/getArticles_help.php",true);
+    ajax.send( "all"); 
+}
+
+
+
+///////////////////////////////////////////Wirte part///////////////////////////////////////////
 const form = document.getElementsByTagName("form")[0];
 form.addEventListener("keypress", function(e){
     if(e.keyCode === 13){
@@ -163,7 +185,7 @@ form.addEventListener("keypress", function(e){
     }
 });
 //Get the id of a user by using $_SESSION('user_id')
-// const user = "user01";
+// const user = "user02";
 
 //For sticky field!! => (default) invisioble!!
 // var sticky_field = form.querySelector("#sticky_field");
@@ -322,6 +344,7 @@ function remove_file(e){
 //     `re_step` SMALLINT(2) NULL,  
 //     `password` VARCHAR(4) NULL,
 //     `hits` INT(11) NOT NULL,
+//     `files`
 // ); -->
 
 // const write_article_submit_button = document.getElementById("write_article_submit_button");
@@ -344,8 +367,8 @@ function sendArticle(e){
     
 
     //var author_id  = session!*****
-    let author_id = "user1";
-    let stickyOrNot = form.querySelector("input[name=sticky]");
+    let author_id = "user2";
+    let sticky = form.querySelector("input[name=sticky]").checked;
     let title = form.querySelector("input[name=title]").value;
     let password = form.querySelector("input[name=password").value;
     let kind = select.options[select.selectedIndex].value;
@@ -356,6 +379,7 @@ function sendArticle(e){
     if(title !== "" && content !== ""){
 
         let obj = {
+            sticky:sticky,
             author_id: author_id,        
             title: title,
             password: password,
@@ -371,7 +395,11 @@ function sendArticle(e){
         ajax.onreadystatechange = function(){
 
             if(this.status == 200 && this.readyState == 4){
-                console.log(ajax.responseText);
+                // console.log(json);
+                let result = ajax.responseText;
+                if(result !== "OK"){
+                    console.log(result);
+                }
             }
 
         }
