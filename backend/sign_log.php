@@ -7,8 +7,98 @@
     $password = '';
     $dbname = 'weventory'; 
 
+    use PHPMailer\PHPMailer\PHPMailer;
+    use PHPMailer\PHPMailer\Exception;
+
     include 'functions.php';
-    if (isset($receive->user_bday)){
+    if (isset($receive->valid_email)){
+        $email = $receive->valid_email;
+        //Import PHPMailer classes into the global namespace
+        $randCode = generatePIN();
+
+        require_once '../vendor/autoload.php';
+
+        $mail = new PHPMailer(true);
+
+        try {
+            $mail->isSMTP();
+            $mail->Host = 'smtp.mailtrap.io';  //mailtrap SMTP server
+            $mail->SMTPAuth = true;
+            $mail->Username = '02834e8a88d3a2';   //username
+            $mail->Password = 'f42ad6552dc0b6';   //password
+            $mail->Port = 465;                    //smtp port
+
+            $mail->setFrom('noreply@weventory.com', 'Weventory Korea');
+            $mail->addAddress("$email", 'testuser');
+
+            $mail->isHTML(true);
+
+            $mail->Subject = 'Verification Email';
+            $mail->Body    = 'Hello '.$receive->valid_name.', <p>This is your verification code for '.$receive->valid_user.': '.$randCode.'</p><br>Thanks';
+
+            if (!$mail->send()) {
+                echo 'not sent';
+            } else {
+                echo 'sent';
+                try{
+                    $connection = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+                    $stmt = $connection->prepare("
+                        INSERT INTO `verification`
+                            (`user_login`, `f_name`, `pin`)
+                        VALUES
+                            (:ul, :firn, :pin);");
+                    $lowerCase = strtolower($receive->valid_name);
+                    $stmt->bindParam(':ul', $lowerCase);
+                    $stmt->bindParam(':firn', $receive->valid_name);
+                    $stmt->bindParam(':pin', $randCode);
+                    $stmt->execute();
+        
+                    $connection = null;
+                    $stmt = null;
+                    
+                }
+                catch(PDOException $e) {
+                }
+            }
+        } catch (Exception $e) {
+            echo 'not sent';
+        }
+    }
+    else if (isset($receive->varif_code)){
+        try{
+            $connection = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+            $stmt = $connection->prepare("
+                SELECT `user_login`
+                FROM `verification`
+                WHERE `user_login` = :ul AND `pin` = :pin");
+            $lowerCase = strtolower($receive->varif_user);
+            $stmt->bindParam(':ul', $lowerCase);
+            $stmt->bindParam(':pin', $receive->varif_code);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            
+            if (isset($result['user_login'])){
+                echo 'true';
+                $stmt2 = $connection->prepare("
+                    DELETE FROM `verification`
+                    WHERE `user_login` = :ul");
+                $stmt2->bindParam(':ul', $lowerCase);
+                $stmt2->execute();
+
+            }
+            else{
+                echo 'false';
+            }
+            $connection = null;
+            $stmt = null;
+            $stmt2 = null;
+        }
+        catch(PDOException $e) {
+        }
+        
+    }
+    else if (isset($receive->user_bday)){
         try{
             $connection = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
             $stmt = $connection->prepare("
@@ -30,16 +120,12 @@
             $stmt->bindParam(':interests', $receive->user_inetersts);
         
             $stmt->execute();
-            // $affectedRows = mysql_affected_rows($stmt);
-            // echo($affectedRows);
-            echo("tried");
+            $count = $stmt->rowCount();
+            
+            if ($count > 0){
+                echo 'created';
+            }
 
-            // if (!$affectedRows){
-            //     // echo("Success")
-            // }
-            // else{
-            //     // echo("Fail")
-            // }
 
             $connection = null;
             $stmt = null;

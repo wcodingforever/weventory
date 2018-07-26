@@ -38,13 +38,96 @@
         #signupbutton{
             border: 1px solid lightgrey;
         }
-        
+        #loader{
+            display: none;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            filter: opacity(40%);
+            background-color: black;
+            z-index: 100
+        }
+        .sk-cube-grid {
+            width: 40px;
+            height: 40px;
+            margin: 450px auto;
+        }
+
+        .sk-cube-grid .sk-cube {
+            width: 33%;
+            height: 33%;
+            background-color:aquamarine;
+            float: left;
+            -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+            animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out; 
+        }
+        .sk-cube-grid .sk-cube1 {
+        -webkit-animation-delay: 0.2s;
+                animation-delay: 0.2s; }
+        .sk-cube-grid .sk-cube2 {
+        -webkit-animation-delay: 0.3s;
+                animation-delay: 0.3s; }
+        .sk-cube-grid .sk-cube3 {
+        -webkit-animation-delay: 0.4s;
+                animation-delay: 0.4s; }
+        .sk-cube-grid .sk-cube4 {
+        -webkit-animation-delay: 0.1s;
+                animation-delay: 0.1s; }
+        .sk-cube-grid .sk-cube5 {
+        -webkit-animation-delay: 0.2s;
+                animation-delay: 0.2s; }
+        .sk-cube-grid .sk-cube6 {
+        -webkit-animation-delay: 0.3s;
+                animation-delay: 0.3s; }
+        .sk-cube-grid .sk-cube7 {
+        -webkit-animation-delay: 0s;
+                animation-delay: 0s; }
+        .sk-cube-grid .sk-cube8 {
+        -webkit-animation-delay: 0.1s;
+                animation-delay: 0.1s; }
+        .sk-cube-grid .sk-cube9 {
+        -webkit-animation-delay: 0.2s;
+                animation-delay: 0.2s; }
+
+        @-webkit-keyframes sk-cubeGridScaleDelay {
+            0%, 70%, 100% {
+                -webkit-transform: scale3D(1, 1, 1);
+                        transform: scale3D(1, 1, 1);
+            } 35% {
+                -webkit-transform: scale3D(0, 0, 1);
+                        transform: scale3D(0, 0, 1); 
+            }
+        }
+
+        @keyframes sk-cubeGridScaleDelay {
+            0%, 70%, 100% {
+                -webkit-transform: scale3D(1, 1, 1);
+                        transform: scale3D(1, 1, 1);
+            } 35% {
+                -webkit-transform: scale3D(0, 0, 1);
+                        transform: scale3D(0, 0, 1);
+            } 
+        }
     
     </style>
 </head>
 <body>
-    
     <?php include 'headerandsidebar.php';?>
+
+    <div id="loader">
+        <div class="sk-cube-grid">
+            <div class="sk-cube sk-cube1"></div>
+            <div class="sk-cube sk-cube2"></div>
+            <div class="sk-cube sk-cube3"></div>
+            <div class="sk-cube sk-cube4"></div>
+            <div class="sk-cube sk-cube5"></div>
+            <div class="sk-cube sk-cube6"></div>
+            <div class="sk-cube sk-cube7"></div>
+            <div class="sk-cube sk-cube8"></div>
+            <div class="sk-cube sk-cube9"></div>
+          </div>
+    </div>
+    
     
 
     <div>
@@ -71,9 +154,12 @@
 
 
     <script>
-        var signUpButton = document.querySelector("#signupbutton").disabled=true;
-        var sendEmailButton = document.getElementById("sendemailbutton").disabled=true;
-        var confirmVeriCodeButton= document.getElementById("confirmcodebutton").disabled=true;
+        var signUpButton = document.querySelector("#signupbutton");
+            signUpButton.disabled=true;
+        var sendEmailButton = document.getElementById("sendemailbutton");
+            sendEmailButton.disabled=true;
+        var confirmVeriCodeButton= document.getElementById("confirmcodebutton");
+            confirmVeriCodeButton.disabled=true;
         var firstName = document.querySelector("#firstname");
         var lastName = document.querySelector("#lastname");
         var userName = document.getElementById("user");
@@ -83,7 +169,8 @@
         var birthday = document.querySelector("#birthday");
         var bio = document.querySelector("#bio");
         var userPic = document.querySelector("#pic");
-        var veriCode = document.getElementById("vericode").disabled=true;
+        var veriCode = document.getElementById("vericode");
+            veriCode.disabled=true;
         var userNameCheck=false;
 
 
@@ -133,28 +220,32 @@
             document.getElementById("sendemailbutton").disabled=false;
         })
         sendEmailButton.addEventListener("click",function(){ //key=email_varif
+            document.querySelector("#loader").style.display = "block";
             if(email.value !==""){
                 var emailSendxhl=new XMLHttpRequest(); 
                 emailSendxhl.onreadystatechange = function(){
                     if (this.readyState == 4 && this.status == 200) {
-                        var validEmail=JSON.parse(emailSendxhl.responseText);
-                        if(validEmail.email_varif === "sent"){
-                            alert("Email has been sent!")
+                        if(emailSendxhl.responseText === "sent"){
+                            alert("Email has been sent!");
+                            document.querySelector("#loader").style.display = "none";
                             document.getElementById("vericode").disabled=false;
                             document.getElementById("confirmcodebutton").disabled=false;
+                            email.disabled=true;
+                            userName.disabled=true;
+                            
                         }
-                        else if (validEmail.email_varif === "not sent"){
+                        else if (emailSendxhl.responseText === "not sent"){
                             alert("Invalid Email. Check your email address again, or try a different one.");
-                        }
-                        else{
-                            console.log("Unknown error:Email")
-                            console.log(validEmail)
+                            document.querySelector("#loader").style.display = "none";
+
                         }
                     }
                 }
                 emailSendxhl.open("POST","../backend/sign_log.php",true);
                 var emailSend={
-                    valid_email: email.value
+                    valid_email: email.value,
+                    valid_user: userName.value,
+                    valid_name: firstName.value
                 }
                 var verifyEmail=JSON.stringify(emailSend); //JSON format(obj)
                 emailSendxhl.send(verifyEmail);
@@ -167,25 +258,23 @@
             var sendCodexhl= new XMLHttpRequest();
             sendCodexhl.onreadystatechange = function(){
                 if (this.readyState == 4 && this.status == 200) {
-                    var validCode=JSON.parse(sendCodexhl.responseText);
-                    if(validCode.codeVerif==="true"){
+                    if(sendCodexhl.responseText==="true"){
                         alert("Correct Verification Code");
                         document.getElementById("signupbutton").disabled=false;
                         document.getElementById("vericode").disabled=true;
                     }
-                    else if(validCode.codeVerif==="false"){
+                    else if(sendCodexhl.responseText==="false"){
                         alert("wrong Verification Code. Try Again");
                     }
-                    else{
-                        console.log("Unknown Error: Verification");
-                        console.log(validCode);
-                    }
+
                 }
             }
-            validCode.open("POST","sign_log.php",true);
+            sendCodexhl.open("POST","../backend/sign_log.php",true);
             var verifyCode={
-                valid_code: veriCode.value
+                varif_code: veriCode.value,
+                varif_user: userName.value
             }
+            console.log(veriCode);
             var correctCode=JSON.stringify(verifyCode);
             sendCodexhl.send(correctCode);
         })
@@ -193,49 +282,17 @@
 
         
         signUpButton.addEventListener("click", function(){
-                if(firstName.value !== "" && lastName.value !== "" && email.value !== "" && pass.value !== "" && 
-                passcfrm.value!=="" && passwordCheck===true){
-                    function checkUserValid(){
-                        var xhttp = new XMLHttpRequest();
-                        xhttp.onreadystatechange = function() {
-                            if (this.readyState === 4 && this.status === 200) {
-                                if(xhttp.responseText === "exists"){
-                                    alert("Username is taken");
-                                    userName.value = "";
-                                    userNameCheck=false;
-                                }
-                                else
-                                    userNameCheck=true;
-                            }
-                            return userNameCheck;
-                        };
-                        xhttp.open("POST", "../backend/sign_log.php",true);
-                        var login = {
-                            loginCheck: userName.value
-                        }
-                        checkUser = JSON.stringify(login)
-                        xhttp.send(checkUser);
-                        
-                    }
-                    if(pass.value===passcfrm.value&&userNameCheck===true){
-
+                if(firstName.value !== "" && lastName.value !== "" && email.value !== "" && pass.value !== "" && pass.value === passcfrm.value){
                     var xhttp = new XMLHttpRequest();
                         xhttp.onreadystatechange = function() {
                             if (this.readyState == 4 && this.status == 200) {
-                                console.log(xhttp.responseText);
+                                alert("Successfully signed up!");
+                                window.location.href = "../templates/login.php";
                             }
                         };
 
-                        xhttp.open("POST", "sign_log.php", true);
+                        xhttp.open("POST", "../backend/sign_log.php", true);
 
-                        function checkPasswordCount(){
-                            if(pass.value.length>=6)
-                                var passwordCheck=false;
-                            else
-                                passwordCheck=true;    
-                            return passwordCheck;    
-                        };
-                    
                         var newUser = {
                             user_firstName: firstName.value,
                             user_lastName: lastName.value,
@@ -249,9 +306,7 @@
                         var sendUser = JSON.stringify(newUser);
                         console.log(sendUser)
                         xhttp.send(sendUser);
-                        }
-                    else
-                        alert("Password confirmation do not match. Please check again")
+
                 }
                 else{
                     alert("Please make sure to fill out the fileds.")
