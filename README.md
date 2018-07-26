@@ -152,3 +152,23 @@
 
             key values for POST 
             all_events
+
+        messages
+        messages.php
+        expects obj
+            chatHistory
+                numbers
+                pic
+                f_name
+                l_name
+            UserExist
+                senderId
+                receiverId
+            ChatLog
+                dir
+                message
+        sends
+            chatChat
+            sendSearchInput
+            sentMessage
+            goodBye
