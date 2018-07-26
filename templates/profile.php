@@ -1,15 +1,13 @@
-<?php include '../backend/_sessionCheck.php';
-?><!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Profile</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<?php 
+include '../backend/_sessionCheck.php';
+?><head>
+    <style>
     
+    </style>
 </head>
-<body>
-    <?php include 'headerandsidebar.php';?>
+    <?php 
+    include 'headerandsidebar.php';
+    ?>
     
     <div>
         <div id="divcontainer">
