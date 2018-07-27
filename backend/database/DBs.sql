@@ -36,6 +36,7 @@ CREATE TABLE `sessions`(
 CREATE TABLE `group` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) NOT NULL,
+  `lowered_name` VARCHAR(64) NOT NULL
   `category` varchar(64)  NOT NULL,
   `description` varchar(400)  NOT NULL,
   `picture` varchar(200) NULL,
@@ -46,7 +47,7 @@ CREATE TABLE `group` (
 );
 CREATE TABLE `tags` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `tag_title` VARCHAR(32),
+  `tag_title` VARCHAR(32) NOT NULL UNIQUE,
   PRIMARY KEY (`id`)
 );
 CREATE TABLE `group_tags` (
@@ -58,7 +59,7 @@ CREATE TABLE `event_tags` (
   `tag_id` int(11) NOT NULL
 );
 
-CREATE TABLE `group_particitants` (
+CREATE TABLE `group_participants` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `group_id` int(11) NOT NULL,
   `person_id` int(11) NOT NULL,
@@ -112,8 +113,6 @@ CREATE TABLE `comments` (
   `submit_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 );
-
-
 
 
 CREATE TABLE `report` (

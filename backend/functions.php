@@ -52,5 +52,11 @@ function generatePIN($digits = 4){
 //     $stmt->bindParam(1,$center_lat);//lat coordinate of user
 //     $stmt->bindParam(2,$center_lng);//lng coordinate of user
 //     $stmt->bindParam(3,$center_lat);
-//     $stmt->bindParam(4,$radius);//Radius in miles 
+//     $stmt->bindParam(4,$radius);//Radius in miles
+// 
+// UPDATE FOR UNIQUE KEY
+// INSERT INTO AggregatedData (datenum,Timestamp)
+// VALUES ("734152.979166667","2010-01-14 23:30:00.000")
+// ON DUPLICATE KEY UPDATE 
+// 
 ?>
