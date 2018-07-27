@@ -124,24 +124,32 @@ CREATE TABLE 'messages' (
   'message' varchar(400) NOT NULL,
   'send_time' datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY ('id')
-);/* instead of allowing multiple people into the chatroom, pm's can be done only between two individuals */
+);
 
 
-/*Tables for help page*/
 CREATE TABLE `help_articles`(
     `id` INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    `author_id` VARCHAR(11) NOT NULL,
-    `date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+    `author_id` int(11) NOT NULL,
+    `date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `title` VARCHAR(100) NOT NULL,
     `content` VARCHAR(1500) NOT NULL,
     `kind` VARCHAR(25) NOT NULL,
-    `sticky` TINYINT(1) NOT NULL,
+    `sticky` INT(11) NOT NULL,
     `parent_article_id` INT(11) NULL,
-    `re_step` SMALLINT(2) NULL,  
+    `re_step` INT(11) NULL,  
     `password` VARCHAR(4) NULL,
     `hits` INT(11) NOT NULL DEFAULT 0,
     `tags` VARCHAR(250) NULL,
     `files` VARCHAR(500) NULL,
     `child_articles` VARCHAR(70) NULL
-    
+);/* mapping table for tags as for groups*/
+
+CREATE TABLE `parent`(
+    `id` INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `author_id` int(11) NOT NULL,
+    `comment` VARCHAR(200) NOT NULL,
+    `
 );
+CREATE TABLE `children`(
+
+)
