@@ -81,7 +81,8 @@ include '../backend/_sessionCheck.php';
                     groupPic.value = thisGroup.thisPic;
                 }
             };
-            xhttp.open("GET", "new_group.php");
+            xhttp.open("POST", "../backend/new_group.php");
+            var 
             xhttp.send();
         })
             
@@ -94,7 +95,7 @@ include '../backend/_sessionCheck.php';
                         alert("yay it worked")//this will bring you to the page of group
                     }
                 };
-                xhttp.open("POST", "new_group.php");
+                xhttp.open("POST", "../backend/new_group.php");
                 
                 var group = {
                     group_name: groupName.value,
