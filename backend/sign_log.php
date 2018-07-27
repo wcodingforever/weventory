@@ -177,11 +177,12 @@
             if (isset($result['user_login'])){
                 session_start();
                 $_SESSION['session'] = GUID();
+                $location = get_client_location(); // 0 country
                 $stmt2 = $connection->prepare("
                     INSERT INTO `sessions`
-                        (`user_id`, `user_login`, `password`, `session_id`, `expir_date`)
+                        (`user_id`, `user_login`, `password`, `session_id`, `user_country`,`expir_date`)
                     VALUES
-                        (:userid, :user_login, :password, :session_id, NOW()+INTERVAL 2 MINUTE);");
+                        (:userid, :user_login, :password, :session_id, :country, NOW()+INTERVAL 2 MINUTE);");
                 
                 $currentIp = get_client_ip_server();
                 $hashWithIp = hash('sha256', $currentIp.$_SESSION['session']);
@@ -189,6 +190,7 @@
                 $stmt2->bindParam(':user_login', $result['user_login']);
                 $stmt2->bindParam(':password', $result['password']);
                 $stmt2->bindParam(':session_id', $hashWithIp);
+                $stmt2->bindParam(':country', $location[0]);
                 $stmt2->execute();
                 echo 'YAY';
             }

@@ -24,14 +24,26 @@ function get_client_ip_server() {
     return $ipaddress;
 }
 function get_client_location(){
-    $PublicIP = get_client_ip(); 
-    $json  = file_get_contents("https://freegeoip.net/json/$PublicIP");
+    $ipaddress = '';
+    if ($_SERVER['HTTP_CLIENT_IP'])
+        $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+    else if($_SERVER['HTTP_X_FORWARDED_FOR'])
+        $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    else if($_SERVER['HTTP_X_FORWARDED'])
+        $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+    else if($_SERVER['HTTP_FORWARDED_FOR'])
+        $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+    else if($_SERVER['HTTP_FORWARDED'])
+        $ipaddress = $_SERVER['HTTP_FORWARDED'];
+    else if($_SERVER['REMOTE_ADDR'])
+        $ipaddress = $_SERVER['REMOTE_ADDR'];
+    else
+        $ipaddress = 'UNKNOWN';
+    $json  = file_get_contents("https://freegeoip.net/json/$ipaddress");
     $json  =  json_decode($json ,true);
     $country =  $json['country_name'];
     $city = $json['city'];
-    $lat = $json['latitude'];
-    $lon = $json['longtitude'];
-    $location = array($country, $city, $lat, $lon);
+    $location = array($country, $city);
     return $location;
 }
 function generatePIN($digits = 4){

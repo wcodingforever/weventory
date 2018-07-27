@@ -1,19 +1,14 @@
-<?php include '../backend/_sessionCheck.php';
-?><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <title>Document</title>
+<?php 
+include '../backend/_sessionCheck.php';
+?><head>
+
 
     <style>
         @media screen and (max-width: 481px) {
 
             }
 
-            body {
+            /* body {
                 padding: 0;
                 margin: 0;
                 height: 100vh;
@@ -21,10 +16,12 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-            }
+            } */
 
             #divcontainer {
-                    text-align: center;
+                text-align: center;
+                position: absolute;
+                left: 300px;
             }
 
             input, #submitbutton {
@@ -40,12 +37,13 @@
     
     </style>
 </head>
-<body>
-    <?php include '../backend/_sessionCheck.php';?>
+    <?php 
+    include '../backend/_sessionCheck.php';
+    ?>
     
     <?php include 'headerandsidebar.php';?>
     
-    <div>
+    <div id="divconatiner">
         <input id="eventtitle" placeholder="Event Title"> <!--name-->
         <input id="datefrom" placeholder="From" type="text" onfocus="(this.type='date')"> <!--from -->
         <input id="dateto" placeholder="To" type="text" onfocus="(this.type='date')"> <!--to-->
@@ -120,8 +118,4 @@
     </script>
     
 </body>
-
-
-
-
 </html>

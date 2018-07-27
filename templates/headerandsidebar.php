@@ -1,4 +1,5 @@
-<?php include '../backend/_navbarSession.php';
+<?php 
+include '../backend/_navbarSession.php';
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -157,5 +158,3 @@
             }
         });
     </script>
-</body>
-</html>
