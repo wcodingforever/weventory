@@ -70,9 +70,11 @@
         var eventHostName = document.querySelector("#hostname")
         var eventHostDescription = document.querySelector("#hostdescription")
         var eventHostPic = document.querySelector("hostpic")
+        var joinButton = document.querySelector("joinbutton")
+        var likeButton = document.querySelector("likebutton")
+        var user = <?php echo($user_name) ?>
 
-
-        window.onload = function () {
+        window.addEventListener("load", function () {
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
@@ -93,7 +95,7 @@
             };
         xhttp.open("GET", "new_event.php");
         xhttp.send();
-        }
+        })
 
         // join/leave button 
         // like dislike button 
