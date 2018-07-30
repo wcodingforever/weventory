@@ -3,63 +3,102 @@ include '../backend/_sessionCheck.php';
 ?><head>
 
     <style>
-        @media screen and (max-width: 481px) {
+    @media screen and (max-width: 481px) {
 
-            }
+        input, #submitbutton {
+            margin: 45px 10px 18px 10px;
+        }
 
-            /* body {
-                padding: 0;
-                margin: 0;
-                height: 100vh;
-                width: 100vw;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            } */
+        #groupdiv {
+            margin: auto;
+            background-color: #EAF1E4;
+            /* width: 600px; */
+            box-shadow: 10px 10px 5px grey;
+            border: 1px solid grey;
+            margin-bottom: 300px;
+            text-align: center;
+        }
 
-            #divcontainer {
-                    text-align: center;
-                    position: absolute;
-                    left: 300px;
-            }
+        }
 
-            input, #submitbutton {
-                display: block;
-                width: 260px;
-                height: 50px;
-                margin: 18px 0px 18px 10px;
-            }
+        #divcontainer {
+            text-align: center;
+            display: flex;
+            width: 100%;
+            margin-top: 30px;
+        }
 
-            #submitbutton{
-                border: 1px solid lightgrey;
-            }
+        input, textarea, select {
+            /* display: block; */
+            width: 260px;
+            height: 45px;
+            margin: 16px 0px 0px 15px;
+        }
+
+
+        #submitbutton{
+            border: 1px solid lightgrey;
+            background-color: #E2C044;
+            margin-left: 20px;
+            width: 260px;
+            height: 50px;
+            margin: 10px;
+            transition: 0.6s ease;
+            
+        }
+
+        #subitbutton:hover {
+            background-color: #b22222;
+        }
+
+
+        #groupdiv {
+            margin: auto;
+            background-color: #EAF1E4;
+            width: 600px;
+            box-shadow: 10px 10px 5px grey;
+            border: 1px solid grey;
+            margin-bottom: 300px;
+            text-align: center;
+        }
+
+        #text {
+            margin-top: 10px;
+            font-size: 24px;
+        }
+  
     
     </style>
 </head>
-    <?php include '../backend/_sessionCheck.php';?>
+    <?php 
+    // include '../backend/_sessionCheck.php';
+    ?>
     
     <?php include 'headerandsidebar.php';?>
     
     <div id="divcontainer">
-        <input id="groupname" placeholder="Name of the group"> <!--name-->
-        <textarea id="description" placeholder="Description"></textarea>
-        <select id="category"> <!--category-->
-            <option>Category</option>
-            <option >Outdoors and Adventure</option>
-            <option>Tech</option>
-            <option>Family</option>
-            <option>Health and Wellness</option>
-            <option>Sports and Fitness</option>
-            <option>Music</option>
-            <option>Film</option>
-            <option>Arts</option>
-            <option>Book Clubs</option>
-            <option>Dance</option>
-            <option>Fashion and Beauty</option>
-            <option>Career and Buissiness</option>
-        </select>
-        <input type="file" id="pic" accept="image/*"> 
-        <button id="submitbutton">submit</button>
+        <div id="groupdiv">
+            <div id="text">New Group</div>
+            <input id="groupname" placeholder="Name of the group"> <!--name-->
+            <textarea id="description" placeholder="Description"></textarea>
+            <select id="category"> <!--category-->
+                <option>Category</option>
+                <option >Outdoors and Adventure</option>
+                <option>Tech</option>
+                <option>Family</option>
+                <option>Health and Wellness</option>
+                <option>Sports and Fitness</option>
+                <option>Music</option>
+                <option>Film</option>
+                <option>Arts</option>
+                <option>Book Clubs</option>
+                <option>Dance</option>
+                <option>Fashion and Beauty</option>
+                <option>Career and Buissiness</option>
+            </select>
+            <input type="file" id="pic" accept="image/*"> 
+            <button id="submitbutton">submit</button>
+        </div>
     </div>
 
     <script>

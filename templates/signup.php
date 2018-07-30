@@ -1,36 +1,53 @@
 <head>
 
     <style>
+    @media screen and (max-width: 481px) {
 
-        
-        @media screen and (max-width: 481px) {
-
+        input, #signupbutton {
+            margin: 45px 10px 18px 10px;
         }
 
-        /* body {
-            padding: 0;
-            margin: 0;
-            height: 100vh;
-            width: 100vw;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        } */
+        #signupdiv {
+            width: 340px;
+        }
+
+    }
 
         #divcontainer {
-                text-align: center;
+            text-align: center;
+            display: flex;
+            width: 100%;
+            margin-top: 30px;
         }
 
-        input, #signbutton {
-            display: block;
+        input, textarea {
+            /* display: block; */
             width: 260px;
-            height: 50px;
-            margin: 18px 0px 18px 10px;
+            height: 45px;
+            margin: 16px 0px 0px 15px;
         }
 
-        #signupbutton{
+
+        #signupbutton, #confirmcodebutton, #sendemailbutton{
             border: 1px solid lightgrey;
+            background-color: #E2C044;
+            margin-left: 20px;
         }
+
+        #signupdiv {
+            margin: auto;
+            background-color: #EAF1E4;
+            width: 600px;
+            box-shadow: 10px 10px 5px grey;
+            border: 1px solid grey;
+            margin-bottom: 300px;
+        }
+
+        #signuptext {
+            margin-top: 10px;
+            font-size: 24px;
+        }
+        
         #loader{
             display: none;
             position: absolute;
@@ -123,8 +140,9 @@
     
     
 
-    <div>
-        <div id="divcontainer">SIGN UP
+    <div id="divcontainer">
+        <div id="signupdiv">
+            <div id="signuptext">SIGN UP</div>
             <input placeholder="First Name" id="firstname">
             <input placeholder="Last Name" id="lastname">
             <input placeholder="Username" id="user"><!--user name-->
@@ -132,17 +150,14 @@
             <input placeholder="Password" id="password" type="password"><!--password-->
             <input placeholder="Confirm Password" id="passwordcfrm" type="password"> <!--password confirmation-->
             <input type="date" id="birthday">
-            <textarea id="bio"> </textarea>
+            <textarea id="bio" placeholder="Bio"> </textarea>
             <input type="file" id="pic" accept="image/*"> 
             <input type="number" id="vericode" placeholder="Verification Code">
-        </div>
-
             <button id="signupbutton">Sign Up</button><!--log in button-->
             <button id="sendemailbutton"> Send Verification Code</button>
             <button id="confirmcodebutton"> Confirm Verification Code </button>
             <div>Already have an account?<a href="login.php">Sign in</a></div><!--dont have an account?-->
-
-
+        </div>
     </div>
 
 
