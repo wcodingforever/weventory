@@ -15,33 +15,31 @@
 
         }
         #allevents {
-            width: 600px;
+            width: 800px;
             position: absolute;
-            top: 160px;
-            left: 340px;
+            top: 200px;
+            left: 240px;
             height: 600px;
             overflow-y: scroll;
-            background-color: #EAF1E4; 
+            background-color: #EAF1E4;
+            box-shadow: 10px 10px 5px grey;
+            border: 1px solid grey; 
+            margin-bottom: 300px;
         }
 
         ::-webkit-scrollbar {
             width: 0px;
             background: transparent;
         }
-        /* #bottom {
-            bottom: 0px;
-            width: 100%;
-            height: 150px;
-
-        } */
     
     </style>
 </head>
-    <?php include 'headerandsidebar.php';?>
+    <?php 
+    include 'headerandsidebar.php';
+    ?>
 
     <div id="allevents"><!--all events container-->
     </div>
-    <!-- <div id="bottom"></div> -->
     
 </body>
 

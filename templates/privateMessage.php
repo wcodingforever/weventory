@@ -1,37 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+<?php 
+include '../backend/_navbarSession.php';
+?><head>
     <style>
-            textarea{
-                resize:none;
-            }
-            /* The Modal (background) */
-            .modal {
-                position: fixed; /* Stay in place */
-                z-index: 1; /* Sit on top */
-                padding-top: 100px; /* Location of the box */
-                left: 0;
-                top: 0;
-                width: 100%; /* Full width */
-                min-height:100%; /* Full height */
-                overflow: auto; /* Enable scroll if needed */
-                background-color: rgb(0,0,0); /* Fallback color */
-                background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-            }
-            
-            /* Modal Content */
-            .Modal-content {
-                background-color: #fefefe;
-                margin: auto;
-                padding: 20px;
-                border: 1px solid #888;
-                width: 80%;
-                height: 500px;
+        textarea{
+            resize:none;
+        }
+        /* The Modal (background) */
+        .modal {
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            min-height:100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+        
+        /* Modal Content */
+        .Modal-content {
+            background-color: #EAF1E4;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 60%;
+            height: 445px;
+            display: flex;
+            box-shadow: 10px 10px 5px  #4d4d4d;
+            border: 1px solid grey;
 
-            }
+        }
+
+        input, #searchbutton, #createnewmessage {
+            display: block;
+            width: 130px;
+            height: 40px;
+            margin: 45px 0px 18px 44px;
+        }
+
+        #createmodal {
+            display: block;
+            width: 170px;
+            height: 40px;
+            margin: 45px 0px 24px 55px;
+            
+        }
+
+
+        #searchbutton, #createnewmessage, #createmodal{
+            border: 1px solid lightgrey;
+            background-color: #E2C044;
+            transition: 0.6s ease;
+        }
+
+        #searchbutton:hover, #createnewmessage:hover, #createmodal:hover{
+            background-color: #b22222;
+        } 
             
             /* The Close Button */
             .close {
@@ -89,7 +115,8 @@
             </style>
     <title>Messages</title>
 </head>
-<body>
+    <?php include 'headerandsidebar.php';?>
+    
     <div>
         <div id="frontpage">
             <div id="pic" class="picture"></div>

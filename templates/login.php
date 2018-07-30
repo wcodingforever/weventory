@@ -3,33 +3,52 @@
 
         @media screen and (max-width: 481px) {
 
+            input, #loginbutton {
+            margin: 45px 10px 18px 10px;
+            }
+
+            #signindiv {
+                width: 340px;
+            }
+
         }
 
-        /* body {
-            padding: 0;
-            margin: 0;
-            height: 100vh;
-            width: 100vw;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        } */
-
         #divcontainer {
-                text-align: center;
-                position: absolute;
-                left: 300px;
+            text-align: center;
+            display: flex;
+            width: 100%;
+            margin-top: 50px;
         }
 
         input, #loginbutton {
             display: block;
             width: 260px;
             height: 50px;
-            margin: 18px 0px 18px 10px;
+            margin: 45px 10px 18px 95px;
         }
+
 
         #loginbutton{
             border: 1px solid lightgrey;
+            background-color: #E2C044;
+            transition: 0.6s ease;
+        }
+
+        #loginbutton:hover {
+            background-color: #b22222;
+        } 
+
+        #signindiv {
+            margin: auto;
+            background-color: #EAF1E4;
+            width: 450px;
+            box-shadow: 10px 10px 5px grey;
+            border: 1px solid grey;
+        }
+
+        #signintext {
+            margin-top: 10px;
+            font-size: 24px;
         }
     </style>
 
@@ -37,11 +56,13 @@
     <?php include 'headerandsidebar.php';?>
     
     <div id="divcontainer">
-        <div>SIGN IN</div>
-        <input placeholder="Email Adress Or Username" id="user"><!--user name-->
-        <input placeholder="Password" id="password" type="password"><!--password-->
-        <button id="loginbutton">Log In</button><!--log in button-->
-        <div>Dont have an account?<a href="signup.php">Signup</a></div><!--dont have an account?-->
+        <div id="signindiv">
+            <div id="signintext">SIGN IN</div>
+            <input placeholder="Email Adress Or Username" id="user"><!--user name-->
+            <input placeholder="Password" id="password" type="password"><!--password-->
+            <button id="loginbutton">Log In</button><!--log in button-->
+            <div>Dont have an account? <a href="signup.php">Signup</a></div><!--dont have an account?-->
+        </div>
     </div>
 
     <script>
