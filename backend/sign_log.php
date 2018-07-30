@@ -192,7 +192,8 @@
                 $stmt2->bindParam(':session_id', $hashWithIp);
                 $stmt2->bindParam(':country', $location[0]);
                 $stmt2->execute();
-                echo 'YAY';
+                // echo 'YAY';
+                // var_dump($location);
             }
             else{
                 echo 'OI';
