@@ -10,14 +10,40 @@
     .field_name{
         display: inline-block;
     }
+    #column_names th{
+        border-left:1px solid;        
+        border-bottom :1px solid;
+    }
+    #bullutine_board td{
+        border-left:1px solid;        
+        border-bottom :1px solid;
+    }
+    #bullutine_board .id{
+        width: 60px;
+    }
+    #bullutine_board .kind{
+        width: 142px;
+    }
+    #bullutine_board .title{
+        width: 650px;        
+    }
+    #bullutine_board .author{
+        width: 100px;        
+    }
+    #bullutine_board .date{        
+        width: 120px;
+    }
+    #bullutine_board .hits{
+        width: 60px;        
+    }
+    input[name=kind]{
+        display: none;
+    }
     .kind_option{
         display: inline-block;
     }
     .kind_option > label{
         cursor: pointer;
-    }
-    input[name=kind]{
-        display: none;
     }
     .tag{
         background-color: #c3c3c3a1;
@@ -35,12 +61,91 @@
     #write_article_container{
         border:1px solid;
     }
-    input[name=password]{
-        width: 21px;
+    tr .title{
+        cursor: pointer;
     }
     .field{
-        
+        margin: 5px 0px;
     }
+    #new_article #sticky_field{
+        background-color: yellow;
+        width: 91px;
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
+        border: 1px solid brown;
+        border-bottom-color: transparent;
+        text-align: center;
+    }
+    #new_article #sticky_field input{
+        display: none;
+    }
+    #new_article #sticky_field:hover{
+        background-color: blue;
+        cursor: pointer;        
+    }
+    #new_article input[name=title]{
+        margin-left: 62px;
+        width: 500px;
+    }
+    .field:nth-child(2){
+        display:inline-block;
+    }
+    .field:nth-child(3){
+        display:inline-block;
+        margin-left: 40px;
+    }
+    .field:nth-child(7){
+        margin-top: 12px;
+    }
+    .field:nth-child(5) .field_name{
+        position: relative;
+        top: -493px;
+    }
+    .field:nth-child(6) .field_name{
+        display: inline-block;
+    }
+    #instructionForTags{
+        display: inline-block;
+        margin: 10px 0px;
+        margin-left: 74px;
+        margin-top: 3px;
+    }
+    #new_article input[name=password]{
+        margin-left: 20px;
+        width: 60px;
+    }
+    #new_article select{
+        margin-left: 59px;
+        font-size: 16px;
+    }
+    #new_article textarea{
+        margin-left: 27px;
+        margin-top: 9px;
+        width: 702px;
+        height: 500px;
+    }
+    #new_article input[name=tags]{
+        margin-left: 108px;
+        margin-right: 17px;
+    }
+    #new_article #file_button{
+        margin-left: 80px;
+        margin-right: 19px;
+    }
+    #new_article #write_article_submit_button{
+        width: 67px;
+        height: 50px;
+        margin: 10px 0px;
+        margin-left: 750px;
+    }
+    #new_article #added_tags{
+        margin-left: 108px;
+        margin-top: 5px;
+    }
+    .pgNums{
+        cursor: pointer;
+    }
+    
 </style>
 </head>
 <body>
@@ -86,15 +191,23 @@
 
     <!-- Bullutine board -->
     <div>--Bullutine board--</div>
-    <table id="bullutine_board">
-        <tr id="column_names">
-            <th id="number">No.</th>
-            <th id="title">Title</th>
-            <th id="author">Author</th>
-            <th id="date">Date</th>
-            <th id="hits">Hits</th>
-        </tr>
-    </table>
+    <div id="bullutine_board_container">
+        <table>
+            <thead>
+                <tr id="column_names">
+                    <th id="number">No.</th>
+                    <th id="kind">Kind</th>            
+                    <th id="title">Title</th>
+                    <th id="author">Author</th>
+                    <th id="date">Date</th>
+                    <th id="hits">Hits</th>
+                </tr>
+            </thead>
+            <tbody id="bullutine_board">
+            </tbody>
+        </table>
+        <div id="pageNumbers"></div>
+    </div>
 
     <button id="write_button">Write</button>
 
@@ -106,7 +219,7 @@
             <!-- (Default) invisioble!! -->
             <!-- If authour is admin, sticky field'll be visible!! -->
             <div class="field" id="sticky_field">              
-                    <label class="field_name" for="sticky">Sticky</label> <input id="sticky" type="checkbox" value="sticky" name="sticky">
+                    <label class="field_name" for="sticky">Sticky off</label> <input id="sticky" type="checkbox" value="sticky" name="sticky">
             </div>
             <div class="field">              
                 <div class="field_name"><span style="color: red;">*</span> Title</div>
@@ -135,8 +248,8 @@
                 <textarea name="content"></textarea>
             </div>
             <div class="field">
-                <div class="field_name">Tags</div>
-                <input type="text" name="tags"> MAX. 10 tags
+                <div class="field_name">Tags</div><div id="instructionForTags">To add a tag, press enter key. To delete click the tag.</div>
+                <div><input type="text" name="tags"> MAX. 10 tags</div>
                 <div id="added_tags"></div>
             </div>
             <div class="field">
@@ -148,8 +261,16 @@
                 <input type="file" name="file" accept="audio/*,video/*,image/*" >                
                 <div id="added_files"></div>
             </div>
-            <input id="write_article_submit_button" type="submit" value="Submit" onClick="sendArticle(event);">
+            <input id="write_article_submit_button" type="submit" value="Submit" onclick="sendArticle(event);">
         </form>
+    </div>
+
+    <div id="readArticleContainer">
+        <table>
+            <tr>
+                <th>No.</th><td id="id"></td>
+            </tr>
+        </table>
     </div>
 
 
@@ -158,23 +279,112 @@
 
 <script>
 ////////////////////////////////////////Bullutine board/////////////////////////////////////////
-window.onload = display_bullutine_board();
-
+window.onload = bringAllArticles();
 
 const bullutine_board = document.getElementById("bullutine_board");
+const pageNumbers = document.getElementById("pageNumbers");
+var articlesForEachPg = [];
 
-function display_bullutine_board(){
+function bringAllArticles(){
     const ajax = new XMLHttpRequest();
     ajax.onreadystatechange = function(){
         if(this.status == 200 && this.readyState == 4){
-            console.log("works");
-            // console.log
+            let arrForAllArticles = JSON.parse(ajax.responseText);
+            let numOfPgs;
+            if((arrForAllArticles.length % 10) === 0){
+                numOfPgs = Math.floor(arrForAllArticles.length/10);
+              }else{
+                  numOfPgs = (Math.floor(arrForAllArticles.length/10)) + 1;
+              }
+            for(let i= 0; i < numOfPgs; i++){
+                  let thisPgNum = i + 1;
+                  document.getElementById("pageNumbers").innerHTML += "<span class='pgNums' id='p_" + thisPgNum + 
+                  "' onclick='displayArticle(this.id)'>[" + thisPgNum + "]</span>"; 
+              }
+              for(let i = 0; i < numOfPgs; i++){
+                  articlesForEachPg.push([]);
+              }
+            let pgCount = 1;
+            for(let i = 0; i < arrForAllArticles.length; i++){
+                let nthArti = i + 1;
+                let thisArticle = arrForAllArticles[i];
+                articlesForEachPg[pgCount-1].push(thisArticle);                
+                if(Math.floor((nthArti/10)) > (pgCount - 1)){
+                    pgCount ++;
+                }
+            }
+            console.log("articlesForEachPg: ");
+            console.log(articlesForEachPg);
+            displayArticle("p_1");
         }
     }
-    ajax.open( "POST", "../backend/getArticles_help.php",true);
-    ajax.send( "all"); 
+    ajax.open( "POST", "../backend/getArticles_help.php", true);
+    ajax.send( "all");     
 }
 
+// const pgNums = document.querySelectorAll(".pgNums");
+
+function displayArticle(pgNumID){
+    // pgNumID => 'p_x';
+    let pgNum = parseInt(pgNumID.slice(2));
+
+    let articlesOfThisPg = articlesForEachPg[pgNum-1];
+    bullutine_board.innerHTML = "";
+
+    for(let i = 0; i < articlesOfThisPg.length; i++){
+        let thisArticle = articlesOfThisPg[i];
+        let hasPassword = false;
+        let stickyOrNot = false;
+        let styleForSticky = "style='background-color:pink;color:blue;'"; 
+        if(thisArticle["password"] !== null){
+            hasPassword = true;
+        }
+        if(thisArticle["sticky"] === "1"){
+            stickyOrNot = true;
+        }
+        let thisID = thisArticle["id"];
+        let thisKind = thisArticle["kind"];                
+        let thisTitle = thisArticle["title"];
+        let thisAuthor = thisArticle["author_id"];
+        let thisDate = thisArticle["date"];
+        let onlyDate = thisDate.slice(0,10);
+        let onlyTime = thisDate.slice(11, -1);
+        let todayOnlyDate;
+        let dt = new Date();
+        let y = dt.getFullYear().toString();
+        let m = (dt.getMonth() + 1).toString();
+        if(m.length === 1){
+            m = "0" + m;
+        }
+        let d = dt.getDate().toString();
+        if(d.length === 1){
+            d = "0" + d;
+        }
+        todayOnlyDate = y+ "-" + m + "-" + d;
+        if(todayOnlyDate === onlyDate){
+            thisDate = onlyTime;
+        }else{
+            thisDate = onlyDate;
+        }
+        let thisHits = thisArticle["hits"];
+        
+         if(stickyOrNot){bullutine_board.innerHTML += "<tr " + styleForSticky +"></tr>";}
+        else{bullutine_board.innerHTML += "<tr></tr>";}
+        bullutine_board.lastChild.innerHTML += "<td class='id'>" + thisID + "</td>" +
+                                    "<td class='kind'>" + thisKind + "</td>";
+        
+        if(hasPassword){
+            bullutine_board.lastChild.innerHTML += "<td class='title' id='" + thisID + "' onclick='showArticle(this)'>" + thisTitle +
+             " <i class='fas fa-lock'></i>" + "</td>";
+        }else{
+            bullutine_board.lastChild.innerHTML += "<td class='title' id='" + thisID + "' onclick='showArticle(this)'>" + thisTitle + "</td>";
+        }
+                                
+        bullutine_board.lastChild.innerHTML += "<td class='author'>" + thisAuthor + "</td>" +
+                                            "<td class='date'>" + thisDate + "</td>" +
+                                            "<td class='hits'>" + thisHits + "</td>";
+    }
+}
 
 
 ///////////////////////////////////////////Wirte part///////////////////////////////////////////
@@ -207,7 +417,7 @@ input_for_tags.addEventListener("keyup",add_tags);
 function add_tags(e){
     e.preventDefault();
     if(e.keyCode === 13){
-        var new_tag = input_for_tags.value;
+        var new_tag = input_for_tags.value.toLowerCase();
         if(new_tag !== "" && tags.indexOf(new_tag) === -1 && new_tag.length <= 20){
 
             tags.push(new_tag);
@@ -282,6 +492,7 @@ var count = 0;
 
 function display_file(e){
     let file_name = e.target.files[0].name;
+    let file_size = e.target.files[0].size;
     let existOrNot = false;
     for(let holder_name in file_holders){
         let file_name_of_this = file_holders[holder_name];
@@ -291,7 +502,7 @@ function display_file(e){
     }
     if(existOrNot === false){
 
-        added_files.innerHTML += "<div class='file_name'>" + file_name + 
+        added_files.innerHTML += "<div class='file_name'>" + file_name + " " + file_size + " bytes " +
         "  <i class='fas fa-times close_icons' id='holder_" + count + "' onclick='remove_file(event)'></i> </div>";
         let holder_name = "holder_" + count.toString();
         file_holders[holder_name] = file_name;
@@ -308,9 +519,6 @@ function display_file(e){
     }
 }
 
-
-
-
 function remove_file(e){
     let holder_name = e.target.id;
     let index = parseInt(holder_name.slice(-1));
@@ -322,10 +530,10 @@ function remove_file(e){
 
     for(let i = 0; i < 3; i ++){
         let this_file_input = file_inputs[i];
-        if(this_file_input.files[0] !== undefined){
+        if(this_file_input.files[0] !== undefined ){
             let file_name = this_file_input.files[0].name;
             added_files.innerHTML += "<div class='file_name'>" + file_name + 
-            "  <i class='fas fa-times close_icons' id='holder_" + i + "' onclick='remove_file(event)'></i> </div>";    
+            " <i class='fas fa-times close_icons' id='holder_" + i + "' onclick='remove_file(event)'></i> </div>";    
         }
     }
 }
@@ -349,8 +557,28 @@ function remove_file(e){
 
 // const write_article_submit_button = document.getElementById("write_article_submit_button");
 // write_article_submit_button.addEventListener("click", sendArticle);
-var stickyOrNot = form.querySelector("input[name=sticky]");
+const stickyOrNot = form.querySelector("input[name=sticky]");
+const stickyBox = stickyOrNot.parentElement;
+var toggleForHoverE = true;
+stickyBox.addEventListener("mouseenter", function(){
+    if(toggleForHoverE) stickyBox.style = "background-color:blue; color: white;";
+});
+stickyBox.addEventListener("mouseleave", function(){
+    if(toggleForHoverE) stickyBox.style = "background-color:yellow; color: black;";
+});
 
+
+stickyOrNot.addEventListener("change", function (){
+    if(this.checked === true){
+        toggleForHoverE = false;
+        stickyBox.querySelector("label").innerText = "Sticky on";
+        stickyBox.style = "background-color:blue; color: white;";
+    }else{
+        toggleForHoverE = true;
+        stickyBox.querySelector("label").innerText = "Sticky off";         
+        stickyBox.style = "background-color:yellow; color: black;";
+    }
+});
 
 function sendArticle(e){
     e.preventDefault();
@@ -365,15 +593,13 @@ function sendArticle(e){
     let json_files = JSON.stringify(files);
     let json_tags = JSON.stringify(tags);
     
-
     //var author_id  = session!*****
-    let author_id = "user2";
+    let author_id = "user12";
     let sticky = form.querySelector("input[name=sticky]").checked;
     let title = form.querySelector("input[name=title]").value;
-    let password = form.querySelector("input[name=password").value;
+    let password = form.querySelector("input[name=password]").value;
     let kind = select.options[select.selectedIndex].value;
     let content = form.querySelector("textarea").value;
-
 
     // If a user didn't fill any necessary filds, don't allow to write an article!
     if(title !== "" && content !== ""){
@@ -395,9 +621,8 @@ function sendArticle(e){
         ajax.onreadystatechange = function(){
 
             if(this.status == 200 && this.readyState == 4){
-                // console.log(json);
                 let result = ajax.responseText;
-                if(result !== "OK"){
+                if(result !== "sent"){
                     console.log(result);
                 }
             }
@@ -405,10 +630,67 @@ function sendArticle(e){
         }
         ajax.open("POST","../backend/sendNewArticle_help.php", true);        
         ajax.send(json);
+
+        //Reset all inputs' values to their default values. 
+        stickyOrNot.checked = false;
+        form.querySelector("input[name=title]").value = "";
+        form.querySelector("input[name=password]").value = "";
+        select.selectedIndex = 0;
+        form.querySelector("textarea").value = ""; 
+        tags = [];
+        new_tag = "";
+        input_for_tags.value = "";
+        added_tags.innerHTML = "";
+        added_files.value = "";
+        file_inputs.forEach(function(file_input){
+            file_input.value = "";
+        })
+        file_holders = {
+            holder_0: null,
+            holder_1: null,
+            holder_2: null,
+        };
+        
     }else{
         alert("Please fill all necessary filds.");
     }
+}           // id: id
+            // sticky:sticky, -> x
+            // author_id: author_id,        
+            // title: title,
+            // password: password, -> x
+            // kind: kind,
+            // content: content,
+            // files: json_files,
+            // tags: json_tags,
+
+const readArticle_table = document.querySelector("#readArticleContainer table");
+readArticle_table.querySelector("#arti_id");
+readArticle_table.querySelector("#arti_title");
+readArticle_table.querySelector("#arti_date");
+readArticle_table.querySelector("#arti_kind");
+readArticle_table.querySelector("#arti_tags");
+readArticle_table.querySelector("#arti_files");
+readArticle_table.querySelector("#arti_content");
+
+
+
+function showArticle(elem){
+    let thisArticle_id = elem.id;
+
+    let ajax = new XMLHttpRequest();
+    ajax.onreadystatechange = function(){
+        if(this.readyState == 4 && this.status == 200 ){
+            let json_article = ajax.responseText;
+            
+
+        }
+    }
+    ajax.open( "POST", "../backend/getArticles_help.php", true);
+    ajax.send( thisArticle_id);
+    
 }
+
 
 
 
