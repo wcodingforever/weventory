@@ -74,7 +74,7 @@ include '../backend/_sessionCheck.php';
     // include '../backend/_sessionCheck.php';
     ?>
     
-    <?php include 'headerandsidebar.php';?>
+    <?php include 'headerall.php';?>
     
     <div id="divcontainer">
         <div id="groupdiv">

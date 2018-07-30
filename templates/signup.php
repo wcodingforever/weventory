@@ -1,4 +1,7 @@
-<head>
+<?php
+    require 'headerall.php';
+    checkSession(False);
+?>
 
     <style>
     @media screen and (max-width: 481px) {
@@ -121,8 +124,8 @@
     
     </style>
 </head>
-    
-    <?php include 'headerandsidebar.php';?>
+<body>
+    <?php include 'navbar.php';?>
 
     <div id="loader">
         <div class="sk-cube-grid">
@@ -150,7 +153,7 @@
             <input placeholder="Password" id="password" type="password"><!--password-->
             <input placeholder="Confirm Password" id="passwordcfrm" type="password"> <!--password confirmation-->
             <input type="date" id="birthday">
-            <textarea id="bio" placeholder="Bio"> </textarea>
+            <textarea id="bio" placeholder="Bio"></textarea>
             <input type="file" id="pic" accept="image/*"> 
             <input type="number" id="vericode" placeholder="Verification Code">
             <button id="signupbutton">Sign Up</button><!--log in button-->
@@ -270,6 +273,8 @@
                         alert("Correct Verification Code");
                         document.getElementById("signupbutton").disabled=false;
                         document.getElementById("vericode").disabled=true;
+
+                        // TODO: Automatically sign up and then redirect to login!
                     }
                     else if(sendCodexhl.responseText==="false"){
                         alert("wrong Verification Code. Try Again");

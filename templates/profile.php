@@ -1,12 +1,14 @@
 <?php 
-include '../backend/_sessionCheck.php';
-?><head>
+    require 'headerall.php';
+    checkSession(TRUE);
+?>
     <style>
     
     </style>
 </head>
+<body>
     <?php 
-    include 'headerandsidebar.php';
+        include 'navbar.php';
     ?>
     
     <div>

@@ -1,6 +1,8 @@
-<head>
+<?php
+    require 'headerall.php';
+    checkSession(False);
+?>
     <style>
-
         @media screen and (max-width: 481px) {
 
             input, #loginbutton {
@@ -51,10 +53,10 @@
             font-size: 24px;
         }
     </style>
-
 </head>
-    <?php include 'headerandsidebar.php';?>
-    
+<body>
+    <?php require 'navbar.php'; ?>
+
     <div id="divcontainer">
         <div id="signindiv">
             <div id="signintext">SIGN IN</div>
@@ -89,16 +91,15 @@
                 xhttp.onreadystatechange = function() {
                     if (this.readyState === 4 && this.status === 200) {
                         var gotThis = xhttp.responseText;
-                        // if(gotThis === "YAY"){
-                        //     window.location.href = "homepage.php"
-
-                        // }
-                        // else {
-                        //     alert("Wrong Username or Password")
-                        //     logInName.value = ""
-                        //     logInPass.value = "" 
-                        // }
-                        console.log(gotThis);
+                        if(gotThis === "YAY"){
+                            window.location.href = "homepage.php"
+                        }
+                        else {
+                            alert("Wrong Username or Password")
+                            logInName.value = ""
+                            logInPass.value = "" 
+                        }
+                        // console.log(gotThis);
                     }
                 };
                 xhttp.open("POST", "../backend/sign_log.php");

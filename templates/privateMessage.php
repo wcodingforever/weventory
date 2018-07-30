@@ -1,6 +1,7 @@
 <?php 
-include '../backend/_navbarSession.php';
-?><head>
+    require 'headerall.php';
+    checkSession(TRUE);
+?>
     <style>
         textarea{
             resize:none;
@@ -115,7 +116,7 @@ include '../backend/_navbarSession.php';
             </style>
     <title>Messages</title>
 </head>
-    <?php include 'headerandsidebar.php';?>
+    <?php require 'navbar.php';?>
     
     <div>
         <div id="frontpage">

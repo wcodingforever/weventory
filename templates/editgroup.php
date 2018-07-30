@@ -38,7 +38,7 @@ include '../backend/_sessionCheck.php';
     </style>
 </head>
     <?php 
-    include 'headerandsidebar.php';
+    include 'headerall.php';
     ?>
     <div id="divcontainer">
         <input id="groupname"> <!--name-->

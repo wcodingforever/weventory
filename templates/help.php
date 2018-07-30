@@ -40,7 +40,7 @@
     }
 </style>
 </head>
-<?php include 'headerandsidebar.php';?>
+<?php include 'headerall.php';?>
 
 
     <!-- Logo & App name -->
