@@ -42,11 +42,15 @@
                 echo 'sent';
                 try{
                     $connection = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+                    $stmtb4 = $connection->prepare("
+                        DELETE FROM verification
+                        WHERE NOW() > `createdate`");
+                    $stmtb4->execute();
                     $stmt = $connection->prepare("
-                        INSERT INTO `verification`
-                            (`user_login`, `f_name`, `pin`)
+                        INSERT INTO verification
+                            (`user_login`, `f_name`, `pin`, `createdate`)
                         VALUES
-                            (:ul, :firn, :pin);");
+                            (:ul, :firn, :pin, NOW()+INTERVAL 1 DAY);");
                     $lowerCase = strtolower($receive->valid_name);
                     $stmt->bindParam(':ul', $lowerCase);
                     $stmt->bindParam(':firn', $receive->valid_name);
@@ -55,7 +59,7 @@
         
                     $connection = null;
                     $stmt = null;
-                    
+                    $stmtb4 = null;
                 }
                 catch(PDOException $e) {
                 }
@@ -173,11 +177,12 @@
             if (isset($result['user_login'])){
                 session_start();
                 $_SESSION['session'] = GUID();
+                $location = get_client_location(); // 0 country
                 $stmt2 = $connection->prepare("
                     INSERT INTO `sessions`
-                        (`user_id`, `user_login`, `password`, `session_id`, `expir_date`)
+                        (`user_id`, `user_login`, `password`, `session_id`, `user_country`,`expir_date`)
                     VALUES
-                        (:userid, :user_login, :password, :session_id, NOW()+INTERVAL 2 MINUTE);");
+                        (:userid, :user_login, :password, :session_id, :country, NOW()+INTERVAL 2 MINUTE);");
                 
                 $currentIp = get_client_ip_server();
                 $hashWithIp = hash('sha256', $currentIp.$_SESSION['session']);
@@ -185,8 +190,10 @@
                 $stmt2->bindParam(':user_login', $result['user_login']);
                 $stmt2->bindParam(':password', $result['password']);
                 $stmt2->bindParam(':session_id', $hashWithIp);
+                $stmt2->bindParam(':country', $location[0]);
                 $stmt2->execute();
-                echo 'YAY';
+                // echo 'YAY';
+                // var_dump($location);
             }
             else{
                 echo 'OI';

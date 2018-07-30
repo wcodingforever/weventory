@@ -1,60 +1,79 @@
-<?php include '../backend/_sessionCheck.php';
-?><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-
+<?php 
+include '../backend/_sessionCheck.php';
+?><head>
     <style>
         @media screen and (max-width: 481px) {
 
-            }
+        input, #submitbutton {
+            margin: 45px 10px 18px 10px;
+        }
 
-            body {
-                padding: 0;
-                margin: 0;
-                height: 100vh;
-                width: 100vw;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
+        #reportdiv {
+            width: 340px;
+        }
 
-            #divcontainer {
-                    text-align: center;
-            }
+        }
 
-            input, #submitbutton {
-                display: block;
-                width: 260px;
-                height: 50px;
-                margin: 18px 0px 18px 10px;
-            }
+        #divcontainer {
+            text-align: center;
+            display: flex;
+            width: 100%;
+            margin-top: 50px;
+        }
 
-            #submitbutton{
-                border: 1px solid lightgrey;
-            }
+        input, #submitbutton {
+            display: block;
+            width: 260px;
+            height: 50px;
+            margin: 45px 10px 18px 95px;
+        }
+
+
+        #submitbutton{
+            border: 1px solid lightgrey;
+            background-color: #E2C044;
+            transition: 0.6s ease;
+        }
+
+        #submitbutton:hover {
+            background-color: #b22222;
+        } 
+
+        #reportdiv {
+            margin: auto;
+            background-color: #EAF1E4;
+            width: 450px;
+            box-shadow: 10px 10px 5px grey;
+            border: 1px solid grey;
+        }
+
+        #reporttext {
+            margin-top: 10px;
+            font-size: 24px;
+        }
     
     </style>
 </head>
-<body>
     
-    <?php include 'headerandsidebar.php';?>
+    <?php 
+    include 'headerandsidebar.php';
+    ?>
     
-    <div>
-        <input id="reporttitle" placeholder="Title"> <!--name-->
-        <select id="category"> <!--category-->
-            <option>Reason</option>
-            <option></option>
-            <option></option>
-            <option></option>
-            <option></option>
-            <option></option>
-        </select>
-        <textarea id="description" placeholder="Description"></textarea>
-        <button id="submitbutton">submit</button>
+    <div id="divcontainer">
+        <div id="reportdiv">
+            <div id="reporttext">Report</div>
+            <input id="reporttitle" placeholder="Title"> <!--name-->
+            <select id="category"> <!--category-->
+                <option>Reason</option>
+                <option></option>
+                <option></option>
+                <option></option>
+                <option></option>
+                <option></option>
+            </select>
+            <textarea id="description" placeholder="Description"></textarea>
+            <button id="submitbutton">submit</button>
+        </div>
     </div>
 
     <script>

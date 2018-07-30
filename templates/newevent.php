@@ -1,74 +1,107 @@
-<?php include '../backend/_sessionCheck.php';
-?><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <title>Document</title>
+<?php 
+include '../backend/_sessionCheck.php';
+?><head>
+
 
     <style>
-        @media screen and (max-width: 481px) {
+    @media screen and (max-width: 481px) {
 
-            }
+        input, #submitbutton {
+            margin: 45px 10px 18px 10px;
+        }
 
-            body {
-                padding: 0;
-                margin: 0;
-                height: 100vh;
-                width: 100vw;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
+        #eventdiv {
+            margin: auto;
+            background-color: #EAF1E4;
+            /* width: 600px; */
+            box-shadow: 10px 10px 5px grey;
+            border: 1px solid grey;
+            margin-bottom: 300px;
+            text-align: center;
+        }
 
-            #divcontainer {
-                    text-align: center;
-            }
+    }
 
-            input, #submitbutton {
-                display: block;
-                width: 260px;
-                height: 50px;
-                margin: 18px 0px 18px 10px;
-            }
+        #divcontainer {
+            text-align: center;
+            display: flex;
+            width: 100%;
+            margin-top: 30px;
+        }
 
-            #submitbutton{
-                border: 1px solid lightgrey;
-            }
-    
+        input, textarea, select {
+            /* display: block; */
+            width: 260px;
+            height: 45px;
+            margin: 16px 0px 0px 15px;
+        }
+
+
+        #submitbutton{
+            border: 1px solid lightgrey;
+            background-color: #E2C044;
+            margin-left: 20px;
+            width: 260px;
+            height: 50px;
+            margin: 10px;
+            transition: 0.6s ease;
+            
+        }
+
+        #submitbutton:hover{ 
+            background-color: #b22222; 
+        }
+
+        #eventdiv {
+            margin: auto;
+            background-color: #EAF1E4;
+            width: 600px;
+            box-shadow: 10px 10px 5px grey;
+            border: 1px solid grey;
+            margin-bottom: 300px;
+            text-align: center;
+        }
+
+        #text {
+            margin-top: 10px;
+            font-size: 24px;
+        }
+
     </style>
 </head>
-<body>
-    <?php include '../backend/_sessionCheck.php';?>
+    <?php 
+    // include '../backend/_sessionCheck.php';
+    ?>
     
     <?php include 'headerandsidebar.php';?>
     
-    <div>
-        <input id="eventtitle" placeholder="Event Title"> <!--name-->
-        <input id="datefrom" placeholder="From" type="text" onfocus="(this.type='date')"> <!--from -->
-        <input id="dateto" placeholder="To" type="text" onfocus="(this.type='date')"> <!--to-->
-        <textarea id="description" placeholder="Description"></textarea>
-        <input id="location" placeholder="Location"> <!--location-->
-        <select id="category"> <!--category-->
-            <option>Category</option>
-            <option >Outdoors and Adventure</option>
-            <option>Tech</option>
-            <option>Family</option>
-            <option>Health and Wellness</option>
-            <option>Sports and Fitness</option>
-            <option>Music</option>
-            <option>Film</option>
-            <option>Arts</option>
-            <option>Book Clubs</option>
-            <option>Dance</option>
-            <option>Fashion and Beauty</option>
-            <option>Career and Buissiness</option>
-        </select>
-        <input type="number" id="price" placeholder="price"> <!--price-->
-        <input type="number" id="capacity" placeholder="capacity"> <!--capacity-->
-        <button id="submitbutton">submit</button>
+    <div id="divconatiner">
+        <div id="eventdiv">
+            <div id="text">New Event</div>
+            <input id="eventtitle" placeholder="Event Title"> <!--name-->
+            <textarea id="description" placeholder="Description"></textarea>
+            <input id="datefrom" placeholder="From" type="text" onfocus="(this.type='date')"> <!--from -->
+            <input id="dateto" placeholder="To" type="text" onfocus="(this.type='date')"> <!--to-->
+            <input id="location" placeholder="Location"> <!--location-->
+            <select id="category"> <!--category-->
+                <option>Category</option>
+                <option >Outdoors and Adventure</option>
+                <option>Tech</option>
+                <option>Family</option>
+                <option>Health and Wellness</option>
+                <option>Sports and Fitness</option>
+                <option>Music</option>
+                <option>Film</option>
+                <option>Arts</option>
+                <option>Book Clubs</option>
+                <option>Dance</option>
+                <option>Fashion and Beauty</option>
+                <option>Career and Buissiness</option>
+            </select>
+            <input type="number" id="price" placeholder="price"> <!--price-->
+            <input type="number" id="capacity" placeholder="capacity"> <!--capacity-->
+            <button id="submitbutton">submit</button>
+        </div>
     </div>
 
     <script>
@@ -120,8 +153,4 @@
     </script>
     
 </body>
-
-
-
-
 </html>

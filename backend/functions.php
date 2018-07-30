@@ -24,20 +24,26 @@ function get_client_ip_server() {
     return $ipaddress;
 }
 function get_client_location(){
-    $PublicIP = get_client_ip(); 
-    $json  = file_get_contents("https://freegeoip.net/json/$PublicIP");
-    $json  =  json_decode($json ,true);
-    $country =  $json['country_name'];
-    $city = $json['city'];
-    $lat = $json['latitude'];
-    $lon = $json['longtitude'];
-    $location = array($country, $city, $lat, $lon);
-    return $location;
+    // $ipaddress = get_client_ip_server();
+    // $ipaddress = getenv('REMOTE_ADDR');
+    // $ipaddress = $_SERVER['REMOTE_ADDR'];
+    // $ipaddress = $_SERVER['HTTP_HOST'];
+    $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+    // $json  = file_get_contents("http://www.geoplugin.net/php.gp?ip=$ipaddress");
+    // $json  =  json_decode($json ,true);
+    // $country =  $json['geoplugin_countryName'];
+    // $city = $json['geoplugin_city'];
+    // $location = array($country, $city);
+    // return $location;
+    var_dump($ipaddress);
 }
 function generatePIN($digits = 4){
     $i = 0;
     $pin = "";
     while($i < $digits){
+        if($i === 0){
+            $pin .= mt_rand(1, 9);
+        }
         $pin .= mt_rand(0, 9);
         $i++;
     }
@@ -49,5 +55,11 @@ function generatePIN($digits = 4){
 //     $stmt->bindParam(1,$center_lat);//lat coordinate of user
 //     $stmt->bindParam(2,$center_lng);//lng coordinate of user
 //     $stmt->bindParam(3,$center_lat);
-//     $stmt->bindParam(4,$radius);//Radius in miles 
+//     $stmt->bindParam(4,$radius);//Radius in miles
+// 
+// UPDATE FOR UNIQUE KEY
+// INSERT INTO AggregatedData (datenum,Timestamp)
+// VALUES ("734152.979166667","2010-01-14 23:30:00.000")
+// ON DUPLICATE KEY UPDATE 
+// 
 ?>

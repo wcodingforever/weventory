@@ -100,8 +100,19 @@
                     group_description
                     group_category
                     group_host_id
-                    gruop_pic
-
+                    ~gruop_pic
+                    group_tags
+                    ~group_country
+                    ~group_city
+                Receive back:
+                    created //if group was created
+                edit groups 
+                expects obj 
+                    thisGroup
+                        thisGroup.thisName;
+                        thisGroup.thisDescription;
+                        thisGroup.thisCategory;
+                        thisGroup.thisPic;
 
 
 
@@ -115,13 +126,7 @@
             event_id
             author.id
 
-            edit groups 
-            expects obj 
-                thisGroup
-                    thisGroup.thisName;
-                    thisGroup.thisDescription;
-                    thisGroup.thisCategory;
-                    thisGroup.thisPic;
+            
 
 
             edit profile 
