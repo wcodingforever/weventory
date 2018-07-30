@@ -89,15 +89,16 @@
                 xhttp.onreadystatechange = function() {
                     if (this.readyState === 4 && this.status === 200) {
                         var gotThis = xhttp.responseText;
-                        if(gotThis === "YAY"){
-                            window.location.href = "homepage.php"
+                        // if(gotThis === "YAY"){
+                        //     window.location.href = "homepage.php"
 
-                        }
-                        else {
-                            alert("Wrong Username or Password")
-                            logInName.value = ""
-                            logInPass.value = "" 
-                        }
+                        // }
+                        // else {
+                        //     alert("Wrong Username or Password")
+                        //     logInName.value = ""
+                        //     logInPass.value = "" 
+                        // }
+                        console.log(gotThis);
                     }
                 };
                 xhttp.open("POST", "../backend/sign_log.php");
