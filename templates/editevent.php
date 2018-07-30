@@ -27,7 +27,7 @@ include '../backend/_sessionCheck.php';
 </head>
 
     <?php 
-    include 'headerandsidebar.php';
+    include 'headerall.php';
     ?>
     <div id="divcontainer">
         <input id="eventtitle" placeholder="Event Title"> <!--name-->

@@ -1,17 +1,12 @@
 <?php
+    require '../setup.php';
     include 'functions.php';
 
     $receiveMsg = file_get_contents("php://input");
     $receive = json_decode($receiveMsg);
 
-    $servername = 'localhost';
-    $username = 'root';
-    $password = '';
-    $dbname = 'weventory'; 
-    
     if (isset($receive->group_name)){
         try{
-            $connection = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
             $grn        = strtolower($receive->group_name);
             $grc        = strtolower($receive->group_category);
             $grcountry  = strtolower($receive->group_country);
@@ -94,7 +89,6 @@
         }
     }
     else if(isset($receive->edit_name)){
-        $connection = new PDO("mysql:host=$servername;dbname=$dbname,$username,$password");
         $stmt = $connection->prepare("
             UPDATE `group`
             SET `name`=:grn; `category`=:grc; `description`=:grdesc; `tags`=:grtags; `picture`=:grpic; `group_country`=:grcountry; `group_city`=:group_city
@@ -123,7 +117,6 @@
     }
     else if(isset($receive->filtered_by)){
         try{
-            $connection = new PDO("mysql:host=$servername;dbname=$dbname,$username,$password");
             if ($receive->filtered_by === "city"){
                 $stmt = $connection->prepare("
                     SELECT `name`,`category`,`description`,`picture`,`group_country`,`group_city`,`submitdate`

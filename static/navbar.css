@@ -1,0 +1,120 @@
+body {
+    padding: 0px;
+    margin: 0px;
+    /* width: 100vw; */
+    height: 100vh;
+    background-color: #E7E5E2;
+}
+
+a {
+    text-decoration: none;
+    /* color: #EAF1E4; */
+    color: #E2C044;
+}
+
+#calendar {
+    font-size: 6.3em;
+    margin-top: 10px;
+}
+
+#header {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: space-around;
+}
+
+#logindiv {
+    display: inline-flex;
+    height: 50px;
+}
+
+#sidebar {
+    height: 50px;
+    width: 90%;
+    margin: 28px 20px 20px 55px;
+    background-color: #393E41;
+    color: #EAF1E4;
+    display: flex;
+    justify-content: space-around;
+}
+
+#mobile {
+    display:none;
+}
+
+.menuoption {
+    height: 33px;
+    margin: 10;
+    display: inline-block;
+}
+
+#weventory {
+    font-family: 'Corben', cursive;
+    font-size: 4.3em;
+    
+}
+
+.userbuttons {
+    font-size: 20px;
+    display: inline-block;
+    margin: 10px;
+}
+
+#logoutbutton {
+    display: none;
+}
+
+.menuoption:hover, #weventory:hover, .userbuttons:hover,  #calendar:hover{
+    color: #B22222;
+    transition: 0.6s ease;
+}
+
+
+@media screen and (max-width: 481px) {
+    #mobilemenu{
+        display: none;
+        background-color: #EAF1E4;
+        height: 84%;
+        font-size: 1.3em;
+    }
+
+    #mobile {
+        display: block;
+    }
+
+    #navbar {
+        /* display: flex; */
+        height: 50px;
+        display: inline-flex;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    #desktop {
+        display: none;
+    }
+
+    #fixedmenu {
+        position: fixed;
+        bottom: 0px;
+        width: 100%;
+        display: inline-flex;
+        justify-content: space-between;
+        height:60px;
+        background-color: #E7E5E2;
+    }
+
+    .mobileoption {
+        height: 60px;
+        
+    }
+
+    .icon {
+        font-size: 2.3em;
+        height: 40px;
+        margin: 10px;
+        color: #393E41;
+    }
+
+}
