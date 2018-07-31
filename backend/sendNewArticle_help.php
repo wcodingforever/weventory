@@ -1,5 +1,5 @@
-
 <?php
+    require '../setup.php';
 // CREATE TABLE `help_articles`(
 //     `id` INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
 //     `author_id` VARCHAR(11) NOT NULL,
@@ -56,15 +56,7 @@ $tags = convertData($assArr["tags"]);
 
 //Chk if datas fro all necessary fieds were sent 
 if(isset($author_id) && isset($title) && isset($content) && isset($kind)){
-
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "weventory";
-
     try{
-
-        $connection = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
 
         $stmt = $connection->prepare("
             INSERT INTO `help_articles`

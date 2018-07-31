@@ -56,7 +56,7 @@ include '../backend/_sessionCheck.php';
 </head>
     
     <?php 
-    include 'headerandsidebar.php';
+    include 'headerall.php';
     ?>
     
     <div id="divcontainer">

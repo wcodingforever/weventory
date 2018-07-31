@@ -17,7 +17,7 @@ CREATE TABLE `verification`(
   `user_login`  VARCHAR(25) NOT NULL,
   `f_name` VARCHAR(30) NOT NULL,
   `pin` int(11) NOT NULL,
-  `createdate` datetime NOT NULL,
+  `createdate` datetime NOT NULL
 );
 
 CREATE TABLE `sessions`(
@@ -34,17 +34,17 @@ CREATE TABLE `sessions`(
 );
 
 CREATE TABLE `group` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(64) NOT NULL,
-  `lowered_name` VARCHAR(64) NOT NULL
+  `lowered_name` VARCHAR(64) NOT NULL,
   `category` varchar(64)  NOT NULL,
   `description` varchar(400)  NOT NULL,
   `picture` varchar(200) NULL,
   `group_country` VARCHAR(64) NULL,
   `group_city` VARCHAR(64) NULL,
-  `submitdate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  `submitdate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
 CREATE TABLE `tags` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `tag_title` VARCHAR(32) NOT NULL UNIQUE,
@@ -128,13 +128,13 @@ CREATE TABLE `report` (
   PRIMARY KEY (`id`)
 );
 
-CREATE TABLE 'messages' (  
-  'id' int(11) NOT NULL AUTO_INCREMENT,
-  'sender_id' int(11) NOT NULL,
-  'receiver_id' int(11) NOT NULL,
-  'message' varchar(400) NOT NULL,
-  'send_time' datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY ('id')
+CREATE TABLE `messages` (  
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sender_id` int(11) NOT NULL,
+  `receiver_id` int(11) NOT NULL,
+  `message` varchar(400) NOT NULL,
+  `send_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
 );
 
 

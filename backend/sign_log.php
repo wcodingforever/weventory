@@ -1,16 +1,13 @@
 <?php
-    $receiveMsg = file_get_contents("php://input");
-    $receive = json_decode($receiveMsg);
-
-    $servername = 'localhost';
-    $username = 'root';
-    $password = '';
-    $dbname = 'weventory'; 
+    require '../setup.php';
+    include 'functions.php';
 
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\Exception;
 
-    include 'functions.php';
+    $receiveMsg = file_get_contents("php://input");
+    $receive = json_decode($receiveMsg);
+
     if (isset($receive->valid_email)){
         $email = $receive->valid_email;
         //Import PHPMailer classes into the global namespace
@@ -41,7 +38,6 @@
             } else {
                 echo 'sent';
                 try{
-                    $connection = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
                     $stmtb4 = $connection->prepare("
                         DELETE FROM verification
                         WHERE NOW() > `createdate`");
@@ -51,7 +47,7 @@
                             (`user_login`, `f_name`, `pin`, `createdate`)
                         VALUES
                             (:ul, :firn, :pin, NOW()+INTERVAL 1 DAY);");
-                    $lowerCase = strtolower($receive->valid_name);
+                    $lowerCase = strtolower($receive->valid_user);
                     $stmt->bindParam(':ul', $lowerCase);
                     $stmt->bindParam(':firn', $receive->valid_name);
                     $stmt->bindParam(':pin', $randCode);
@@ -70,7 +66,6 @@
     }
     else if (isset($receive->varif_code)){
         try{
-            $connection = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
             $stmt = $connection->prepare("
                 SELECT `user_login`
                 FROM `verification`
@@ -104,7 +99,6 @@
     }
     else if (isset($receive->user_bday)){
         try{
-            $connection = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
             $stmt = $connection->prepare("
                 INSERT INTO `account`
                     (`user_login`, `password`, `f_name`, `l_name`, `b_day`, `email`, `bio`, `pic`,`interests`)
@@ -141,7 +135,6 @@
     }
     else if(isset($receive->loginCheck)){
         try{
-            $connection = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
             $stmt = $connection->prepare("
                     SELECT `user_login` 
                     FROM `account`
@@ -162,46 +155,53 @@
     }
     else if(isset($receive->user_login)){
         try{
-            $connection = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
             $stmt = $connection->prepare("
                     SELECT `id`, `user_login`, `password` 
                     FROM `account`
                     WHERE `user_login` = :uc AND `password` = :pw;");
             $lowerCase = strtolower($receive->user_login);
             $salt = "ThisIsRealSaltyIlya";
-            $hashedForCheck = hash('sha256', $salt.$receive->user_pswrd);
+            $hashedForCheck = hash('sha256', $salt . $receive->user_pswrd);
             $stmt->bindParam(':uc', $lowerCase);
             $stmt->bindParam(':pw', $hashedForCheck);
             $stmt->execute();
+
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
             if (isset($result['user_login'])){
                 session_start();
                 $_SESSION['session'] = GUID();
                 $location = get_client_location(); // 0 country
+                $currentIp = get_client_ip_server();
+                $hashWithIp = hash('sha256', $currentIp . $_SESSION['session']);
+
                 $stmt2 = $connection->prepare("
                     INSERT INTO `sessions`
                         (`user_id`, `user_login`, `password`, `session_id`, `user_country`,`expir_date`)
                     VALUES
                         (:userid, :user_login, :password, :session_id, :country, NOW()+INTERVAL 2 MINUTE);");
-                
-                $currentIp = get_client_ip_server();
-                $hashWithIp = hash('sha256', $currentIp.$_SESSION['session']);
                 $stmt2->bindParam(':userid', $result['id']);
                 $stmt2->bindParam(':user_login', $result['user_login']);
                 $stmt2->bindParam(':password', $result['password']);
                 $stmt2->bindParam(':session_id', $hashWithIp);
                 $stmt2->bindParam(':country', $location[0]);
+
                 $stmt2->execute();
-                // echo 'YAY';
+
+                if ($stmt2->rowCount() === 1) {
+                    echo 'YAY';
+                }
+                else {
+                    echo 'OI';
+                }
+
                 // var_dump($location);
             }
             else{
                 echo 'OI';
             }
-            
-            
         }
         catch(PDOException $e) {
+            // TODO: What if it breaks?
         }
     }
     else

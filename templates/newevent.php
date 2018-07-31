@@ -1,8 +1,7 @@
 <?php 
-include '../backend/_sessionCheck.php';
-?><head>
-
-
+    include 'headerall.php';
+    checkSession(True);
+?>
     <style>
     @media screen and (max-width: 481px) {
 
@@ -69,11 +68,8 @@ include '../backend/_sessionCheck.php';
 
     </style>
 </head>
-    <?php 
-    // include '../backend/_sessionCheck.php';
-    ?>
-    
-    <?php include 'headerandsidebar.php';?>
+<body>
+    <?php include 'navbar.php';?>
     
     <div id="divconatiner">
         <div id="eventdiv">
@@ -85,7 +81,7 @@ include '../backend/_sessionCheck.php';
             <input id="location" placeholder="Location"> <!--location-->
             <select id="category"> <!--category-->
                 <option>Category</option>
-                <option >Outdoors and Adventure</option>
+                <option>Outdoors and Adventure</option>
                 <option>Tech</option>
                 <option>Family</option>
                 <option>Health and Wellness</option>
@@ -127,20 +123,29 @@ include '../backend/_sessionCheck.php';
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
-                        alert("yay it worked")//this will bring you to the page of event 
+                        console.log(this.responseText);
+                        if (this.responseText === "YAY") alert("yay it worked");
+                        else { alert("Problems."); }
+                        // TODO: this will bring you to the page of event 
                     }
                 };
                 xhttp.open("POST", "../backend/new_event.php");
-                
+
+                // TODO: Attach proper values for the data required.
                 var event = {
                     event_name: eventTitle.value,
-                    event_date_from: dateFrom.value,
-                    event_date_to: dateTo.value,
-                    event_description: eventDesc.value,
-                    event_location: eventLocation.value,
+                    event_datefrom: dateFrom.value,
+                    event_dateto: dateTo.value,
                     event_category: eventCategory.value,
+                    event_description: eventDesc.value,
+                    event_picture: "",
+                    event_country: "",
+                    event_city: "",
+                    event_address: "",
+                    event_privacy: 0,
+                    event_group_host_id: 0,
+                    event_user_host_id: 0,
                     event_price: eventPrice.value,
-                    // event_pic,
                     event_capacity: eventCapacity.value
                 }
                 var sendEvent = JSON.stringify(event);

@@ -1,19 +1,12 @@
-
 <?php 
-
+    require '../setup.php';
     include 'functions.php';
 
     $receiveMsg = file_get_contents("php://input");
     $receive = json_decode($receiveMsg);
 
-    $servername = 'localhost';
-    $username = 'root';
-    $password = '';
-    $dbname = 'weventory'; 
-
     if (isset($receive->message)){
         try{
-            $connection = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
             $stmt = $connection->prepare("
                 INSERT INTO `messages`
                     (`sender_id`, `receiver_id`, `message`)
@@ -38,7 +31,6 @@
         $lastidint = intval($lastidint);
         try{
             session_start();
-			$connection = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
 			$stmt = $connection->prepare("
                 SELECT `id`, `from_user`, `to_user`, `message`
                 FROM `messages`
