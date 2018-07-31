@@ -43,6 +43,7 @@ if(isset($requiredArticles)){
 
         $dataConn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
 
+        //To create a bullutine board, send only data of needed cols! 
         if($requiredArticles === "all"){
             //$newArr => the array to store all articles in a proper order!
             //           the order of ancestor articles and their child articles!
@@ -90,13 +91,13 @@ if(isset($requiredArticles)){
         }else{
             $id = $requiredArticles;
             $stmt_3 = $dataConn->prepare("SELECT `id`, `date`, `author_id`, `title`, `hits`, `sticky`, 
-            `kind`, `password`
+            `kind`, `password`, `content`, `tags`, `files`
             FROM `help_articles` WHERE `id` = :id;");
 
             $stmt_3->bindParam(":id", $id);
             $stmt_3->execute();
 
-            $requiredArticle = $stmt_3->fetchAll(PDO::FETCH_ASSOC);
+            $requiredArticle = $stmt_3->fetch(PDO::FETCH_ASSOC);
         
             $result = json_encode($requiredArticle);
         }    

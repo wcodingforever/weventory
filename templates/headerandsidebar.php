@@ -192,8 +192,7 @@ include '../backend/_navbarSession.php';
         //     logoutButton.style.display = "block"
         //     userButtons.style.display = "none"
         // }
-
-
+        
         mobileMenuButton.addEventListener("click", function(){
             if (mobileMenu.style.display === "block"){
                 mobileMenu.style.display = "none"

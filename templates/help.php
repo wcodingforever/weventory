@@ -1,166 +1,46 @@
-<?php 
-// include '../backend/_navbarSession.php';
-?><head>
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head> -->
+
+<head>
+    <link rel="stylesheet" href="../static/help.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
     <title>Help</title>
 <style>
-    .field_name{
-        display: inline-block;
-    }
-    #column_names th{
-        border-left:1px solid;        
-        border-bottom :1px solid;
-    }
-    #bullutine_board td{
-        border-left:1px solid;        
-        border-bottom :1px solid;
-    }
-    #bullutine_board .id{
-        width: 60px;
-    }
-    #bullutine_board .kind{
-        width: 142px;
-    }
-    #bullutine_board .title{
-        width: 650px;        
-    }
-    #bullutine_board .author{
-        width: 100px;        
-    }
-    #bullutine_board .date{        
-        width: 120px;
-    }
-    #bullutine_board .hits{
-        width: 60px;        
-    }
-    input[name=kind]{
-        display: none;
-    }
-    .kind_option{
-        display: inline-block;
-    }
-    .kind_option > label{
-        cursor: pointer;
-    }
-    .tag{
-        background-color: #c3c3c3a1;
-        margin: 0 2px;
-        color: #2b2a2a;
-        font-size: 0.8em;
-        cursor: pointer;
-    } 
-    input[type=file]{
-        display: none;
-    }
-    .close_icons{
-        cursor: pointer;
-    }
-    #write_article_container{
-        border:1px solid;
-    }
-    tr .title{
-        cursor: pointer;
-    }
-    .field{
-        margin: 5px 0px;
-    }
-    #new_article #sticky_field{
-        background-color: yellow;
-        width: 91px;
-        border-top-left-radius: 6px;
-        border-top-right-radius: 6px;
-        border: 1px solid brown;
-        border-bottom-color: transparent;
-        text-align: center;
-    }
-    #new_article #sticky_field input{
-        display: none;
-    }
-    #new_article #sticky_field:hover{
-        background-color: blue;
-        cursor: pointer;        
-    }
-    #new_article input[name=title]{
-        margin-left: 62px;
-        width: 500px;
-    }
-    .field:nth-child(2){
-        display:inline-block;
-    }
-    .field:nth-child(3){
-        display:inline-block;
-        margin-left: 40px;
-    }
-    .field:nth-child(7){
-        margin-top: 12px;
-    }
-    .field:nth-child(5) .field_name{
-        position: relative;
-        top: -493px;
-    }
-    .field:nth-child(6) .field_name{
-        display: inline-block;
-    }
-    #instructionForTags{
-        display: inline-block;
-        margin: 10px 0px;
-        margin-left: 74px;
-        margin-top: 3px;
-    }
-    #new_article input[name=password]{
-        margin-left: 20px;
-        width: 60px;
-    }
-    #new_article select{
-        margin-left: 59px;
-        font-size: 16px;
-    }
-    #new_article textarea{
-        margin-left: 27px;
-        margin-top: 9px;
-        width: 702px;
-        height: 500px;
-    }
-    #new_article input[name=tags]{
-        margin-left: 108px;
-        margin-right: 17px;
-    }
-    #new_article #file_button{
-        margin-left: 80px;
-        margin-right: 19px;
-    }
-    #new_article #write_article_submit_button{
-        width: 67px;
-        height: 50px;
-        margin: 10px 0px;
-        margin-left: 750px;
-    }
-    #new_article #added_tags{
-        margin-left: 108px;
-        margin-top: 5px;
-    }
-    .pgNums{
-        cursor: pointer;
-    }
-    
+#readArticleContainer table{
+    width: 900px;
+    border-spacing: 0px;
+    border-collapse: collapse;
+}
+#readArticleContainer tr,#readArticleContainer td{
+    border:solid 1px black;
+}
+
+#readArticleContainer th{
+    border:solid 1px black;    
+    width: 94px;
+}
+
+#readArticleContainer td#readA_content{
+    height: 500px;
+    vertical-align: top;
+    overflow-y: scroll;
+} 
 </style>
 </head>
-<?php include 'headerandsidebar.php';?>
-
-
-    <!-- Logo & App name -->
-    <div>--Logo and App name--</div>
-    <!-- Top menu -->
-    <div>--Top menu--</div>
-
-    <!-- Mainn title -->
+    <?php //include 'headerandsidebar.php';?>
     <div id="main_title">Can We Help you?</div>
 
     <!-- Search box -->
-    <!-- A user can search articles by title/content/author/tags -->
+    <!-- A user can search readAcles by title/content/author/tags -->
     <div id="search_bar">
         <i class="fas fa-search"></i>
-        <input id="input_for_search" type="text" placeholder="Search articles..">
+        <input id="input_for_search" type="text" placeholder="Search readAcles..">
     </div>
     <div id="kind_options">
         <div class="kind_option">
@@ -209,7 +89,7 @@
 
     <button id="write_button">Write</button>
 
-    <!-- If a user click on the write button,  the components above(article list) will be replaced with the components below(wirte form).-->
+    <!-- If a user click on the write button,  the components above(readAcle list) will be replaced with the components below(wirte form).-->
 
     <div id="write_article_container">
         <form id="new_article">
@@ -246,7 +126,7 @@
                 <textarea name="content"></textarea>
             </div>
             <div class="field">
-                <div class="field_name">Tags</div><div id="instructionForTags">To add a tag, press enter key. To delete click the tag.</div>
+                <div class="field_name">Tags</div><div id="instructionForTags">To add a tag, enter a tag and hit the enter key. To delete, click on the tag to delete.</div>
                 <div><input type="text" name="tags"> MAX. 10 tags</div>
                 <div id="added_tags"></div>
             </div>
@@ -259,14 +139,27 @@
                 <input type="file" name="file" accept="audio/*,video/*,image/*" >                
                 <div id="added_files"></div>
             </div>
-            <input id="write_article_submit_button" type="submit" value="Submit" onclick="sendArticle(event);">
+            <input id="write_article_submit_button" type="submit" value="Submit" onclick="sendreadAcle(event);">
         </form>
     </div>
 
     <div id="readArticleContainer">
         <table>
             <tr>
-                <th>No.</th><td id="id"></td>
+                <th>No.</th><td id="readA_id"></td><th>Kind</th><td id="readA_kind"></td>
+                 <th>Author</th><td id="readA_author"></td><th>Date</th><td id="readA_date"></td><th>Private</th><td id="readA_private"></td>
+            </tr> 
+            <tr>
+                <th>Title</th><td colspan="9" id="readA_title"></td>
+            </tr>
+            <tr>
+                <th>Tags</th><td colspan="9" id="readA_tags">
+            </tr>
+            <tr>
+                <th>Files</th><td colspan="9" id="readA_files">
+            </tr>
+            <tr>
+                <th>Contents</th><td colspan="9" id="readA_content"></td>
             </tr>
         </table>
     </div>
@@ -277,74 +170,74 @@
 
 <script>
 ////////////////////////////////////////Bullutine board/////////////////////////////////////////
-window.onload = bringAllArticles();
+window.onload = bringAllreadAcles();
 
 const bullutine_board = document.getElementById("bullutine_board");
 const pageNumbers = document.getElementById("pageNumbers");
-var articlesForEachPg = [];
+var readArticlesForEachPg = [];
 
-function bringAllArticles(){
+function bringAllreadAcles(){
     const ajax = new XMLHttpRequest();
     ajax.onreadystatechange = function(){
         if(this.status == 200 && this.readyState == 4){
-            let arrForAllArticles = JSON.parse(ajax.responseText);
+            let arrForAllreadAcles = JSON.parse(ajax.responseText);
             let numOfPgs;
-            if((arrForAllArticles.length % 10) === 0){
-                numOfPgs = Math.floor(arrForAllArticles.length/10);
+            if((arrForAllreadAcles.length % 10) === 0){
+                numOfPgs = Math.floor(arrForAllreadAcles.length/10);
               }else{
-                  numOfPgs = (Math.floor(arrForAllArticles.length/10)) + 1;
+                  numOfPgs = (Math.floor(arrForAllreadAcles.length/10)) + 1;
               }
             for(let i= 0; i < numOfPgs; i++){
                   let thisPgNum = i + 1;
                   document.getElementById("pageNumbers").innerHTML += "<span class='pgNums' id='p_" + thisPgNum + 
-                  "' onclick='displayArticle(this.id)'>[" + thisPgNum + "]</span>"; 
+                  "' onclick='displayreadAcle(this.id)'>[" + thisPgNum + "]</span>"; 
               }
               for(let i = 0; i < numOfPgs; i++){
-                  articlesForEachPg.push([]);
+                  readArticlesForEachPg.push([]);
               }
             let pgCount = 1;
-            for(let i = 0; i < arrForAllArticles.length; i++){
-                let nthArti = i + 1;
-                let thisArticle = arrForAllArticles[i];
-                articlesForEachPg[pgCount-1].push(thisArticle);                
-                if(Math.floor((nthArti/10)) > (pgCount - 1)){
+            for(let i = 0; i < arrForAllreadAcles.length; i++){
+                let nthreadA = i + 1;
+                let thisreadAcle = arrForAllreadAcles[i];
+                readArticlesForEachPg[pgCount-1].push(thisreadAcle);                
+                if(Math.floor((nthreadA/10)) > (pgCount - 1)){
                     pgCount ++;
                 }
             }
-            console.log("articlesForEachPg: ");
-            console.log(articlesForEachPg);
-            displayArticle("p_1");
+            displayreadAcle("p_1");
         }
     }
     ajax.open( "POST", "../backend/getArticles_help.php", true);
     ajax.send( "all");     
 }
 
-// const pgNums = document.querySelectorAll(".pgNums");
+//Whenever a user move to a different page of a bullutine board, the page number will be updated
+//in pgNum variable. 
+var pgNum = 1;
 
-function displayArticle(pgNumID){
+function displayreadAcle(pgNumID){
     // pgNumID => 'p_x';
-    let pgNum = parseInt(pgNumID.slice(2));
+    pgNum = parseInt(pgNumID.slice(2));
 
-    let articlesOfThisPg = articlesForEachPg[pgNum-1];
+    let readAclesOfThisPg = readArticlesForEachPg[pgNum-1];
     bullutine_board.innerHTML = "";
 
-    for(let i = 0; i < articlesOfThisPg.length; i++){
-        let thisArticle = articlesOfThisPg[i];
+    for(let i = 0; i < readAclesOfThisPg.length; i++){
+        let thisreadAcle = readAclesOfThisPg[i];
         let hasPassword = false;
         let stickyOrNot = false;
         let styleForSticky = "style='background-color:pink;color:blue;'"; 
-        if(thisArticle["password"] !== null){
+        if(thisreadAcle["password"] !== null){
             hasPassword = true;
         }
-        if(thisArticle["sticky"] === "1"){
+        if(thisreadAcle["sticky"] === "1"){
             stickyOrNot = true;
         }
-        let thisID = thisArticle["id"];
-        let thisKind = thisArticle["kind"];                
-        let thisTitle = thisArticle["title"];
-        let thisAuthor = thisArticle["author_id"];
-        let thisDate = thisArticle["date"];
+        let thisID = thisreadAcle["id"];
+        let thisKind = thisreadAcle["kind"];                
+        let thisTitle = thisreadAcle["title"];
+        let thisAuthor = thisreadAcle["author_id"];
+        let thisDate = thisreadAcle["date"];
         let onlyDate = thisDate.slice(0,10);
         let onlyTime = thisDate.slice(11, -1);
         let todayOnlyDate;
@@ -364,7 +257,7 @@ function displayArticle(pgNumID){
         }else{
             thisDate = onlyDate;
         }
-        let thisHits = thisArticle["hits"];
+        let thisHits = thisreadAcle["hits"];
         
          if(stickyOrNot){bullutine_board.innerHTML += "<tr " + styleForSticky +"></tr>";}
         else{bullutine_board.innerHTML += "<tr></tr>";}
@@ -536,9 +429,9 @@ function remove_file(e){
     }
 }
 
-//1. Send the article which a user wrote.
+//1. Send the readAcle which a user wrote.
 // <!-- 
-// CREATE TABLE `help_articles`(
+// CREATE TABLE `help_readAcles`(
 //     `id` INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
 //     `author_id` VARCHAR(11) NOT NULL,
 //     `date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -546,15 +439,15 @@ function remove_file(e){
 //     `content` VARCHAR(1500) NOT NULL,
 //     `kind` VARCHAR(10) NOT NULL,
 //     `sticky` TINYINT(1) NOT NULL,
-//     `parent_article_id` INT(11) NULL,
+//     `parent_readAcle_id` INT(11) NULL,
 //     `re_step` SMALLINT(2) NULL,  
 //     `password` VARCHAR(4) NULL,
 //     `hits` INT(11) NOT NULL,
 //     `files`
 // ); -->
 
-// const write_article_submit_button = document.getElementById("write_article_submit_button");
-// write_article_submit_button.addEventListener("click", sendArticle);
+// const write_readAcle_submit_button = document.getElementById("write_readAcle_submit_button");
+// write_readAcle_submit_button.addEventListener("click", sendreadAcle);
 const stickyOrNot = form.querySelector("input[name=sticky]");
 const stickyBox = stickyOrNot.parentElement;
 var toggleForHoverE = true;
@@ -578,7 +471,7 @@ stickyOrNot.addEventListener("change", function (){
     }
 });
 
-function sendArticle(e){
+function sendreadAcle(e){
     e.preventDefault();
     let select = form.querySelector("select[name=kind]");
     let files = [];
@@ -599,7 +492,7 @@ function sendArticle(e){
     let kind = select.options[select.selectedIndex].value;
     let content = form.querySelector("textarea").value;
 
-    // If a user didn't fill any necessary filds, don't allow to write an article!
+    // If a user didn't fill any necessary filds, don't allow to write an readAcle!
     if(title !== "" && content !== ""){
 
         let obj = {
@@ -620,13 +513,14 @@ function sendArticle(e){
 
             if(this.status == 200 && this.readyState == 4){
                 let result = ajax.responseText;
+                //If an error's occured, it'll be reported in the console.
                 if(result !== "sent"){
                     console.log(result);
                 }
             }
 
         }
-        ajax.open("POST","../backend/sendNewArticle_help.php", true);        
+        ajax.open("POST","../backend/sendNewreadAcle_help.php", true);        
         ajax.send(json);
 
         //Reset all inputs' values to their default values. 
@@ -663,29 +557,60 @@ function sendArticle(e){
             // tags: json_tags,
 
 const readArticle_table = document.querySelector("#readArticleContainer table");
-readArticle_table.querySelector("#arti_id");
-readArticle_table.querySelector("#arti_title");
-readArticle_table.querySelector("#arti_date");
-readArticle_table.querySelector("#arti_kind");
-readArticle_table.querySelector("#arti_tags");
-readArticle_table.querySelector("#arti_files");
-readArticle_table.querySelector("#arti_content");
-
-
+var articleId_forReply;  
+var title_forReply;
 
 function showArticle(elem){
-    let thisArticle_id = elem.id;
+    articleId_forReply = elem.id;
 
     let ajax = new XMLHttpRequest();
     ajax.onreadystatechange = function(){
         if(this.readyState == 4 && this.status == 200 ){
             let json_article = ajax.responseText;
-            
+            let articleObj = JSON.parse(json_article);
+            let privateOrNot = "Public";
+            if(articleObj["password"] !== null){
+                privateOrNot = "Private";
+            }
 
+            let tags = JSON.parse(articleObj["tags"]); 
+            let newTxtForTags;
+            for(let i = 0; i < tags.length; i++){
+                newTxtForTags += "<span class='readA_tags'>#" + tags[i] + "</span>";
+            }
+            
+            let json_files = JSON.parse(articleObj["files"]); 
+
+            readArticle_table.querySelector("#readA_id").innerHTML = articleObj["id"];
+            readArticle_table.querySelector("#readA_kind").innerHTML = articleObj["kind"];
+            readArticle_table.querySelector("#readA_title").innerHTML = articleObj["title"];
+            readArticle_table.querySelector("#readA_author").innerHTML = articleObj["author_id"];
+            readArticle_table.querySelector("#readA_date").innerHTML = articleObj["date"];
+            readArticle_table.querySelector("#readA_private").innerHTML = privateOrNot;
+            // readArticle_table.querySelector("#readA_tags").innerHTML = articleObj["tags"];
+            // readArticle_table.querySelector("#readA_files").innerHTML = articleObj["files"];
+            readArticle_table.querySelector("#readA_content").innerHTML = articleObj["content"];
+            readArticle_table.innerHTML += "<button id='r_" + articleId_forReply + "' onclick=writeReply(this.id)>Reply</button>"
         }
     }
     ajax.open( "POST", "../backend/getArticles_help.php", true);
-    ajax.send( thisArticle_id);
+    ajax.send( articleId_forReply);
+    
+}
+
+
+function writeReply(articleId){
+    let title;
+    for(let article in readArticlesForEachPg[pgNum-1]){
+        if(article["id"] === articleId){
+            title = article["title"];
+        }
+    }
+    console.log("id:" , articleId);
+    console.log("title:", title);
+
+    // document.querySelector()
+    
     
 }
 
