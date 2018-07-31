@@ -1,5 +1,7 @@
 <?php
 
+    require '../setup.php';
+
 // CREATE TABLE `help_articles`(
 //     `id` INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
 //     `author_id` VARCHAR(11) NOT NULL,
@@ -30,90 +32,35 @@
 
 
 $requiredArticles = file_get_contents("php://input");
+$jsonObj = null;
+
+if ($requiredArticles !== "") $jsonObj = json_decode($requiredArticles);
 
 $result = "";
 
-if(isset($requiredArticles)){
-    try{
-
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "weventory";
-
-        $dataConn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-
+if ($jsonObj !== null) {
+    try {
         //To create a bullutine board, send only data of needed cols! 
-        if($requiredArticles === "all"){
-            //$newArr => the array to store all articles in a proper order!
-            //           the order of ancestor articles and their child articles!
-            $newArr = [];
-            $stmt_0 = $dataConn->prepare("SELECT `id`, `date`, `author_id`, `title`, `hits`, `sticky`, 
-            `kind`, `password`
-            FROM `help_articles` WHERE `parent_article_id` IS NULL AND `sticky`= 1;");
-
-            $stmt_0->execute();
-
-            $stickyArticles = $stmt_0->fetchAll(PDO::FETCH_ASSOC);
-            $newArr = array_merge($newArr, $stickyArticles);
-
-            $stmt_1 = $dataConn->prepare("SELECT `id`, `date`, `author_id`, `title`, `hits`, `sticky`, 
-            `kind`, `password`
-            FROM `help_articles` WHERE `parent_article_id` IS NULL AND `sticky`!= 1;");
-
-            $stmt_1->execute();
-
-            $parentArticles = $stmt_1->fetchAll(PDO::FETCH_ASSOC);
-
-            for($i = 0; $i < count($parentArticles); $i++){
-                $thisParentArticle = $parentArticles[$i];
-                array_push($newArr, $thisParentArticle);
-                $thisParentArticleId = $thisParentArticle["id"];
-
-                $stmt_2 = $dataConn -> prepare("SELECT (`id`, `date`, `author_id`, `title`, `hits`, `sticky`, 
-                `kind`, `password`
-                FROM `help_articles` WHERE `parent_article_id`=:parent_article_id;");
-                
-                $stmt_2->bindParam(":parent_article_id", $thisParentArticleId);
-                $stmt_2->execute();
-
-                $child_articles = $stmt_2->fetchAll(PDO::FETCH_ASSOC);
-
-                if(count($child_articles)!== 0){
-                    for($k = 0; $k < count($child_articles); $k++){
-                        array_push( $newArr, $child_articles[$k]);
-                    }
-                }
-            }
- 
-            $result = json_encode($newArr);
-            
-        }else{
-            $id = $requiredArticles;
-            $stmt_3 = $dataConn->prepare("SELECT `id`, `date`, `author_id`, `title`, `hits`, `sticky`, 
+        if ($jsonObj->type === "id") {
+            $id = $jsonObj->id;
+            $stmt_3 = $connection->prepare("SELECT `id`, `date`, `author_id`, `title`, `hits`, `sticky`, 
             `kind`, `password`, `content`, `tags`, `files`
             FROM `help_articles` WHERE `id` = :id;");
 
             $stmt_3->bindParam(":id", $id);
             $stmt_3->execute();
 
-            $requiredArticle = $stmt_3->fetch(PDO::FETCH_ASSOC);
-        
-            $result = json_encode($requiredArticle);
-        }    
+            $result = $stmt_3->fetch(PDO::FETCH_ASSOC);
+        }
 
-    }catch(PDOException $e){
+    } catch(PDOException $e) {
         $result = "ERORR: PDO Exception.";
     }
 
-}else{
+} else {
     $result = "ERORR: Failed to get the order from front-end.";
 }
 
-echo $result;
-
-
-
-
+echo json_encode($result);
 
 ?>

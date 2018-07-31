@@ -60,12 +60,21 @@ tr .title{
 }
 #new_article #sticky_field{
     background-color: yellow;
+    color: black;
     width: 91px;
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
     border: 1px solid brown;
     border-bottom-color: transparent;
     text-align: center;
+}
+#new_article #sticky_field:hover {
+    background-color:blue;
+    color: white;
+}
+#write_article_container #new_article .sticky_is_on {
+    background-color:blue;
+    color: white; 
 }
 #new_article #sticky_field input{
     display: none;
@@ -155,3 +164,7 @@ tr .title{
     vertical-align: top;
     overflow-y: scroll;
 } 
+
+.file_detail_size {
+    margin: 0 20px;
+}
