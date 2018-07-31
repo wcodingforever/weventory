@@ -1,13 +1,10 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head> -->
 
-<head>
     <link rel="stylesheet" href="../static/help.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
     <title>Help</title>
@@ -33,7 +30,7 @@
 } 
 </style>
 </head>
-    <?php //include 'headerandsidebar.php';?>
+    <!-- <?php //include 'headerandsidebar.php';?> -->
     <div id="main_title">Can We Help you?</div>
 
     <!-- Search box -->
@@ -139,7 +136,7 @@
                 <input type="file" name="file" accept="audio/*,video/*,image/*" >                
                 <div id="added_files"></div>
             </div>
-            <input id="write_article_submit_button" type="submit" value="Submit" onclick="sendreadAcle(event);">
+            <input id="write_article_submit_button" type="submit" value="Submit" onclick="sendArticle(event);">
         </form>
     </div>
 
@@ -162,6 +159,7 @@
                 <th>Contents</th><td colspan="9" id="readA_content"></td>
             </tr>
         </table>
+        <button id='' onclick="sendTitleForReply()">Reply</button>
     </div>
 
 
@@ -439,7 +437,7 @@ function remove_file(e){
 //     `content` VARCHAR(1500) NOT NULL,
 //     `kind` VARCHAR(10) NOT NULL,
 //     `sticky` TINYINT(1) NOT NULL,
-//     `parent_readAcle_id` INT(11) NULL,
+//     `parent_article_id` INT(11) NULL,
 //     `re_step` SMALLINT(2) NULL,  
 //     `password` VARCHAR(4) NULL,
 //     `hits` INT(11) NOT NULL,
@@ -447,7 +445,7 @@ function remove_file(e){
 // ); -->
 
 // const write_readAcle_submit_button = document.getElementById("write_readAcle_submit_button");
-// write_readAcle_submit_button.addEventListener("click", sendreadAcle);
+// write_readAcle_submit_button.addEventListener("click", sendArticle);
 const stickyOrNot = form.querySelector("input[name=sticky]");
 const stickyBox = stickyOrNot.parentElement;
 var toggleForHoverE = true;
@@ -471,7 +469,7 @@ stickyOrNot.addEventListener("change", function (){
     }
 });
 
-function sendreadAcle(e){
+function sendArticle(e){
     e.preventDefault();
     let select = form.querySelector("select[name=kind]");
     let files = [];
@@ -492,6 +490,15 @@ function sendreadAcle(e){
     let kind = select.options[select.selectedIndex].value;
     let content = form.querySelector("textarea").value;
 
+    //Default 
+    let parent_article_id = null;
+    //If it's the reply to an article, 
+    if (reply === true){
+        parent_article_id = articleId_forReply;
+        articleId_forReply = null;
+        title_forReply = null;
+    }
+
     // If a user didn't fill any necessary filds, don't allow to write an readAcle!
     if(title !== "" && content !== ""){
 
@@ -504,6 +511,7 @@ function sendreadAcle(e){
             content: content,
             files: json_files,
             tags: json_tags,
+            parent_article_id: parent_article_id
         };
 
         let json = JSON.stringify(obj);
@@ -557,6 +565,8 @@ function sendreadAcle(e){
             // tags: json_tags,
 
 const readArticle_table = document.querySelector("#readArticleContainer table");
+//For the case where a user want a reply to the article, 
+//store the id and title of the article.
 var articleId_forReply;  
 var title_forReply;
 
@@ -574,9 +584,9 @@ function showArticle(elem){
             }
 
             let tags = JSON.parse(articleObj["tags"]); 
-            let newTxtForTags;
+            let newTxtForTags = "";
             for(let i = 0; i < tags.length; i++){
-                newTxtForTags += "<span class='readA_tags'>#" + tags[i] + "</span>";
+                newTxtForTags += "<span class='readA_tags'>#" + tags[i] + "&nbsp;</span>";
             }
             
             let json_files = JSON.parse(articleObj["files"]); 
@@ -587,10 +597,12 @@ function showArticle(elem){
             readArticle_table.querySelector("#readA_author").innerHTML = articleObj["author_id"];
             readArticle_table.querySelector("#readA_date").innerHTML = articleObj["date"];
             readArticle_table.querySelector("#readA_private").innerHTML = privateOrNot;
-            // readArticle_table.querySelector("#readA_tags").innerHTML = articleObj["tags"];
+            readArticle_table.querySelector("#readA_tags").innerHTML = newTxtForTags;
             // readArticle_table.querySelector("#readA_files").innerHTML = articleObj["files"];
             readArticle_table.querySelector("#readA_content").innerHTML = articleObj["content"];
-            readArticle_table.innerHTML += "<button id='r_" + articleId_forReply + "' onclick=writeReply(this.id)>Reply</button>"
+
+            //For a reply article
+            title_forReply = articleObj["title"];
         }
     }
     ajax.open( "POST", "../backend/getArticles_help.php", true);
@@ -598,20 +610,13 @@ function showArticle(elem){
     
 }
 
+var reply = false;
 
-function writeReply(articleId){
-    let title;
-    for(let article in readArticlesForEachPg[pgNum-1]){
-        if(article["id"] === articleId){
-            title = article["title"];
-        }
-    }
-    console.log("id:" , articleId);
-    console.log("title:", title);
-
-    // document.querySelector()
-    
-    
+function sendTitleForReply(){
+    //toggle the write article page to 'ON'. 
+    let titleInput = document.querySelector("#new_article input[name=title]");
+    titleInput.value = "Re: " + title_forReply;  
+    reply = true; 
 }
 
 
