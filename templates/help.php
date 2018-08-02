@@ -15,24 +15,80 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
     <title>Help</title>
     <style>
-        #readArticleContainer table{
+        .field:nth-child(2){
+            display: block;
+        }
+        .field:nth-child(3){
+            display:inline-block;
+            margin-left: 0px;
+        }
+        .field:nth-child(4){
+            display: inline-block;
+            margin-left: 38px;
+        }
+        .field:nth-child(5) .field_name{
+            position: static;
+            top: 0;
+        }
+        #new_article input[name=author]{
+            margin-left: 43px;
+        }
+        .field:nth-child(8){
+            margin-top: 12px;
+        }
+        .field:nth-child(6) .field_name{
+            position: relative;
+            top: -493px;
+        }
+        .field:nth-child(7) .field_name{
+            display: inline-block;
+        }
+        #read_article_container table{
             width: 900px;
             border-spacing: 0px;
             border-collapse: collapse;
         }
-        #readArticleContainer tr,#readArticleContainer td{
+        #read_article_container tr,#read_article_container td{
             border:solid 1px black;
         }
 
-        #readArticleContainer th{
+        #read_article_container th{
             border:solid 1px black;    
             width: 94px;
         }
 
-        #readArticleContainer td#readA_content{
+        #read_article_container td#readA_content{
             height: 500px;
             vertical-align: top;
             overflow-y: scroll;
+        }
+        #bulletin_board_container #pageNumbers{
+            text-align: center;
+            margin: 40px 0;
+        }
+        #bulletin_board_container #write_button{
+            cursor:pointer;
+            font-size: 20px;
+            color: #2196F3;
+            background-color: #ffffff;
+            height: 51px;
+            width: 162px;
+            margin-left: 1317px;
+            font-weight: bold;
+        } 
+        .hideContent{
+            color: #e7e5e2;
+        }
+        #enterPW{
+            width: 500px;
+            margin: auto;
+            text-align: center;
+            position: absolute;
+            top: 605px;
+            left: 632px;
+        }
+        #enterPW div{
+            margin: 8px;
         }
     </style>
 </head>
@@ -43,7 +99,7 @@
 
     <!-- Search box -->
     <!-- A user can search readAcles by title/content/author/tags -->
-    <div id="search_bar">
+    <!-- <div id="search_bar">
         <i class="fas fa-search"></i>
         <input id="input_for_search" type="text" placeholder="Search readAcles..">
     </div>
@@ -70,10 +126,9 @@
             <label for="others">Others&nbsp;</label><input type="checkbox" name="kind" id="others" value="others">
         </div>
 
-    </div>
+    </div> -->
 
     <!-- bulletin board -->
-    <div>--bulletin board--</div>
     <div id="bulletin_board_container">
         <table>
             <thead>
@@ -92,6 +147,7 @@
                     $thisRow = $allArticles[$i];
 
                     // foreach ($thisRow as $thisKey => $thisVal) {
+                    $privateOrNot = false;
                     $thisRowKeys = array_keys($thisRow);
                     for ($j = 0; $j < count($thisRowKeys); $j++) {
                         $thisKey = $thisRowKeys[$j];
@@ -126,8 +182,18 @@
                                 else {
                                     $thisVal = $thisVal[0];
                                 }
+                            }else if($thisKey === "password"){
+                                if($thisVal !== null){
+                                    $privateOrNot = true; 
+                                }
+                                continue;
                             }
-                            echo "<td class='{$thisKey}'>{$thisVal}</td>";
+
+                            if($thisKey === "title" && $privateOrNot === true){
+                                echo "<td class='{$thisKey}'>{$thisVal}&nbsp;<i class='fas fa-lock'></i></td>";
+                            }else{
+                                echo "<td class='{$thisKey}'>{$thisVal}</td>";
+                            }
                         }
 
                         if ($j === (count($thisRowKeys) - 1)) { echo "</tr>"; }
@@ -153,20 +219,24 @@
 
 
         ?></div>
+        <button id="write_button">Ask for Help</button>
     </div>
 
-    <button id="write_button">Write</button>
 
     <!-- If a user click on the write button,  the components above(readAcle list) will be replaced with the components below(wirte writeArticleForm..-->
 
     <div id="write_article_container">
         <div id="new_article">
             <!-- ***Sticky field!! -->
-            <!-- (Default) invisioble!! -->
+            <!-- (Default) invisible!! -->
             <!-- If authour is admin, sticky field'll be visible!! -->
             <div class="field" id="sticky_field">              
                     <label class="field_name" for="sticky">Sticky off</label> <input id="sticky" type="checkbox" value="sticky" name="sticky">
             </div>
+            <div class="field">      
+                <div class="field_name"><span style="color:red;">*</span> Author</div>
+                <input type="text" name="author"/>        
+            </div>            
             <div class="field">              
                 <div class="field_name"><span style="color: red;">*</span> Title</div>
                 <input type="text" name="title"></input>      
@@ -211,7 +281,7 @@
         </div>
     </div>
 
-    <div id="readArticleContainer">
+    <div id="read_article_container">
         <table>
             <tr>
                 <th>No.</th><td id="readA_id"></td><th>Kind</th><td id="readA_kind"></td>
@@ -230,7 +300,7 @@
                 <th>Contents</th><td colspan="9" id="readA_content"></td>
             </tr>
         </table>
-        <button id='' onclick="sendTitleForReply()">Reply</button>
+        <button id='readA_replyButton' onclick="sendTitleForReply()">Reply</button>
     </div>
 
 
@@ -239,9 +309,41 @@
 
 <script>
 ////////////////////////////////////////bulletin board/////////////////////////////////////////
-///////////////////////////////////////////Write part///////////////////////////////////////////
 // const writeArticleForm = document.getElementsByTagName("form")[0];
 const writeArticleForm = document.querySelector("#new_article");
+
+//Toggle each part (bulletin board/ write article/ read article)
+const bulletin_board_container = document.querySelector("#bulletin_board_container");
+const write_article_container = document.querySelector("#write_article_container");
+const read_article_container = document.querySelector("#read_article_container");
+
+function togglePg(partElem, isOn, reload=false){
+    let classList = partElem.classList;
+    if(isOn){
+        partElem.classList.remove("toggleOff");
+        partElem.classList.add("toggleOn");
+    }else if(reload){
+        window.location.reload();
+    }
+    else{
+        partElem.classList.remove("toggleOn");
+        partElem.classList.add("toggleOff");
+    }
+}
+//Default setting for toggles. 
+togglePg(bulletin_board_container, true);
+togglePg(write_article_container, false);
+togglePg(read_article_container, false);
+
+
+
+///////////////////////////////////////////Write part///////////////////////////////////////////
+//Toggle write part
+const write_button = document.querySelector("#write_button");
+write_button.addEventListener("click", function(){
+    togglePg(write_article_container, true);
+    togglePg(bulletin_board_container, false);    
+})
 
 // 1. Tags
 // Add the tage which a user wrote when thte user enter the tags which he/she wants and hit "endter" key!!
@@ -249,14 +351,14 @@ const writeArticleForm = document.querySelector("#new_article");
 var input_for_tags = document.querySelector("input[name=tags]");
 var added_tags = document.getElementById("added_tags");
 input_for_tags.addEventListener("keyup",add_tags);
+var allTags = document.querySelectorAll(".tag");
+
 
 // Add new tags to the list of tags. Must be less than 20 characters. Max 10 tags.
 function add_tags(e){
     if(e.keyCode === 13) {  // If the key pressed is the Enter key.
         var errMsg = "";
         var new_tag = input_for_tags.value.toLowerCase();
-
-        let allTags = document.querySelectorAll(".tag");
 
         // Checks to see if the new tag is valid.
         for (let i = 0; i < allTags.length; i++) {
@@ -386,18 +488,26 @@ function sendArticle(e){
     e.preventDefault();
     let select = writeArticleForm.querySelector("select[name=kind]");
     let files = [];
-    for(let holder_name in file_holders){
-        let file_name = file_holders[holder_name];
-       if(file_name !== null){
-        files.push(file_name);
-       }
-    };
+    file_inputs.forEach(function(file_input){
+        if(file_input.files[0] !== undefined){
+            files.push(file_input.files[0].name);
+        }
+    });
+
+    let tags = [];
+    //allTags => all elements displaying a tags.
+    if(allTags.length > 0){
+        allTags.forEach(function(inputForTags){
+            let thisTag = inputForTags.innterHTML.substr(1);
+            tags.push(thisTag);
+        });
+    }
+    
     let json_files = JSON.stringify(files);
     let json_tags = JSON.stringify(tags);
-    
-    //var author_id  = session!*****
-    let author_id = "user12";
+
     let sticky = writeArticleForm.querySelector("input[name=sticky]").checked;
+    let author_id = writeArticleForm.querySelector("input[name=author]").value;
     let title = writeArticleForm.querySelector("input[name=title]").value;
     let password = writeArticleForm.querySelector("input[name=password]").value;
     let kind = select.options[select.selectedIndex].value;
@@ -410,6 +520,7 @@ function sendArticle(e){
         parent_article_id = articleId_forReply;
         articleId_forReply = null;
         title_forReply = null;
+        reply = false;
     }
 
     // If a user didn't fill any necessary filds, don't allow to write an readAcle!
@@ -427,6 +538,9 @@ function sendArticle(e){
             parent_article_id: parent_article_id
         };
 
+
+        console.log(obj);
+
         let json = JSON.stringify(obj);
 
         const ajax = new XMLHttpRequest();
@@ -441,12 +555,13 @@ function sendArticle(e){
             }
 
         }
-        ajax.open("POST","../backend/sendNewreadAcle_help.php", true);        
+        ajax.open("POST","../backend/sendNewArticle_help.php", true);        
         ajax.send(json);
 
         //Reset all inputs' values to their default values. 
         stickyOrNot.checked = false;
         writeArticleForm.querySelector("input[name=title]").value = "";
+        writeArticleForm.querySelector("input[name=author]").value = "";
         writeArticleForm.querySelector("input[name=password]").value = "";
         select.selectedIndex = 0;
         writeArticleForm.querySelector("textarea").value = ""; 
@@ -454,32 +569,19 @@ function sendArticle(e){
         new_tag = "";
         input_for_tags.value = "";
         added_tags.innerHTML = "";
-        added_files.value = "";
+        added_files.innerHTML = "";
         file_inputs.forEach(function(file_input){
             file_input.value = "";
-        })
-        file_holders = {
-            holder_0: null,
-            holder_1: null,
-            holder_2: null,
-        };
+        });
         
     }else{
         alert("Please fill all necessary filds.");
     }
-}           // id: id
-            // sticky:sticky, -> x
-            // author_id: author_id,        
-            // title: title,
-            // password: password, -> x
-            // kind: kind,
-            // content: content,
-            // files: json_files,
-            // tags: json_tags,
+}         
 
 
 // 4. Get single article from the database and display on the UI.
-const readArticle_table = document.querySelector("#readArticleContainer table");
+const readArticle_table = document.querySelector("#read_article_container table");
 //For the case where a user want a reply to the article, 
 //store the id and title of the article.
 var articleId_forReply;  
@@ -493,7 +595,12 @@ allRowsInBB.forEach(function(thisOne, i) {
     })
 });
 
+var pwOfPrivateArti;
+var elemForContent = readArticle_table.querySelector("#readA_content");
 function showArticle(inId){
+    togglePg(read_article_container, true);
+    togglePg(bulletin_board_container, false);
+
     const ajax = new XMLHttpRequest();
     ajax.onreadystatechange = function(){
         if(this.readyState == 4 && this.status == 200 ){
@@ -503,16 +610,20 @@ function showArticle(inId){
             if(articleObj["password"] !== null){
                 privateOrNot = "Private";
             }
+            pwOfPrivateArti = articleObj["password"];
 
             let tags = JSON.parse(articleObj["tags"]); 
             let newTxtForTags = "";
-            for(let i = 0; i < tags.length; i++){
-                newTxtForTags += "<span class='readA_tags'>#" + tags[i] + "&nbsp;</span>";
+            if(tags !== null){
+                for(let i = 0; i < tags.length; i++){
+                    newTxtForTags += "<span class='readA_tags'>#" + tags[i] + "&nbsp;</span>";
+                }
             }
             
             let json_files = JSON.parse(articleObj["files"]); 
 
             readArticle_table.querySelector("#readA_id").innerHTML = articleObj["id"];
+            articleId_forReply = articleObj["id"];
             readArticle_table.querySelector("#readA_kind").innerHTML = articleObj["kind"];
             readArticle_table.querySelector("#readA_title").innerHTML = articleObj["title"];
             readArticle_table.querySelector("#readA_author").innerHTML = articleObj["author_id"];
@@ -520,7 +631,16 @@ function showArticle(inId){
             readArticle_table.querySelector("#readA_private").innerHTML = privateOrNot;
             readArticle_table.querySelector("#readA_tags").innerHTML = newTxtForTags;
             // readArticle_table.querySelector("#readA_files").innerHTML = articleObj["files"];
-            readArticle_table.querySelector("#readA_content").innerHTML = articleObj["content"];
+            elemForContent.innerHTML = articleObj["content"];
+
+            if(privateOrNot === "Private"){
+                elemForContent.classList.add("hideContent");
+                elemForContent.innerHTML += "<div id='enterPW'>" +
+                                                "<div id='instruction' style='color:black;'>Please enter the password to read the article.</div>" +
+                                                "<input type='password' name='password' width='60px'/>" +
+                                                "<button onclick='showPrivateArticle()'>Enter</button>" +
+                                            "</div>";
+            }      
 
             //For a reply article
             title_forReply = articleObj["title"];
@@ -531,13 +651,25 @@ function showArticle(inId){
     
 }
 
+function showPrivateArticle(){
+    let pw = document.querySelector("#enterPW input[name='password']").value;
+    if(pw === pwOfPrivateArti){
+        elemForContent.classList.remove("hideContent");
+        elemForContent.removeChild(elemForContent.childNodes[1]);
+    }else{
+        alert("Please enter the correct password.");
+    }
+}
+
 var reply = false;
 
 function sendTitleForReply(){
-    //toggle the write article page to 'ON'. 
+    //toggle the write article page to 'ON'.
     let titleInput = document.querySelector("#new_article input[name=title]");
     titleInput.value = "Re: " + title_forReply;  
     reply = true; 
+    togglePg(read_article_container, false);
+    togglePg(write_article_container, true);
 }
 
 </script>

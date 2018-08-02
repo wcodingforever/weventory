@@ -16,6 +16,7 @@
             `sticky`,
             `id`,
             `kind`,
+            `password`,
             `title`,
             `author_id`,
             `date`,

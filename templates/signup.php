@@ -166,7 +166,7 @@
 
     <script>
         var signUpButton = document.querySelector("#signupbutton");
-            signUpButton.disabled=true;
+            // signUpButton.disabled=true;
         var sendEmailButton = document.getElementById("sendemailbutton");
             sendEmailButton.disabled=true;
         var confirmVeriCodeButton= document.getElementById("confirmcodebutton");

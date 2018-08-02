@@ -48,8 +48,10 @@ $title = $assArr["title"];
 $content = $assArr["content"];
 $kind = $assArr["kind"];
 $sticky = convertData($assArr["sticky"]);
-// $parent_article_id = null;
-// $re_step = null;
+$parent_article_id = null;
+if(isset($assArr["parent_article_id"])){
+    $parent_article_id = $assArr["parent_article_id"];
+}
 $files = convertData($assArr["files"]);
 $arti_password = convertData($assArr["password"]);
 $tags = convertData($assArr["tags"]);
@@ -60,9 +62,9 @@ if(isset($author_id) && isset($title) && isset($content) && isset($kind)){
 
         $stmt = $connection->prepare("
             INSERT INTO `help_articles`
-             (`sticky`, `author_id`, `title`, `kind`, `content`, `password`, `tags`, `files`)
+             (`sticky`, `author_id`, `title`, `kind`, `content`, `password`, `tags`, `files`, `parent_article_id`)
             VALUES
-                (:sticky, :author_id, :title, :kind, :content, :password, :tags, :files);");
+                (:sticky, :author_id, :title, :kind, :content, :password, :tags, :files, :parent_article_id);");
 
         function passNullOrData($dataname, $data, $stmt){
             if($data === null){
@@ -80,6 +82,7 @@ if(isset($author_id) && isset($title) && isset($content) && isset($kind)){
         passNullOrData("password", $arti_password, $stmt);
         passNullOrData("tags", $tags, $stmt);
         passNullOrData("files", $files, $stmt);
+        passNullOrData("parent_article_id", $parent_article_id, $stmt);
 
         $stmt->execute();
 

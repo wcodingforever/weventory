@@ -147,27 +147,8 @@ CREATE TABLE `help_articles`(
     `kind` VARCHAR(25) NOT NULL,
     `sticky` INT(11) NOT NULL,
     `parent_article_id` INT(11) NULL,
-<<<<<<< HEAD
-=======
-    `re_step` INT(11) NULL,  
->>>>>>> master
     `password` VARCHAR(4) NULL,
     `hits` INT(11) NOT NULL DEFAULT 0,
     `tags` VARCHAR(250) NULL,
     `files` VARCHAR(500) NULL,
-<<<<<<< HEAD
 );
-=======
-    `child_articles` VARCHAR(70) NULL
-);/* mapping table for tags as for groups*/
-
-CREATE TABLE `parent`(
-    `id` INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    `author_id` int(11) NOT NULL,
-    `comment` VARCHAR(200) NOT NULL,
-    `
-);
-CREATE TABLE `children`(
-
-)
->>>>>>> master
