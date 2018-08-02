@@ -76,8 +76,8 @@
             <div id="text">New Event</div>
             <input id="eventtitle" placeholder="Event Title"> <!--name-->
             <textarea id="description" placeholder="Description"></textarea>
-            <input id="datefrom" placeholder="From" type="text" onfocus="(this.type='date')"> <!--from -->
-            <input id="dateto" placeholder="To" type="text" onfocus="(this.type='date')"> <!--to-->
+            <input id="datefrom" placeholder="From" type="text" onfocus="(this.type='datetime-local')"> <!--from -->
+            <input id="dateto" placeholder="To" type="text" onfocus="(this.type='datetime-local')"> <!--to-->
             <input id="location" placeholder="Location"> <!--location-->
             <select id="category"> <!--category-->
                 <option>Category</option>
@@ -95,7 +95,7 @@
                 <option>Career and Buissiness</option>
             </select>
             <input type="number" id="price" placeholder="price"> <!--price-->
-            <input type="number" id="capacity" placeholder="capacity"> <!--capacity-->
+            <input type="number" id="capacity" min="0" placeholder="capacity"> <!--capacity-->
             <button id="submitbutton">submit</button>
         </div>
     </div>

@@ -5,8 +5,9 @@
             <div id="userdiv">
                 <a href="signup.php"><div class="userbuttons">Sign Up</div></a>
                 <a href="login.php"><div class="userbuttons">Sign In</div></a>
-                <div id="logoutbutton" >Log Out</div>
             </div>
+            <div id="logoutbutton" class="userbuttons" >Log Out</div>
+            
         </div>
 
         <div id="sidebar">
@@ -40,13 +41,14 @@
     <script>
         var mobileMenuButton = document.querySelector("#mobilemenubutton");
         var mobileMenu = document.querySelector("#mobilemenu");
-        var userButtons = document.querySelectorAll(".userbuttons");
+        // var userButtons = document.querySelectorAll(".userbuttons");
         var logoutButton =document.querySelector("#logoutbutton");
+        var userDiv = document.querySelector("#userdiv")
         var userName = "<?php echo ($user_login); ?>";
 
         if(userName !== "") {
             logoutButton.style.display = "block";
-            userButtons.style.display = "none";
+            userDiv.style.display = "none";
         }
 
         mobileMenuButton.addEventListener("click", function(){

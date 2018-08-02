@@ -152,11 +152,11 @@
             <input placeholder="Email Address" id="email" type="email">
             <input placeholder="Password" id="password" type="password"><!--password-->
             <input placeholder="Confirm Password" id="passwordcfrm" type="password"> <!--password confirmation-->
-            <input type="date" id="birthday">
+            <input id="birthday" placeholder="Date of Birth" type="text" onfocus="(this.type='date')">
             <textarea id="bio" placeholder="Bio"></textarea>
             <input type="file" id="pic" accept="image/*"> 
             <input type="number" id="vericode" placeholder="Verification Code">
-            <button id="signupbutton">Sign Up</button><!--log in button-->
+            <button id="signupbutton">Sign Up</button>
             <button id="sendemailbutton"> Send Verification Code</button>
             <button id="confirmcodebutton"> Confirm Verification Code </button>
             <div>Already have an account?<a href="login.php">Sign in</a></div><!--dont have an account?-->
@@ -199,40 +199,46 @@
             return hash;
         };
 
+        passcfrm.addEventListener("blur", function(){
+            if(pass.value === "" || pass.value !== passcfrm.value){
+                alert("password does not match")
+            }
+        })
+
         userName.addEventListener("change", function(){
             var xhttp = new XMLHttpRequest();
-                    xhttp.onreadystatechange = function() {
-                        if (this.readyState === 4 && this.status === 200) {
-                            if(xhttp.responseText === "exists"){
-                                alert("Username is taken")
-                                userName.value = ""
-                                userNameCheck=false;
-                            }
-                            else
-                                userNameCheck=true;
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState === 4 && this.status === 200) {
+                        if(xhttp.responseText === "exists"){
+                            alert("Username is taken")
+                            userName.value = ""
+                            userNameCheck=false;
                         }
-                    };
-                    xhttp.open("POST", "../backend/sign_log.php",true);
-                    var login = {
-                        loginCheck: userName.value
+                        else
+                            userNameCheck=true;
                     }
-                    checkUser = JSON.stringify(login)
+                };
+                xhttp.open("POST", "../backend/sign_log.php",true);
+                var login = {
+                    loginCheck: userName.value
+                }
+                checkUser = JSON.stringify(login)
 
-                    xhttp.send(checkUser);
+                xhttp.send(checkUser);
         })
     
         email.addEventListener("change",function(){
             var emailAddress=email.value;
             console.log(typeof emailAddress);
 
-            if(email.value===""||!(emailAddress.includes("@")))
+            if(email.value ===""||!(emailAddress.includes("@")))
             document.getElementById("sendemailbutton").disabled=true;
             else
             document.getElementById("sendemailbutton").disabled=false;
         })
         sendEmailButton.addEventListener("click",function(){ //key=email_varif
             document.querySelector("#loader").style.display = "block";
-            if(email.value !==""){
+            if(firstName.value !== "" && lastName.value !== "" && email.value !==""){
                 var emailSendxhl=new XMLHttpRequest(); 
                 emailSendxhl.onreadystatechange = function(){
                     if (this.readyState == 4 && this.status == 200) {
@@ -262,7 +268,7 @@
                 emailSendxhl.send(verifyEmail);
             }
             else
-                alert("email has not been entered");
+                alert("Please make sure to fill out the fileds");
             
         })
         confirmVeriCodeButton.addEventListener("click",function(){ //key=codeVerif
@@ -270,9 +276,11 @@
             sendCodexhl.onreadystatechange = function(){
                 if (this.readyState == 4 && this.status == 200) {
                     if(sendCodexhl.responseText==="true"){
-                        alert("Correct Verification Code");
+                        // alert("Correct Verification Code");
                         document.getElementById("signupbutton").disabled=false;
                         document.getElementById("vericode").disabled=true;
+                        alert("Successfully signed up!");
+                        // window.location.href = "../templates/login.php";
 
                         // TODO: Automatically sign up and then redirect to login!
                     }
@@ -285,15 +293,13 @@
             sendCodexhl.open("POST","../backend/sign_log.php",true);
             var verifyCode={
                 varif_code: veriCode.value,
-                varif_user: userName.value
+                varif_user: userName.value,
             }
             console.log(veriCode);
             var correctCode=JSON.stringify(verifyCode);
             sendCodexhl.send(correctCode);
         })
 
-
-        
         signUpButton.addEventListener("click", function(){
                 if(firstName.value !== "" && lastName.value !== "" && email.value !== "" && pass.value !== "" && pass.value === passcfrm.value){
                     var xhttp = new XMLHttpRequest();
@@ -303,7 +309,6 @@
                                 window.location.href = "../templates/login.php";
                             }
                         };
-
                         xhttp.open("POST", "../backend/sign_log.php", true);
 
                         var newUser = {

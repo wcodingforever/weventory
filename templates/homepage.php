@@ -75,7 +75,7 @@
                     };
                 }
             };
-        xhttp.open("POST", "../backend/new_event.php");
+        xhttp.open("POST", "../backend/tryevents.php", true);
         var eventObj = { filtered_by: "default" }
         var sendEvent = JSON.stringify(eventObj);
         xhttp.send(sendEvent);
