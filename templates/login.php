@@ -1,52 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>login</title>
-
-
+<?php
+    require 'headerall.php';
+    checkSession(False);
+?>
     <style>
-
         @media screen and (max-width: 481px) {
 
-        }
+            input, #loginbutton {
+            margin: 45px 10px 18px 10px;
+            }
 
-        body {
-            padding: 0;
-            margin: 0;
-            height: 100vh;
-            width: 100vw;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            #signindiv {
+                width: 340px;
+            }
+
         }
 
         #divcontainer {
-                text-align: center;
+            text-align: center;
+            display: flex;
+            width: 100%;
+            margin-top: 50px;
         }
 
         input, #loginbutton {
             display: block;
             width: 260px;
             height: 50px;
-            margin: 18px 0px 18px 10px;
+            margin: 45px 10px 18px 95px;
         }
+
 
         #loginbutton{
             border: 1px solid lightgrey;
+            background-color: #E2C044;
+            transition: 0.6s ease;
+        }
+
+        #loginbutton:hover {
+            background-color: #b22222;
+        } 
+
+        #signindiv {
+            margin: auto;
+            background-color: #EAF1E4;
+            width: 450px;
+            box-shadow: 10px 10px 5px grey;
+            border: 1px solid grey;
+        }
+
+        #signintext {
+            margin-top: 10px;
+            font-size: 24px;
         }
     </style>
-
 </head>
 <body>
+    <?php require 'navbar.php'; ?>
+
     <div id="divcontainer">
-        <div>SIGN IN</div>
-        <input placeholder="Email Adress Or Username" id="user"><!--user name-->
-        <input placeholder="Password" id="password" type="password"><!--password-->
-        <button id="loginbutton">Log In</button><!--log in button-->
-        <div>Dont have an account?<a href="signup.html">Signup</a></div><!--dont have an account?-->
+        <div id="signindiv">
+            <div id="signintext">SIGN IN</div>
+            <input placeholder="Email Adress Or Username" id="user"><!--user name-->
+            <input placeholder="Password" id="password" type="password"><!--password-->
+            <button id="loginbutton">Log In</button><!--log in button-->
+            <div>Dont have an account? <a href="signup.php">Signup</a></div><!--dont have an account?-->
+        </div>
     </div>
 
     <script>
@@ -74,14 +92,14 @@
                     if (this.readyState === 4 && this.status === 200) {
                         var gotThis = xhttp.responseText;
                         if(gotThis === "YAY"){
-                            window.location.href = "homepage.html"
-
+                            window.location.href = "homepage.php"
                         }
                         else {
                             alert("Wrong Username or Password")
                             logInName.value = ""
                             logInPass.value = "" 
                         }
+                        // console.log(gotThis);
                     }
                 };
                 xhttp.open("POST", "../backend/sign_log.php");

@@ -1,28 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-
+<?php 
+include '../backend/_sessionCheck.php';
+?><head>
     <style>
         @media screen and (max-width: 481px) {
 
             }
 
-            body {
-                padding: 0;
-                margin: 0;
-                height: 100vh;
-                width: 100vw;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
             #divcontainer {
                     text-align: center;
+                    position: absolute;
+                    left:300px;
             }
 
             input, #submitbutton {
@@ -38,8 +25,11 @@
     
     </style>
 </head>
-<body>
-    <div>
+
+    <?php 
+    include 'headerall.php';
+    ?>
+    <div id="divcontainer">
         <input id="eventtitle" placeholder="Event Title"> <!--name-->
         <input id="datefrom" placeholder="From" type="text" onfocus="(this.type='date')"> <!--from -->
         <input id="dateto" placeholder="To" type="text" onfocus="(this.type='date')"> <!--to-->
@@ -62,6 +52,7 @@
         </select>
         <input type="number" id="price" placeholder="price"> <!--price-->
         <input type="number" id="capacity" placeholder="capacity"> <!--capacity-->
+        <input type="file" id="pic" accept="image/*">
         <button id="submitbutton">submit</button>
     </div>
 
@@ -75,8 +66,27 @@
         var eventCategory = document.querySelector("#category")
         var eventPrice = document.querySelector("#price")
         var eventCapacity = document.querySelector("#capacity")
-        
-        
+        var eventPic = document.querySelector("#pic")
+
+
+        window.onload = function () {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                var thisEvent = JSON.parse(xhr.responseText);
+                eventTitle.value = thisEvent.thisEventName;
+                dateFrom.value = thisEvent.thisEventDateFrom;
+                dateTo.value = thisEvent.thisEventDateTo;
+                eventDesc.value = thisEvent.thisEventDescription;
+                eventLocation.value = thisEvent.thisEventLocation;
+                eventCategory.value = thisEvent.thisEventCategory;
+                eventPrice.value = thisEvent.thisEventPrice;
+                event_capacity.value = thisEvent.thisEventCapacity;
+                }
+        };
+        xhttp.open("GET", "new_event.php");
+        xhttp.send();
+        }
 
         submitButton.addEventListener("click", function(){
             if(eventTitle.value !== "" ){
@@ -96,7 +106,7 @@
                     event_location: eventLocation.value,
                     event_category: eventCategory.value,
                     event_price: eventPrice.value,
-                    // event_pic,
+                    event_pic: eventPic.value,
                     event_capacity: eventCapacity.value
                 }
                 var sendEvent = JSON.stringify(event);
