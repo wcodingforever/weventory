@@ -80,9 +80,8 @@
             width: 500px;
             margin: auto;
             text-align: center;
-            position: absolute;
-            top: 605px;
-            left: 503px;
+            position: relative;
+            left: 10px;
         }
         #enterPW div{
             margin: 8px;
@@ -662,7 +661,6 @@ function sendArticle(e){
         //Reset all inputs' values to their default values. 
         stickyOrNot.checked = false;
         writeArticleForm.querySelector("input[name=title]").value = "";
-        writeArticleForm.querySelector("input[name=author]").value = "";
         writeArticleForm.querySelector("input[name=password]").value = "";
         writeArticleForm.querySelector("textarea").value = "";        
         select.selectedIndex = 0;
@@ -838,6 +836,8 @@ function showArticle(inId){
                                                 "<input type='password' name='password'>" +
                                                 "<button id='ca_bt_" + id + "'  onclick='showChild(this)'>Enter<button>"
                                             "</div>";
+                }else{
+                    e_content.style = "color:black;";
                 }
 
                 e_private.innerHTML = privateOrNot;
