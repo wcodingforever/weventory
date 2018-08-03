@@ -13,8 +13,45 @@
     foreach ($receive as $thisKey => $thisVal) {
         $receive[$thisKey] = strtolower($receive[$thisKey]);
     }
-
-    if (isset($receive['event_name'])){
+    if(isset($receive['thisEvent'])){
+        try{
+            $stmt = $connection->prepare("
+                SELECT
+                    `event`.`id`,
+                    `name`,
+                    `datefrom`,
+                    `dateto`,
+                    `category`,
+                    `description`,
+                    `picture`,
+                    `country`,
+                    `city`,
+                    `address`,
+                    `privacy`,
+                    `group_host_id`,
+                    `user_host_id`,
+                    `price`,
+                    `user_login`,
+                    `bio` AS 'hostDescription'
+                FROM `event` LEFT JOIN `account`
+                    ON `event`.`user_host_id` = `account`.`id`
+                WHERE `event`.`id` = :id;
+                ");
+            $stmt->bindParam(':id',$receive['thisEvent']);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            $result = json_encode($result);
+            echo($result);// TODO detach mysql with keys
+ 
+            $connection = null;
+            $stmt = null;
+        }
+ 
+        catch(PDOException $e) {
+            echo "SERVER PROBLEMS.";
+        }
+    }
+    else if (isset($receive['event_name'])){
         try{
             $stmt = $connection->prepare("
                 INSERT INTO `event`

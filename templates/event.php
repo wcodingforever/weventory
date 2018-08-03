@@ -3,6 +3,9 @@
     checkSession(FALSE);
 ?>
 <head>
+<script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin></script>
+        <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin></script>
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 <style>
         @media screen and (max-width: 481px) {
 
@@ -51,7 +54,6 @@
             <div id="datefrom"></div>
             <div id="dateto"></div>
             <div id="description"></div>
-            <div id="location"></div>
             <div id="category"></div>
             <div id="price" ></div>
             <div id="adress"></div>
@@ -64,18 +66,19 @@
                 <div id="likediv">
                     <div id="likebutton"><i class="far fa-heart"></i></div>
                     <div id="removelike"><i class="fas fa-heart"></i></div>
-                    <div id="eventlikes">34</div>
+                    <div id="eventlikes"></div>
                 </div>
                 <div id="userlogged">
                     <button id="joinbutton">join</button>
                     <button id="leavebutton">leave</button>
-                    <button id="reportbutton"><a href='report.php?id=<?php echo($event_id)?>'>Report</a></button>
+                    <button id="reportbutton"><a href='report.php?id="<?php echo($event_id)?>"'>Report</a></button>
                 </div>
                 <div id="hostlogged">
                     <button id="deletediv">Delete</button>
                     <button id="editbutton"><a href='editevent.php?id=<?php echo($event_id)?>'>Edit</a></button>
                 </div>
             </div>
+            <div id="root"></div>
         </div>
     </div>
 
@@ -84,7 +87,6 @@
         var dateFrom = document.querySelector("#datefrom");
         var dateTo = document.querySelector("#dateto");
         var eventDesc = document.querySelector("#description");
-        var eventLocation = document.querySelector("#location");
         var eventCategory = document.querySelector("#category");
         var eventPrice = document.querySelector("#price");
         var eventCapacity = document.querySelector("#capacity");
@@ -101,10 +103,7 @@
         var eventAdress = document.querySelector("#adress");
         var reportButton = document.querySelector("#reportbutton");
         var userLogged =document.querySelector("#userLogged");
-        // var user = 
-        <?php 
-        // echo($user_login)
-        ?>
+        var user = '<?php echo($user_login)?>'
         // var host = 
         <?php
         // echo($host_name)
@@ -116,7 +115,8 @@
         // }
 
 
-        var counter = 0 ;
+
+        var counter = 34 ;
 
         joinButton.addEventListener("click", function(){
             var xhttp = new XMLHttpRequest();
@@ -126,7 +126,7 @@
                 joinButton.style.display = "none";
                 }
             }
-                xhttp.open("POST", "../backend/event.php");
+                xhttp.open("POST", "../backend/new_event.php");
 
                 var joined = {
                     user_joined: user
@@ -144,7 +144,7 @@
                 leaveButton.style.display = "none";
                 }
             }
-            xhttp.open("POST", "../backend/event.php");
+            xhttp.open("POST", "../backend/new_event.php");
 
             var left = {
                 user_left: user
@@ -163,7 +163,7 @@
                 eventLikes.innerHTML = counter + 1;
                 }
             }
-            xhttp.open("POST", "../backend/event.php");
+            xhttp.open("POST", "../backend/new_event.php");
 
             var liked = {
                 user_liked: "like"
@@ -184,7 +184,7 @@
             eventLikes.innerHTML = counter - 1;
                 }
             }
-            xhttp.open("POST", "../backend/event.php");
+            xhttp.open("POST", "../backend/new_event.php");
 
             var noLike = {
                 user_removed_like: "removedLike"
@@ -193,38 +193,52 @@
             console.log(removedLike)
             xhttp.send(removedLike);
         })
+        var thisEventIs = false
+        thisEventIs = <?php if(isset($_GET['id'])) echo($_GET['id'])?>;
+
+        var eventId = "";
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var response = xhttp.responseText;
+                thisEvent = JSON.parse(response);
+                console.log(thisEvent);
+                var eventId = thisEvent.id;
+                eventTitle.innerHTML = thisEvent.name;
+                dateFrom.innerHTML = thisEvent.datefrom;
+                dateTo.innerHTML = thisEvent.dateto;
+                eventDesc.innerHTML = thisEvent.description;
+                eventCategory.innerHTML = thisEvent.category;
+                eventPic.src = thisEvent.picture;
+                eventPrice.innerHTML = thisEvent.price;
+                eventCapacity.innerHTML = thisEvent.capacity;
+                eventHostName.innerHTML = thisEvent.hostName;
+                eventHostDescription.innerHTML = thisEvent.hostDescription;
+                eventHostPic.src = thisEvent.hostPic;
+                eventLikes.innerHTML = thisEvent.likes;
+                eventAdress.innerHTML = thisEvent.address;
+                console.log(eventId)
+            }
+        };
+    xhttp.open("POST", "../backend/new_event.php");
+    var eventObj = { filtered_by: "default" }
+    if (thisEventIs){
+        eventObj = { thisEvent: thisEventIs }
+    }
+    var sendEvent = JSON.stringify(eventObj);
+    xhttp.send(sendEvent);
+     console.log(eventId)
 
 
-
-        // window.addEventListener("load", function () {
-        //     var xhttp = new XMLHttpRequest();
-        //     xhttp.onreadystatechange = function() {
-        //         if (this.readyState == 4 && this.status == 200) {
-        //         var thisEvent = JSON.parse(xhr.responseText);
-        //         eventTitle.innerHTML = thisEvent.thisEventName;
-        //         dateFrom.innerHTML = thisEvent.thisEventDateFrom;
-        //         dateTo.innerHTML = thisEvent.thisEventDateTo;
-        //         eventDesc.innerHTML = thisEvent.thisEventDescription;
-        //         eventLocation.innerHTML = thisEvent.thisEventLocation;
-        //         eventCategory.innerHTML = thisEvent.thisEventCategory;
-        //         eventPic.src = thisEvent.thisEventPic;
-        //         eventPrice.innerHTML = thisEvent.thisEventPrice;
-        //         eventCapacity.innerHTML = thisEvent.thisEventCapacity;
-        //         eventHostName.innerHTML = thisEvent.hostName;
-        //         eventHostDescription.innerHTML = thisEvent.hostDescription;
-        //         eventHostPic.src = thisEvent.hostPic;
-        //         eventLikes.innerHTML = thisEvent.likes;
-        //         eventAdress.innerHTML = thisEvent.adress;
-        //         }
-        //     };
-        // xhttp.open("GET", "new_event.php");
-        // xhttp.send();
-        // })
-
-        
-
-
-
+    </script>
+    <script src="./react/allcomments.js" type="text/babel"></script>
+    <script src="./react/commentscomponent.js" type="text/babel"></script>
+    <script src="./react/newcomment.js" type="text/babel"></script>
+    <script src="./react/onecomment.js" type="text/babel"></script>
+    <script src="./react/reply.js" type="text/babel"></script>
+    <script src="App.js" type="text/babel"></script>
+    <script type="text/babel">
+        ReactDOM.render(<App/>, document.querySelector('#root'));
     </script>
     
 </body>
