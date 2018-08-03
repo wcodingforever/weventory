@@ -45,7 +45,7 @@
             border-spacing: 0px;
             border-collapse: collapse;
         }
-        #read_article_container tr,#read_article_container td{
+        #read_article_container tr, #read_article_container td{
             border:solid 1px black;
         }
 
@@ -137,19 +137,19 @@
             width: 78px;
         }
         .d_kind{
-            width: 232px;
+            width: 196px;
         }
         .n_title{
             width: 78px;
         }
         .d_title{
-            width: 682px;
+            width: 651px;
         }
         .n_pw{
             width: 106px;
         }
         .d_pw{
-            width: 644px;
+            width: 308px;
         }
         div.d_content{
             height: 600px;
@@ -176,6 +176,9 @@
         }
         #readA_content.showContent{
             color: black;
+        }
+        .container{
+            margin: 90px 0px;
         }
     </style>
 </head>
