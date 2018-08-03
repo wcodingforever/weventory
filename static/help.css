@@ -87,6 +87,7 @@ tr .title{
 #write_article_container{
     width: 950px;
     margin: 40px auto;
+    height: 900px;
 }
 #new_article #sticky_field{
     background-color: yellow;
@@ -173,8 +174,10 @@ tr .title{
     background-color: #ffffff;
     height: 51px;
     width: 139px;
-    margin-left: 681px;
+    margin-left: 683px;
     font-weight: bold;
+    position: relative;
+    top: 44px;
 }
 #new_article #added_tags{
     margin-left: 108px;

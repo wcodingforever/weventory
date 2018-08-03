@@ -32,7 +32,7 @@
         }
         .field:nth-child(7){
             position: absolute;
-            top: 1023px;
+            top: 1060px;
         }
         .field:nth-child(8){
             margin-top: 12px;
@@ -87,18 +87,6 @@
         #enterPW div{
             margin: 8px;
         }
-        #read_article_container .backToBBButton{
-            cursor:pointer;
-            font-size: 20px;
-            color: #2196F3;
-            background-color: #ffffff;
-            height: 51px;
-            width: 156px;
-            font-weight: bold;
-            margin: 20px 0px;
-            position: relative;
-            top: -95px;
-        }
         #write_article_container .backToBBButton{
             cursor:pointer;
             font-size: 20px;
@@ -106,9 +94,10 @@
             background-color: #ffffff;
             height: 51px;
             width: 156px;
+            margin: 20px 0px;
             font-weight: bold;
             position: relative;
-            top: 55px;
+            top: 116px;
         }
         .container{
             width: 745px;
