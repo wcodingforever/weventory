@@ -64,8 +64,9 @@
             background-color: #ffffff;
             height: 51px;
             width: 162px;
-            margin-left: 1174px;
             font-weight: bold;
+            position: relative;
+            left: 1118px;
         } 
         .hideContent{
             color: #e7e5e2;
@@ -694,6 +695,7 @@ allRowsInBB.forEach(function(thisOne, i) {
 });
 
 ///////////////////////////////////Read article part////////////////////////////////////////////
+// The passwords of all private parent/child(reply) articles are same; 1234 
 var pwOfPrivateArti;
 var elemForContent = readArticle_table.querySelector("#readA_content");
 
