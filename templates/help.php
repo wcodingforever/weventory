@@ -53,6 +53,18 @@
             border:solid 1px black;    
             width: 94px;
         }
+        #read_article_container .backToBBButton{
+            cursor:pointer;
+            font-size: 20px;
+            color: #2196F3;
+            background-color: #ffffff;
+            height: 51px;
+            width: 156px;
+            margin: 20px 0px;
+            font-weight: bold;
+            position: relative;
+            top: -93px;
+        }
         #bulletin_board_container #pageNumbers{
             text-align: center;
             margin: 40px 0;
@@ -99,11 +111,7 @@
             position: relative;
             top: 116px;
         }
-        .container{
-            width: 745px;
-            margin: 50px 0px;
-            margin-left: 149px;
-        }
+        
         .container div{
             padding: 3px;
         }
