@@ -20,25 +20,22 @@
         }
         .field:nth-child(3){
             display:inline-block;
-            margin-left: 0px;
+            margin-top: 10px;
         }
         .field:nth-child(4){
             display: inline-block;
             margin-left: 38px;
         }
         .field:nth-child(5) .field_name{
-            position: static;
-            top: 0;
+            position: relative;
+            top: -494px;
         }
-        #new_article input[name=author]{
-            margin-left: 43px;
+        .field:nth-child(7){
+            position: absolute;
+            top: 1023px;
         }
         .field:nth-child(8){
             margin-top: 12px;
-        }
-        .field:nth-child(6) .field_name{
-            position: relative;
-            top: -493px;
         }
         .field:nth-child(7) .field_name{
             display: inline-block;
@@ -56,12 +53,6 @@
             border:solid 1px black;    
             width: 94px;
         }
-
-        #read_article_container td#readA_content{
-            height: 500px;
-            vertical-align: top;
-            overflow-y: scroll;
-        }
         #bulletin_board_container #pageNumbers{
             text-align: center;
             margin: 40px 0;
@@ -73,11 +64,17 @@
             background-color: #ffffff;
             height: 51px;
             width: 162px;
-            margin-left: 1317px;
+            margin-left: 1174px;
             font-weight: bold;
         } 
         .hideContent{
             color: #e7e5e2;
+        }
+        td.showContent{
+            color: black;
+        }
+        .hideField{
+            visibility: hidden;
         }
         #enterPW{
             width: 500px;
@@ -85,10 +82,103 @@
             text-align: center;
             position: absolute;
             top: 605px;
-            left: 632px;
+            left: 503px;
         }
         #enterPW div{
             margin: 8px;
+        }
+        #read_article_container .backToBBButton{
+            cursor:pointer;
+            font-size: 20px;
+            color: #2196F3;
+            background-color: #ffffff;
+            height: 51px;
+            width: 156px;
+            font-weight: bold;
+            margin: 20px 0px;
+            position: relative;
+            top: -95px;
+        }
+        #write_article_container .backToBBButton{
+            cursor:pointer;
+            font-size: 20px;
+            color: #2196F3;
+            background-color: #ffffff;
+            height: 51px;
+            width: 156px;
+            font-weight: bold;
+            position: relative;
+            top: 55px;
+        }
+        .container{
+            width: 745px;
+            margin: 50px 0px;
+            margin-left: 149px;
+        }
+        .container div{
+            padding: 3px;
+        }
+        .n_id{
+            width: 35px;
+        }
+        .d_id{
+            width: 80px;
+        }
+        .n_date{
+            width: 78px;
+        }
+        .d_date{
+            width: 239px;
+        }
+        .n_author{
+            width: 103px;
+        }
+        .d_author{
+            width: 200px;
+        }
+        .n_kind{
+            width: 78px;
+        }
+        .d_kind{
+            width: 232px;
+        }
+        .n_title{
+            width: 78px;
+        }
+        .d_title{
+            width: 682px;
+        }
+        .n_pw{
+            width: 106px;
+        }
+        .d_pw{
+            width: 644px;
+        }
+        div.d_content{
+            height: 600px;
+            margin: 3px 0px;
+            padding: 0px;
+            width: 741px;
+            overflow-y: scroll;
+        }
+        .rows{
+            display:flex;
+            /* width:  */
+        }
+        .fn{
+            background-color: #cfcece91;
+        }
+        .data{
+            background-color: #f5f5f54f;
+        }   
+        #titleForReplys{
+            font-size: 52px;
+            font-family: cursive;
+            color: gray;
+            margin: 40px 0px;
+        }
+        #readA_content.showContent{
+            color: black;
         }
     </style>
 </head>
@@ -232,10 +322,6 @@
             <!-- If authour is admin, sticky field'll be visible!! -->
             <div class="field" id="sticky_field">              
                     <label class="field_name" for="sticky">Sticky off</label> <input id="sticky" type="checkbox" value="sticky" name="sticky">
-            </div>
-            <div class="field">      
-                <div class="field_name"><span style="color:red;">*</span> Author</div>
-                <input type="text" name="author"/>        
             </div>            
             <div class="field">              
                 <div class="field_name"><span style="color: red;">*</span> Title</div>
@@ -277,6 +363,7 @@
                 <input type="file" name="file" accept="audio/*,video/*,image/*" > 
                 <div id="added_files"></div>
             </div>
+            <button class='backToBBButton' onclick="backToBB();" ><i class="fas fa-chevron-left"></i><i class="fas fa-chevron-left"></i>Back</button>
             <input id="write_article_submit_button" type="button" value="Submit" onclick="sendArticle(event);">
         </div>
     </div>
@@ -301,6 +388,7 @@
             </tr>
         </table>
         <button id='readA_replyButton' onclick="sendTitleForReply()">Reply</button>
+        <button class='backToBBButton' onclick="backToBB();" ><i class="fas fa-chevron-left"></i><i class="fas fa-chevron-left"></i>Back</button>
     </div>
 
 
@@ -310,6 +398,7 @@
 <script>
 ////////////////////////////////////////bulletin board/////////////////////////////////////////
 // const writeArticleForm = document.getElementsByTagName("form")[0];
+const user_login = "<?php echo $user_login; ?>";
 const writeArticleForm = document.querySelector("#new_article");
 
 //Toggle each part (bulletin board/ write article/ read article)
@@ -342,8 +431,19 @@ togglePg(read_article_container, false);
 const write_button = document.querySelector("#write_button");
 write_button.addEventListener("click", function(){
     togglePg(write_article_container, true);
-    togglePg(bulletin_board_container, false);    
-})
+    togglePg(bulletin_board_container, false);
+    
+    let sticky_f = write_article_container.querySelector("#sticky_field");
+    if(user_login !== "admin"){
+        sticky_f.classList.add("hideField");
+    }else{        
+        sticky_f.classList.remove("hideField");
+    }
+});
+
+function backToBB(){
+    window.location = "http://localhost/New%20folder/weventory/templates/help.php";    
+}
 
 // 1. Tags
 // Add the tage which a user wrote when thte user enter the tags which he/she wants and hit "endter" key!!
@@ -486,6 +586,10 @@ stickyOrNot.addEventListener("change", function (){
 // 4. Send article to database.
 function sendArticle(e){
     e.preventDefault();
+    let author_id = user_login;
+    if(author_id === ""){
+        author_id = "Anonymous";
+    }
     let select = writeArticleForm.querySelector("select[name=kind]");
     let files = [];
     file_inputs.forEach(function(file_input){
@@ -507,7 +611,6 @@ function sendArticle(e){
     let json_tags = JSON.stringify(tags);
 
     let sticky = writeArticleForm.querySelector("input[name=sticky]").checked;
-    let author_id = writeArticleForm.querySelector("input[name=author]").value;
     let title = writeArticleForm.querySelector("input[name=title]").value;
     let password = writeArticleForm.querySelector("input[name=password]").value;
     let kind = select.options[select.selectedIndex].value;
@@ -538,9 +641,7 @@ function sendArticle(e){
             parent_article_id: parent_article_id
         };
 
-
         console.log(obj);
-
         let json = JSON.stringify(obj);
 
         const ajax = new XMLHttpRequest();
@@ -563,10 +664,9 @@ function sendArticle(e){
         writeArticleForm.querySelector("input[name=title]").value = "";
         writeArticleForm.querySelector("input[name=author]").value = "";
         writeArticleForm.querySelector("input[name=password]").value = "";
+        writeArticleForm.querySelector("textarea").value = "";        
         select.selectedIndex = 0;
         writeArticleForm.querySelector("textarea").value = ""; 
-        tags = [];
-        new_tag = "";
         input_for_tags.value = "";
         added_tags.innerHTML = "";
         added_files.innerHTML = "";
@@ -595,8 +695,10 @@ allRowsInBB.forEach(function(thisOne, i) {
     })
 });
 
+///////////////////////////////////Read article part////////////////////////////////////////////
 var pwOfPrivateArti;
 var elemForContent = readArticle_table.querySelector("#readA_content");
+
 function showArticle(inId){
     togglePg(read_article_container, true);
     togglePg(bulletin_board_container, false);
@@ -604,8 +706,16 @@ function showArticle(inId){
     const ajax = new XMLHttpRequest();
     ajax.onreadystatechange = function(){
         if(this.readyState == 4 && this.status == 200 ){
-            let json_article = ajax.responseText;
-            let articleObj = JSON.parse(json_article);
+            // $result = [
+            //     "article"=>$article,
+            //     "childArticles"=>$childArticles    
+            // ]
+            let json = ajax.responseText;
+            let assoc = JSON.parse(json);
+            console.log(assoc);
+            let articleObj = assoc["article"];
+            let childArticles = assoc["childArticles"];
+  
             let privateOrNot = "Public";
             if(articleObj["password"] !== null){
                 privateOrNot = "Private";
@@ -638,12 +748,103 @@ function showArticle(inId){
                 elemForContent.innerHTML += "<div id='enterPW'>" +
                                                 "<div id='instruction' style='color:black;'>Please enter the password to read the article.</div>" +
                                                 "<input type='password' name='password' width='60px'/>" +
-                                                "<button onclick='showPrivateArticle()'>Enter</button>" +
+                                                "<button onclick='showPrivateArticle(this)'>Enter</button>" +
                                             "</div>";
             }      
 
             //For a reply article
             title_forReply = articleObj["title"];
+            // let html_forChildA ="<div class='container'><div class='rows'><div class='n_id fn'>ID</div><div class='d_id data'></div><div class='n_date fn'>Date</div><div class='d_date data></div><div class='n_kind fn'>Kind</div><div class='d_kind data'></div>" +
+            //                     "</div><div class='n_title fn'>Title</div><div class='d_title data'></div><div class='n_author fn'>Author</div><div class='d_author data'></div>" +
+            //                     "</div><div class='rows'><div class='n_pw fn'>Private</div><div class='d_pw data'></div></div><div class='rows d_content data'></div></div>";
+            
+            read_article_container.innerHTML += "<div id='titleForReplys'>Reply...</div>";
+
+            let rows = createElems("div", ["rows"], null, 3);
+            let n_id = createElems("div", ["n_id", "fn"], null);
+            n_id.innerHTML = "ID";
+            let d_id = createElems("div", ["d_id", "data"], null);
+            let n_date = createElems("div", ["n_date", "fn"], null);
+            n_date.innerHTML = "Date";
+            let d_date = createElems("div", ["d_date", "data"], null);
+            let n_kind = createElems("div", ["n_kind", "fn"], null);
+            n_kind.innerHTML = "Kind";            
+            let d_kind = createElems("div", ["d_kind", "data"], null);
+            let n_title = createElems("div", ["n_title", "fn"], null);
+            n_title.innerHTML = "Title";            
+            let d_title = createElems("div", ["d_title", "data"], null);
+            let n_author = createElems("div", ["n_author", "fn"], null);
+            n_author.innerHTML = "Author";            
+            let d_author = createElems("div", ["d_author", "data"], null);
+            let n_pw = createElems("div", ["n_pw", "fn"], null);
+            n_pw.innerHTML = "Private";            
+            let d_pw = createElems("div", ["d_pw", "data"], null);
+            let d_content = createElems("div", ["rows", "d_content", "data"], null);
+            let aContainer = createElems("div", ["container"], null);            
+            rows[0].appendChild(n_id);
+            rows[0].appendChild(d_id);
+            rows[0].appendChild(n_date);
+            rows[0].appendChild(d_date);
+            rows[0].appendChild(n_kind);
+            rows[0].appendChild(d_kind);
+            rows[1].appendChild(n_title);
+            rows[1].appendChild(d_title);
+            rows[2].appendChild(n_author);
+            rows[2].appendChild(d_author);
+            rows[2].appendChild(n_pw);
+            rows[2].appendChild(d_pw);
+
+
+            //Show all child articles of the article...
+            for(let i = 0; i < childArticles.length; i++){
+                let thisArticle = childArticles[i];
+                read_article_container.innerHTML += "<div class='container'><div>";
+                let containers = read_article_container.querySelectorAll(".container");
+                let thisContainer = containers[containers.length - 1];
+                thisContainer.appendChild(rows[0]);
+                thisContainer.appendChild(rows[1]);
+                thisContainer.appendChild(rows[2]);            
+                thisContainer.appendChild(d_content);
+
+                let e_id = thisContainer.querySelector(".d_id");
+                let e_date = thisContainer.querySelector(".d_date");
+                let e_kind = thisContainer.querySelector(".d_kind");
+                let e_title = thisContainer.querySelector(".d_title");
+                let e_author = thisContainer.querySelector(".d_author");
+                let e_private = thisContainer.querySelector(".d_pw");
+                let e_content = thisContainer.querySelector(".d_content");
+                let privateOrNot = "Public";
+
+                e_id.innerHTML = thisArticle["id"];
+                e_date.innerHTML = thisArticle["date"];
+                e_kind.innerHTML = thisArticle["kind"];
+                e_title.innerHTML = thisArticle["title"];
+                let author_id = thisArticle["author_id"];
+                
+                if(author_id === null){
+                    author_id = "Anonymous";
+                }
+
+                e_author.innerHTML = author_id;
+                e_content.innerHTML = thisArticle["content"];
+
+                if(thisArticle["password"] !== null){
+                    let id = thisArticle["id"];
+                    privateOrNot = "Private";
+                    e_content.id = "pr_content_" + id; 
+                    e_content.classList.add("hideContent");
+                    e_content.innerHTML += "<div class='enter_pw'>" +
+                                                "<div class='instruction' style='color:black;'>Please enter the password.</div>" + 
+                                                "<input type='password' name='password'>" +
+                                                "<button id='ca_bt_" + id + "'  onclick='showChild(this)'>Enter<button>"
+                                            "</div>";
+                }
+
+                e_private.innerHTML = privateOrNot;
+                
+
+            }
+            
         }
     }
     ajax.open( "POST", "../backend/getArticles_help.php", true);
@@ -651,11 +852,38 @@ function showArticle(inId){
     
 }
 
-function showPrivateArticle(){
-    let pw = document.querySelector("#enterPW input[name='password']").value;
+function createElems( tagName, class_l=null, id=null, num=1){
+    let elems = [];
+    for(let i = 0; i< num; i++ ){
+        let elem = document.createElement(tagName);
+        if(class_l !==null){
+            for(let k = 0; k < class_l.length; k++){
+                elem.classList.add(class_l[k]);
+            }
+        }
+        if(id !==null){
+            elem.id = id;
+        }
+        elems.push(elem);
+    }
+    if(num === 1) return elems[0];
+    else return elems;
+}
+
+function showChild(elem){
+    let id = elem.id.slice(6);
+    let this_d_content = document.querySelector(".container #pr_content_" + id);
+    this_d_content.classList.remove("hideContent");
+    elem.parentElement.classList.add("hideField");
+}
+
+function showPrivateArticle(elem){
+    let pw = read_article_container.querySelector("input[name=password]").value;
+    let e_content = read_article_container.querySelector("#readA_content");
     if(pw === pwOfPrivateArti){
-        elemForContent.classList.remove("hideContent");
-        elemForContent.removeChild(elemForContent.childNodes[1]);
+        e_content.classList.remove("hideContent");
+        e_content.classList.add("showContent");
+        elem.parentElement.classList.add("hideField");
     }else{
         alert("Please enter the correct password.");
     }
@@ -670,6 +898,12 @@ function sendTitleForReply(){
     reply = true; 
     togglePg(read_article_container, false);
     togglePg(write_article_container, true);
+    let sticky_f = write_article_container.querySelector("#sticky_field");
+    if(user_login !== "admin"){
+        sticky_f.classList.add("hideField");
+    }else{        
+        sticky_f.classList.remove("hideField");
+    }
 }
 
 </script>

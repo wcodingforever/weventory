@@ -46,7 +46,9 @@
 
         if(userName !== "") {
             logoutButton.style.display = "block";
-            userButtons.style.display = "none";
+            userButtons.forEach(function(userButton, i){
+                userButton.style.display = "none";
+            });
         }
 
         mobileMenuButton.addEventListener("click", function(){

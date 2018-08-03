@@ -43,14 +43,28 @@ if ($jsonObj !== null) {
         //To create a bullutine board, send only data of needed cols! 
         if ($jsonObj->type === "id") {
             $id = $jsonObj->id;
-            $stmt_3 = $connection->prepare("SELECT `id`, `date`, `author_id`, `title`, `hits`, `sticky`, 
+            $stmt_1 = $connection->prepare("SELECT `id`, `date`, `author_id`, `title`, `hits`, `sticky`, 
             `kind`, `password`, `content`, `tags`, `files`
             FROM `help_articles` WHERE `id` = :id;");
 
-            $stmt_3->bindParam(":id", $id);
-            $stmt_3->execute();
+            $stmt_1->bindParam(":id", $id);
+            $stmt_1->execute();
+            $article = $stmt_1->fetch(PDO::FETCH_ASSOC); 
+            
+            $stmt_2 = $connection->prepare("UPDATE `help_articles` AS h SET h.`hits` = (h.`hits` + 1) WHERE `id`= :id;");
+            $stmt_2->bindParam(":id", $id);
+            $stmt_2->execute();
 
-            $result = $stmt_3->fetch(PDO::FETCH_ASSOC);
+            $stmt_3 = $connection->prepare("SELECT `id`, `date`, `author_id`, `title`, `sticky`, 
+            `kind`, `password`, `content`, `tags`, `files` FROM `help_articles` WHERE `parent_article_id`=:parent_article_id;"); 
+            $stmt_3->bindParam(":parent_article_id", $id);
+            $stmt_3->execute();
+            $childArticles = $stmt_3->fetchAll(PDO::FETCH_ASSOC);
+            
+            $result = [
+                "article"=>$article,
+                "childArticles"=>$childArticles    
+            ];
         }
 
     } catch(PDOException $e) {

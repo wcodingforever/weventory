@@ -144,7 +144,7 @@ tr .title{
     margin-top: 3px;
 }
 #new_article input[name=password]{
-    margin-left: 20px;
+    margin-left: 37px;
     width: 60px;
 }
 
@@ -173,12 +173,12 @@ tr .title{
     background-color: #ffffff;
     height: 51px;
     width: 139px;
-    margin-left: 678px;
+    margin-left: 681px;
     font-weight: bold;
 }
 #new_article #added_tags{
     margin-left: 108px;
-    margin-top: 5px;
+    margin-top: 11px;
 }
 .pgNums{
     cursor: pointer;
@@ -218,7 +218,25 @@ tr .title{
     margin: 20px 0px;
     margin-left: 744px;
 }
+/* #read_article_container #backToBBButton{
+    cursor:pointer;
+    font-size: 20px;
+    color: #2196F3;
+    background-color: #ffffff;
+    height: 51px;
+    width: 156px;
+    font-weight: bold;
+    margin: 20px 0px;
+    margin-left: 744px;
+} */
 
 .file_detail_size {
     margin: 0 20px;
+}
+.container .enter_pw{
+    position: relative;
+    top: 243px;
+    left: 138px;
+    height: 57px;
+    width: 350px;
 }
