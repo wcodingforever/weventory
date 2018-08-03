@@ -66,7 +66,7 @@
             width: 162px;
             font-weight: bold;
             position: relative;
-            left: 1118px;
+            left: 1444px;
         } 
         .hideContent{
             color: #e7e5e2;
