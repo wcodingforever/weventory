@@ -101,11 +101,6 @@
     </div>
 
     <script>
-    // $(document).ready(function(){
-
-    //     $.post('')
-
-    // })
         var submitButton = document.querySelector("#submitbutton");
         var eventTitle = document.querySelector("#eventtitle");
         var dateFrom = document.querySelector("#datefrom");

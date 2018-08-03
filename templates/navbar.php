@@ -42,7 +42,7 @@
         var mobileMenu = document.querySelector("#mobilemenu");
         var userButtons = document.querySelectorAll(".userbuttons");
         var logoutButton =document.querySelector("#logoutbutton");
-        var userName = "<?php echo ($user_login); ?>";
+        var userName = "<?php echo ($user_login);?>";
 
         if(userName !== "") {
             logoutButton.style.display = "block";
