@@ -28,12 +28,14 @@
 $result = "sent";
 
 function convertData($input){
-    if($input === ""){
+    if($input === "" || $input === "[]"){
         return null;
     }else if($input === true){
         return 1;
     }else if($input === false){
         return 0;
+    }else{
+        return $input;
     }
 }
 
@@ -49,7 +51,7 @@ $sticky = convertData($assArr["sticky"]);
 // $parent_article_id = null;
 // $re_step = null;
 $files = convertData($assArr["files"]);
-$password = convertData($assArr["password"]);
+$arti_password = convertData($assArr["password"]);
 $tags = convertData($assArr["tags"]);
 
 //Chk if datas fro all necessary fieds were sent 
@@ -62,14 +64,23 @@ if(isset($author_id) && isset($title) && isset($content) && isset($kind)){
             VALUES
                 (:sticky, :author_id, :title, :kind, :content, :password, :tags, :files);");
 
+        function passNullOrData($dataname, $data, $stmt){
+            if($data === null){
+                $stmt->bindValue(':'. $dataname, null, PDO::PARAM_NULL);
+            }else{
+                $stmt->bindParam(':'. $dataname, $data);
+            }
+        }
+
         $stmt->bindParam(':sticky', $sticky);
         $stmt->bindParam(':author_id', $author_id);
         $stmt->bindParam(':title', $title);
         $stmt->bindParam(':kind', $kind);
         $stmt->bindParam(':content', $content);
-        $stmt->bindParam(':password', $password);
-        $stmt->bindParam(':tags', $tags);
-        $stmt->bindParam(':files', $files);
+        passNullOrData("password", $arti_password, $stmt);
+        passNullOrData("tags", $tags, $stmt);
+        passNullOrData("files", $files, $stmt);
+
         $stmt->execute();
 
         $connection = null;
@@ -83,6 +94,9 @@ if(isset($author_id) && isset($title) && isset($content) && isset($kind)){
     $result = "ERROR: The data for all necessary fields were not sent.";
 }
 
-echo $result;
+// if an error happned, report about the error by printing an error msg in the console.
+if($result !== "sent"){
+    echo $result;
+}
 
 ?>

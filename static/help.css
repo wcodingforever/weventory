@@ -1,0 +1,170 @@
+.field_name{
+    display: inline-block;
+}
+#column_names th{
+    border-left:1px solid;        
+    border-bottom :1px solid;
+}
+#bullutine_board td{
+    border-left:1px solid;        
+    border-bottom :1px solid;
+}
+#bullutine_board .id{
+    width: 60px;
+}
+#bullutine_board .kind{
+    width: 142px;
+}
+#bullutine_board .title{
+    width: 650px;        
+}
+#bullutine_board .author{
+    width: 100px;        
+}
+#bullutine_board .date{        
+    width: 120px;
+}
+#bullutine_board .hits{
+    width: 60px;        
+}
+input[name=kind]{
+    display: none;
+}
+.kind_option{
+    display: inline-block;
+}
+.kind_option > label{
+    cursor: pointer;
+}
+.tag{
+    background-color: #c3c3c3a1;
+    margin: 0 2px;
+    color: #2b2a2a;
+    font-size: 0.8em;
+    cursor: pointer;
+} 
+input[type=file]{
+    display: none;
+}
+.close_icons{
+    cursor: pointer;
+}
+#write_readAcle_container{
+    border:1px solid;
+}
+tr .title{
+    cursor: pointer;
+}
+.field{
+    margin: 5px 0px;
+}
+#new_article #sticky_field{
+    background-color: yellow;
+    color: black;
+    width: 91px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border: 1px solid brown;
+    border-bottom-color: transparent;
+    text-align: center;
+}
+#new_article #sticky_field:hover {
+    background-color:blue;
+    color: white;
+}
+#write_article_container #new_article .sticky_is_on {
+    background-color:blue;
+    color: white; 
+}
+#new_article #sticky_field input{
+    display: none;
+}
+#new_article #sticky_field:hover{
+    background-color: blue;
+    cursor: pointer;        
+}
+#new_article input[name=title]{
+    margin-left: 62px;
+    width: 500px;
+}
+.field:nth-child(2){
+    display:inline-block;
+}
+.field:nth-child(3){
+    display:inline-block;
+    margin-left: 40px;
+}
+.field:nth-child(7){
+    margin-top: 12px;
+}
+.field:nth-child(5) .field_name{
+    position: relative;
+    top: -493px;
+}
+.field:nth-child(6) .field_name{
+    display: inline-block;
+}
+#instructionForTags{
+    display: inline-block;
+    margin: 10px 0px;
+    margin-left: 74px;
+    margin-top: 3px;
+}
+#new_article input[name=password]{
+    margin-left: 20px;
+    width: 60px;
+}
+#new_article select{
+    margin-left: 59px;
+    font-size: 16px;
+}
+#new_article textarea{
+    margin-left: 27px;
+    margin-top: 9px;
+    width: 702px;
+    height: 500px;
+}
+#new_article input[name=tags]{
+    margin-left: 108px;
+    margin-right: 17px;
+}
+#new_article #file_button{
+    margin-left: 80px;
+    margin-right: 19px;
+}
+#new_article #write_article_submit_button{
+    width: 67px;
+    height: 50px;
+    margin: 10px 0px;
+    margin-left: 750px;
+}
+#new_article #added_tags{
+    margin-left: 108px;
+    margin-top: 5px;
+}
+.pgNums{
+    cursor: pointer;
+}
+#readArticleContainer table{
+    width: 900px;
+    border-spacing: 0px;
+    border-collapse: collapse;
+}
+#readArticleContainer tr,#readArticleContainer td{
+    border:solid 1px black;
+}
+
+#readArticleContainer th{
+    border:solid 1px black;    
+    width: 94px;
+}
+
+#readArticleContainer td#readA_content{
+    height: 500px;
+    vertical-align: top;
+    overflow-y: scroll;
+} 
+
+.file_detail_size {
+    margin: 0 20px;
+}

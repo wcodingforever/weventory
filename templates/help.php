@@ -1,61 +1,51 @@
-<?php 
-// include '../backend/_navbarSession.php';
-?><head>
+<?php
+    require 'headerall.php';
+    checkSession(FALSE);
+
+    $currPage = 1;
+    $perPage = 10; // How many results per page.
+
+    if (isset($_REQUEST['page'])) {
+        $currPage = intval($_REQUEST['page']);
+    }
+
+    require '../backend/getArticles.php';
+?>
+    <link rel="stylesheet" href="../static/help.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
     <title>Help</title>
-<style>
-    .field_name{
-        display: inline-block;
-    }
-    .kind_option{
-        display: inline-block;
-    }
-    .kind_option > label{
-        cursor: pointer;
-    }
-    input[name=kind]{
-        display: none;
-    }
-    .tag{
-        background-color: #c3c3c3a1;
-        margin: 0 2px;
-        color: #2b2a2a;
-        font-size: 0.8em;
-        cursor: pointer;
-    } 
-    input[type=file]{
-        display: none;
-    }
-    .close_icons{
-        cursor: pointer;
-    }
-    #write_article_container{
-        border:1px solid;
-    }
-    input[name=password]{
-        width: 21px;
-    }
-    .field{
-        
-    }
-</style>
+    <style>
+        #readArticleContainer table{
+            width: 900px;
+            border-spacing: 0px;
+            border-collapse: collapse;
+        }
+        #readArticleContainer tr,#readArticleContainer td{
+            border:solid 1px black;
+        }
+
+        #readArticleContainer th{
+            border:solid 1px black;    
+            width: 94px;
+        }
+
+        #readArticleContainer td#readA_content{
+            height: 500px;
+            vertical-align: top;
+            overflow-y: scroll;
+        }
+    </style>
 </head>
-<?php include 'headerall.php';?>
+<body>
+    <?php include 'navbar.php'; ?>
 
-
-    <!-- Logo & App name -->
-    <div>--Logo and App name--</div>
-    <!-- Top menu -->
-    <div>--Top menu--</div>
-
-    <!-- Mainn title -->
     <div id="main_title">Can We Help you?</div>
 
     <!-- Search box -->
-    <!-- A user can search articles by title/content/author/tags -->
+    <!-- A user can search readAcles by title/content/author/tags -->
     <div id="search_bar">
         <i class="fas fa-search"></i>
-        <input id="input_for_search" type="text" placeholder="Search articles..">
+        <input id="input_for_search" type="text" placeholder="Search readAcles..">
     </div>
     <div id="kind_options">
         <div class="kind_option">
@@ -82,29 +72,100 @@
 
     </div>
 
-    <!-- Bullutine board -->
-    <div>--Bullutine board--</div>
-    <table id="bullutine_board">
-        <tr id="column_names">
-            <th id="number">No.</th>
-            <th id="title">Title</th>
-            <th id="author">Author</th>
-            <th id="date">Date</th>
-            <th id="hits">Hits</th>
-        </tr>
-    </table>
+    <!-- bulletin board -->
+    <div>--bulletin board--</div>
+    <div id="bulletin_board_container">
+        <table>
+            <thead>
+                <tr id="column_names">
+                    <th id="number">No.</th>
+                    <th id="kind">Kind</th>            
+                    <th id="title">Title</th>
+                    <th id="author">Author</th>
+                    <th id="date">Date</th>
+                    <th id="hits">Hits</th>
+                </tr>
+            </thead>
+            <tbody id="bulletin_board">
+            <?php
+                for ($i = 0; $i < count($allArticles); $i++) {
+                    $thisRow = $allArticles[$i];
+
+                    // foreach ($thisRow as $thisKey => $thisVal) {
+                    $thisRowKeys = array_keys($thisRow);
+                    for ($j = 0; $j < count($thisRowKeys); $j++) {
+                        $thisKey = $thisRowKeys[$j];
+                        $thisVal = $thisRow[$thisKey];
+                        if ($thisKey === 'sticky') {
+                            if ($thisVal === '1') {
+                                echo "<tr style='background-color:pink;color:blue;'>";
+                            }
+                            else {
+                                echo "<tr>";
+                            }
+                        }
+                        else {
+                            if ($thisKey === 'date') {
+                                $phpdate = strtotime( $thisVal );
+
+                                $today = new DateTime(); // This object represents current date/time
+                                $today->setTime( 0, 0, 0 ); // reset time part, to prevent partial comparison
+
+                                $match_date = DateTime::createFromFormat( "Y-m-d H:i:s", $thisVal );
+                                // $match_date = strtotime($thisVal);
+                                $match_date->setTime( 0, 0, 0 ); // reset time part, to prevent partial comparison
+
+                                $diff = $today->diff( $match_date );
+                                $diffDays = (integer)$diff->format( "%R%a" ); // Extract days count in interval
+
+                                $thisVal = explode(" ", $thisVal);
+
+                                if ($diffDays === 0) {
+                                    $thisVal = $thisVal[1];
+                                }
+                                else {
+                                    $thisVal = $thisVal[0];
+                                }
+                            }
+                            echo "<td class='{$thisKey}'>{$thisVal}</td>";
+                        }
+
+                        if ($j === (count($thisRowKeys) - 1)) { echo "</tr>"; }
+                    }
+                }
+
+            ?>
+            </tbody>
+        </table>
+        <div id="pageNumbers"><?php
+            $numOfPgs = 0;
+            if(($totalArticles % $perPage) === 0) { $numOfPgs = floor($totalArticles/$perPage); }
+            else { $numOfPgs = floor($totalArticles/$perPage) + 1; }
+
+            for ($i = 1; $i <= $numOfPgs; $i++) {
+                if ($i !== $currPage) {
+                    echo "<a class='pgNums' id='p_{$i}' href='help.php?page={$i}'>[{$i}]</a>";
+                }
+                else {
+                    echo "<span class='pgNums' id='p_{$i}'>[{$i}]</span>";
+                }
+            }
+
+
+        ?></div>
+    </div>
 
     <button id="write_button">Write</button>
 
-    <!-- If a user click on the write button,  the components above(article list) will be replaced with the components below(wirte form).-->
+    <!-- If a user click on the write button,  the components above(readAcle list) will be replaced with the components below(wirte writeArticleForm..-->
 
     <div id="write_article_container">
-        <form id="new_article">
+        <div id="new_article">
             <!-- ***Sticky field!! -->
             <!-- (Default) invisioble!! -->
             <!-- If authour is admin, sticky field'll be visible!! -->
             <div class="field" id="sticky_field">              
-                    <label class="field_name" for="sticky">Sticky</label> <input id="sticky" type="checkbox" value="sticky" name="sticky">
+                    <label class="field_name" for="sticky">Sticky off</label> <input id="sticky" type="checkbox" value="sticky" name="sticky">
             </div>
             <div class="field">              
                 <div class="field_name"><span style="color: red;">*</span> Title</div>
@@ -133,8 +194,8 @@
                 <textarea name="content"></textarea>
             </div>
             <div class="field">
-                <div class="field_name">Tags</div>
-                <input type="text" name="tags"> MAX. 10 tags
+                <div class="field_name">Tags</div><div id="instructionForTags">To add a tag, enter a tag and hit the enter key. To delete, click on the tag to delete.</div>
+                <div><input type="text" name="tags"> MAX. 10 tags</div>
                 <div id="added_tags"></div>
             </div>
             <div class="field">
@@ -143,11 +204,33 @@
                 <label for="file_button"> MAX. 3 files</label>
                 <input type="file" name="file" accept="audio/*,video/*,image/*" >
                 <input type="file" name="file" accept="audio/*,video/*,image/*" >                
-                <input type="file" name="file" accept="audio/*,video/*,image/*" >                
+                <input type="file" name="file" accept="audio/*,video/*,image/*" > 
                 <div id="added_files"></div>
             </div>
-            <input id="write_article_submit_button" type="submit" value="Submit" onClick="sendArticle(event);">
-        </form>
+            <input id="write_article_submit_button" type="button" value="Submit" onclick="sendArticle(event);">
+        </div>
+    </div>
+
+    <div id="readArticleContainer">
+        <table>
+            <tr>
+                <th>No.</th><td id="readA_id"></td><th>Kind</th><td id="readA_kind"></td>
+                 <th>Author</th><td id="readA_author"></td><th>Date</th><td id="readA_date"></td><th>Private</th><td id="readA_private"></td>
+            </tr> 
+            <tr>
+                <th>Title</th><td colspan="9" id="readA_title"></td>
+            </tr>
+            <tr>
+                <th>Tags</th><td colspan="9" id="readA_tags">
+            </tr>
+            <tr>
+                <th>Files</th><td colspan="9" id="readA_files">
+            </tr>
+            <tr>
+                <th>Contents</th><td colspan="9" id="readA_content"></td>
+            </tr>
+        </table>
+        <button id='' onclick="sendTitleForReply()">Reply</button>
     </div>
 
 
@@ -155,204 +238,153 @@
 
 
 <script>
-////////////////////////////////////////Bullutine board/////////////////////////////////////////
-window.onload = display_bullutine_board();
+////////////////////////////////////////bulletin board/////////////////////////////////////////
+///////////////////////////////////////////Write part///////////////////////////////////////////
+// const writeArticleForm = document.getElementsByTagName("form")[0];
+const writeArticleForm = document.querySelector("#new_article");
 
-
-const bullutine_board = document.getElementById("bullutine_board");
-
-function display_bullutine_board(){
-    const ajax = new XMLHttpRequest();
-    ajax.onreadystatechange = function(){
-        if(this.status == 200 && this.readyState == 4){
-            console.log("works");
-            // console.log
-        }
-    }
-    ajax.open( "POST", "../backend/getArticles_help.php",true);
-    ajax.send( "all"); 
-}
-
-
-
-///////////////////////////////////////////Wirte part///////////////////////////////////////////
-const form = document.getElementsByTagName("form")[0];
-form.addEventListener("keypress", function(e){
-    if(e.keyCode === 13){
-        e.preventDefault();
-    }
-});
-//Get the id of a user by using $_SESSION('user_id')
-// const user = "user02";
-
-//For sticky field!! => (default) invisioble!!
-// var sticky_field = form.querySelector("#sticky_field");
-// if(user === "admin"){
-    
-//     sticky_field.style.display = "block";
-// }
-
-//1) Tags
-//Add the tage which a user wrote when thte user enter the tags which he/she wants and hit "endter" key!!
-// and   and display all added tags.
-var tags = [];
-var new_tag = "";
+// 1. Tags
+// Add the tage which a user wrote when thte user enter the tags which he/she wants and hit "endter" key!!
+// and and display all added tags.
 var input_for_tags = document.querySelector("input[name=tags]");
 var added_tags = document.getElementById("added_tags");
 input_for_tags.addEventListener("keyup",add_tags);
 
-
+// Add new tags to the list of tags. Must be less than 20 characters. Max 10 tags.
 function add_tags(e){
-    e.preventDefault();
-    if(e.keyCode === 13){
-        var new_tag = input_for_tags.value;
-        if(new_tag !== "" && tags.indexOf(new_tag) === -1 && new_tag.length <= 20){
+    if(e.keyCode === 13) {  // If the key pressed is the Enter key.
+        var errMsg = "";
+        var new_tag = input_for_tags.value.toLowerCase();
 
-            tags.push(new_tag);
+        let allTags = document.querySelectorAll(".tag");
 
-            if(tags.length < 10){
-                added_tags.innerHTML += "<span class='tag'>#" + new_tag + "</span> ";
-            
-            }else{
-                alert("You can't add more than 10 tags!");
+        // Checks to see if the new tag is valid.
+        for (let i = 0; i < allTags.length; i++) {
+            let thisTagElem = allTags[i];
+            if (thisTagElem.innerHTML === "#" + new_tag) {
+                errMsg += "That tag already exists.\n";
+                break;
             }
-            var spans_for_tags = form.querySelectorAll(".tag");
-            spans_for_tags.forEach(function(span){
-                span.addEventListener("click", delete_tag);
-            });
-        
-            input_for_tags.value = "";
+        }
 
-        }else if(new_tag.length > 20){
-            alert("A tag can't be more than 20 letters.");
+        if (new_tag.length > 20) errMsg += "Tags can have more than 20 characters.\n";
+        if (allTags.length === 10) errMsg += "Can not have more than 10 tags.\n";
+
+        // Everything looks good, add the tag.
+        if (new_tag !== "" && errMsg === "") {
+            added_tags.innerHTML += "<span class='tag'>#" + new_tag + "</span> ";
+
+            // For the delete function of each tag.
+            var spans_for_tags = writeArticleForm.querySelectorAll(".tag");
+            spans_for_tags.forEach(function(span){
+                span.addEventListener("click", function() {
+                    // Get name of tag to delete.
+                    let tag_to_delete = this.innerHTML.substr(1);
+
+                    // Remove from the UI.
+                    this.parentElement.removeChild(this);
+                });
+            });
+
+            input_for_tags.value = "";
+        }
+        else {
+            alert(errMsg);
         }
     }
 }
 
-function delete_tag(e){
-    let tag_to_delete = e.target.innerHTML.slice(1);
-
-    let index = tags.indexOf(tag_to_delete);
-    tags.splice(index, 1);
-    added_tags.innerHTML = "";
-    tags.forEach(function(tag){
-        added_tags.innerHTML += "<span class='tag'>#" + tag + "</span> ";
-    });
-    var spans_for_tags = form.querySelectorAll(".tag");
-    spans_for_tags.forEach(function(span){
-        span.addEventListener("click", delete_tag);
-    });
-};
-
 //2. Attatched files
-
 // 2-1. Execute an input which is not holding any file input. 
-const file_button = form.querySelector("#file_button");
+const file_button = writeArticleForm.querySelector("#file_button");
 file_button.addEventListener("click", execute_fileinput);
-var file_inputs = form.querySelectorAll("input[type=file]");
+var file_inputs = writeArticleForm.querySelectorAll("input[type=file]");
 
-var file_holders = {
-    holder_0: null,
-    holder_1: null,
-    holder_2: null,
-};
-
+// Go through all the file inputs and find one that has not been used, and click it.
 function execute_fileinput(){
-    for( let i = 0; i < file_inputs.length; i++){
+    var found = false;
+    for(let i = 0; i < file_inputs.length; i++){
         let this_file_input = file_inputs[i];
         if(this_file_input.files[0] === undefined ){
             this_file_input.click();
+            found = true;
             break;
         }
     }
 
-    if(file_holders["holder_0"] !== null && file_holders["holder_1"] !== null && file_holders["holder_2"] !== null){
-        alert("You can't add more than 3 files.");
-    } 
+    if (!found) { alert("You can't add more than 3 files."); } 
 }
 
 // 2-2. Display a chosen file.
 file_inputs.forEach(function(file_input){
     file_input.addEventListener("change", display_file);
 })
-const added_files = form.querySelector("#added_files");
+const added_files = writeArticleForm.querySelector("#added_files");
 var count = 0;
 
-function display_file(e){
+function display_file(e) {
     let file_name = e.target.files[0].name;
+    let file_size = e.target.files[0].size;
+
     let existOrNot = false;
-    for(let holder_name in file_holders){
-        let file_name_of_this = file_holders[holder_name];
-        if(file_name_of_this === file_name){
-            existOrNot = true;
+    for (let i = 0; i < file_inputs.length; i++) {
+        let thisFile = file_inputs[i];
+        // console.log("thisFile: ", thisFile, " this: ", this, " equal:", this === thisFile);
+        if (this === thisFile) continue;
+        if (thisFile.files.length > 0) {
+            if (thisFile.files[0].name === file_name) {
+                existOrNot = true;
+            }
         }
     }
-    if(existOrNot === false){
 
-        added_files.innerHTML += "<div class='file_name'>" + file_name + 
+    // If the file doesn't already exist, then add it the list. Otherwise, remove the file.
+    if (existOrNot === false) {
+        added_files.innerHTML += "<div class='file_name'><span class='file_detail_name'>" + file_name + "</span><span class='file_detail_size'>" + file_size + " bytes</span>" +
         "  <i class='fas fa-times close_icons' id='holder_" + count + "' onclick='remove_file(event)'></i> </div>";
-        let holder_name = "holder_" + count.toString();
-        file_holders[holder_name] = file_name;
 
-        //Remove a file in the added file list.
+        var allFileLabels = writeArticleForm.querySelectorAll(".close_icons");
+        allFileLabels.forEach(function(elem) {
+            elem.addEventListener("click", function() {
+                let thisFileElem = this.parentElement;
+                let thisFileName = thisFileElem.querySelector(".file_detail_name").innerHTML;
 
-        if(count <2){
-            count++;
-        }else{
-            count = 0;
-        }
+                // Delete the file from file input elements.
+                for (let i = 0; i < file_inputs.length; i++) {
+                    let this_file_input = file_inputs[i];
+                    if (this_file_input.files[0] !== undefined && this_file_input.files[0].name === thisFileName) {
+                        this_file_input.value = "";
+                    }
+                }
+
+                // Delete the div from the list of files on the UI.
+                thisFileElem.parentElement.removeChild(thisFileElem);
+            });
+        });
+
+    } else {
+        e.target.value = "";  // Remove the file from the input.
+    }
+}
+
+// 3. Control the sticky button behavior.
+const stickyOrNot = writeArticleForm.querySelector("input[name=sticky]");
+const stickyBox = stickyOrNot.parentElement;
+
+stickyOrNot.addEventListener("change", function (){
+    if(this.checked === true){
+        stickyBox.querySelector("label").innerText = "Sticky on";
+        stickyBox.classList.add("sticky_is_on");
     }else{
-        e.target.value = "";
+        stickyBox.querySelector("label").innerText = "Sticky off";
+        stickyBox.classList.remove("sticky_is_on");
     }
-}
+});
 
-
-
-
-function remove_file(e){
-    let holder_name = e.target.id;
-    let index = parseInt(holder_name.slice(-1));
-    // console.log(file_inputs[0].files[0]);
-    file_inputs[index].value = "";
-    
-    file_holders[holder_name] = null;  
-    added_files.innerHTML= "";  
-
-    for(let i = 0; i < 3; i ++){
-        let this_file_input = file_inputs[i];
-        if(this_file_input.files[0] !== undefined){
-            let file_name = this_file_input.files[0].name;
-            added_files.innerHTML += "<div class='file_name'>" + file_name + 
-            "  <i class='fas fa-times close_icons' id='holder_" + i + "' onclick='remove_file(event)'></i> </div>";    
-        }
-    }
-}
-
-//1. Send the article which a user wrote.
-// <!-- 
-// CREATE TABLE `help_articles`(
-//     `id` INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-//     `author_id` VARCHAR(11) NOT NULL,
-//     `date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-//     `title` VARCHAR(100) NOT NULL,
-//     `content` VARCHAR(1500) NOT NULL,
-//     `kind` VARCHAR(10) NOT NULL,
-//     `sticky` TINYINT(1) NOT NULL,
-//     `parent_article_id` INT(11) NULL,
-//     `re_step` SMALLINT(2) NULL,  
-//     `password` VARCHAR(4) NULL,
-//     `hits` INT(11) NOT NULL,
-//     `files`
-// ); -->
-
-// const write_article_submit_button = document.getElementById("write_article_submit_button");
-// write_article_submit_button.addEventListener("click", sendArticle);
-var stickyOrNot = form.querySelector("input[name=sticky]");
-
-
+// 4. Send article to database.
 function sendArticle(e){
     e.preventDefault();
-    let select = form.querySelector("select[name=kind]");
+    let select = writeArticleForm.querySelector("select[name=kind]");
     let files = [];
     for(let holder_name in file_holders){
         let file_name = file_holders[holder_name];
@@ -363,17 +395,24 @@ function sendArticle(e){
     let json_files = JSON.stringify(files);
     let json_tags = JSON.stringify(tags);
     
-
     //var author_id  = session!*****
-    let author_id = "user2";
-    let sticky = form.querySelector("input[name=sticky]").checked;
-    let title = form.querySelector("input[name=title]").value;
-    let password = form.querySelector("input[name=password").value;
+    let author_id = "user12";
+    let sticky = writeArticleForm.querySelector("input[name=sticky]").checked;
+    let title = writeArticleForm.querySelector("input[name=title]").value;
+    let password = writeArticleForm.querySelector("input[name=password]").value;
     let kind = select.options[select.selectedIndex].value;
-    let content = form.querySelector("textarea").value;
+    let content = writeArticleForm.querySelector("textarea").value;
 
+    //Default 
+    let parent_article_id = null;
+    //If it's the reply to an article, 
+    if (reply === true){
+        parent_article_id = articleId_forReply;
+        articleId_forReply = null;
+        title_forReply = null;
+    }
 
-    // If a user didn't fill any necessary filds, don't allow to write an article!
+    // If a user didn't fill any necessary filds, don't allow to write an readAcle!
     if(title !== "" && content !== ""){
 
         let obj = {
@@ -385,6 +424,7 @@ function sendArticle(e){
             content: content,
             files: json_files,
             tags: json_tags,
+            parent_article_id: parent_article_id
         };
 
         let json = JSON.stringify(obj);
@@ -393,23 +433,112 @@ function sendArticle(e){
         ajax.onreadystatechange = function(){
 
             if(this.status == 200 && this.readyState == 4){
-                // console.log(json);
                 let result = ajax.responseText;
-                if(result !== "OK"){
+                //If an error's occured, it'll be reported in the console.
+                if(result !== "sent"){
                     console.log(result);
                 }
             }
 
         }
-        ajax.open("POST","../backend/sendNewArticle_help.php", true);        
+        ajax.open("POST","../backend/sendNewreadAcle_help.php", true);        
         ajax.send(json);
+
+        //Reset all inputs' values to their default values. 
+        stickyOrNot.checked = false;
+        writeArticleForm.querySelector("input[name=title]").value = "";
+        writeArticleForm.querySelector("input[name=password]").value = "";
+        select.selectedIndex = 0;
+        writeArticleForm.querySelector("textarea").value = ""; 
+        tags = [];
+        new_tag = "";
+        input_for_tags.value = "";
+        added_tags.innerHTML = "";
+        added_files.value = "";
+        file_inputs.forEach(function(file_input){
+            file_input.value = "";
+        })
+        file_holders = {
+            holder_0: null,
+            holder_1: null,
+            holder_2: null,
+        };
+        
     }else{
         alert("Please fill all necessary filds.");
     }
+}           // id: id
+            // sticky:sticky, -> x
+            // author_id: author_id,        
+            // title: title,
+            // password: password, -> x
+            // kind: kind,
+            // content: content,
+            // files: json_files,
+            // tags: json_tags,
+
+
+// 4. Get single article from the database and display on the UI.
+const readArticle_table = document.querySelector("#readArticleContainer table");
+//For the case where a user want a reply to the article, 
+//store the id and title of the article.
+var articleId_forReply;  
+var title_forReply;
+
+var allRowsInBB = document.querySelectorAll("#bulletin_board tr");
+allRowsInBB.forEach(function(thisOne, i) {
+    thisOne.addEventListener("click", function() {
+        var thisId = this.querySelector(".id").innerHTML;
+        showArticle(thisId);
+    })
+});
+
+function showArticle(inId){
+    const ajax = new XMLHttpRequest();
+    ajax.onreadystatechange = function(){
+        if(this.readyState == 4 && this.status == 200 ){
+            let json_article = ajax.responseText;
+            let articleObj = JSON.parse(json_article);
+            let privateOrNot = "Public";
+            if(articleObj["password"] !== null){
+                privateOrNot = "Private";
+            }
+
+            let tags = JSON.parse(articleObj["tags"]); 
+            let newTxtForTags = "";
+            for(let i = 0; i < tags.length; i++){
+                newTxtForTags += "<span class='readA_tags'>#" + tags[i] + "&nbsp;</span>";
+            }
+            
+            let json_files = JSON.parse(articleObj["files"]); 
+
+            readArticle_table.querySelector("#readA_id").innerHTML = articleObj["id"];
+            readArticle_table.querySelector("#readA_kind").innerHTML = articleObj["kind"];
+            readArticle_table.querySelector("#readA_title").innerHTML = articleObj["title"];
+            readArticle_table.querySelector("#readA_author").innerHTML = articleObj["author_id"];
+            readArticle_table.querySelector("#readA_date").innerHTML = articleObj["date"];
+            readArticle_table.querySelector("#readA_private").innerHTML = privateOrNot;
+            readArticle_table.querySelector("#readA_tags").innerHTML = newTxtForTags;
+            // readArticle_table.querySelector("#readA_files").innerHTML = articleObj["files"];
+            readArticle_table.querySelector("#readA_content").innerHTML = articleObj["content"];
+
+            //For a reply article
+            title_forReply = articleObj["title"];
+        }
+    }
+    ajax.open( "POST", "../backend/getArticles_help.php", true);
+    ajax.send( '{ "type": "id", "id": "' + inId + '" }');
+    
 }
 
+var reply = false;
 
-
+function sendTitleForReply(){
+    //toggle the write article page to 'ON'. 
+    let titleInput = document.querySelector("#new_article input[name=title]");
+    titleInput.value = "Re: " + title_forReply;  
+    reply = true; 
+}
 
 </script>
 </body>
