@@ -1,8 +1,7 @@
 <?php 
-include '../backend/_sessionCheck.php';
-?><head>
-
-    <style>
+    include 'headerall.php';
+    checkSession(True);
+?><style>
     @media screen and (max-width: 481px) {
 
         input, #submitbutton {
@@ -70,10 +69,8 @@ include '../backend/_sessionCheck.php';
     
     </style>
 </head>
-    <?php 
-    // include '../backend/_sessionCheck.php';
-    ?>
     
+    <body>
     <?php include 'headerall.php';?>
     
     <div id="divcontainer">
@@ -139,8 +136,4 @@ include '../backend/_sessionCheck.php';
     </script>
     
 </body>
-
-
-
-
 </html>
