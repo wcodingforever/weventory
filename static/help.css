@@ -167,18 +167,7 @@ tr .title{
     margin-left: 80px;
     margin-right: 19px;
 }
-#new_article #write_article_submit_button{
-    cursor:pointer;
-    font-size: 20px;
-    color: #2196F3;
-    background-color: #ffffff;
-    height: 51px;
-    width: 139px;
-    margin-left: 683px;
-    font-weight: bold;
-    position: relative;
-    top: 44px;
-}
+
 #new_article #added_tags{
     margin-left: 108px;
     margin-top: 11px;
@@ -235,11 +224,4 @@ tr .title{
 
 .file_detail_size {
     margin: 0 20px;
-}
-.container .enter_pw{
-    position: relative;
-    top: 243px;
-    left: 138px;
-    height: 57px;
-    width: 350px;
 }

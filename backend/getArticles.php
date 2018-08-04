@@ -11,12 +11,13 @@
     //the order of ancestor articles and their child articles!
     $pgOffset = ($currPage - 1) * $perPage;  // How many to skip to get page.
 
-    $stmt = $connection->prepare("
+    $stmt1 = $connection->prepare("
         SELECT
             `sticky`,
             `id`,
             `kind`,
             `password`,
+            `numOfChildren`,
             `title`,
             `author_id`,
             `date`,
@@ -28,8 +29,8 @@
         "
     );
 
-    $stmt->execute();
+    $stmt1->execute();
 
-    $allArticles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $allArticles = $stmt1->fetchAll(PDO::FETCH_ASSOC);
 
 ?>

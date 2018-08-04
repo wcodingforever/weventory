@@ -86,6 +86,13 @@ if(isset($author_id) && isset($title) && isset($content) && isset($kind)){
 
         $stmt->execute();
 
+        //Update the `numOfChildren` data of the parent article of this article.
+        if($parent_article_id !== null){
+            $stmt2 = $connection->prepare("UPDATE `help_articles` SET `numOfChildren` = (`numOfChildren` + 1 ) WHERE `id`=:parent_article_id;");
+            $stmt2->bindParam(":parent_article_id", $parent_article_id);
+            $stmt2->execute();
+        }
+
         $connection = null;
         $stmt = null;
 

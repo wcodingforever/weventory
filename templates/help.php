@@ -108,10 +108,21 @@
             width: 156px;
             margin: 20px 0px;
             font-weight: bold;
-            position: relative;
-            top: 116px;
+            position: absolute;
+            top: 1139px;
         }
-        
+        #new_article #write_article_submit_button{
+            cursor:pointer;
+            font-size: 20px;
+            color: #2196F3;
+            background-color: #ffffff;
+            height: 51px;
+            width: 139px;
+            margin-left: 683px;
+            font-weight: bold;
+            position: absolute;
+            top: 1159px;
+        }
         .container div{
             padding: 3px;
         }
@@ -180,6 +191,13 @@
         .container{
             margin: 90px 0px;
         }
+        .container .enter_pw{
+            position: relative;
+            top: -430px;
+            left: 251px;
+            height: 57px;
+            width: 350px;
+        }
     </style>
 </head>
 <body>
@@ -239,6 +257,7 @@
                     // foreach ($thisRow as $thisKey => $thisVal) {
                     $privateOrNot = false;
                     $thisRowKeys = array_keys($thisRow);
+                    $numOfChildArticles = 0;
                     for ($j = 0; $j < count($thisRowKeys); $j++) {
                         $thisKey = $thisRowKeys[$j];
                         $thisVal = $thisRow[$thisKey];
@@ -251,7 +270,14 @@
                             }
                         }
                         else {
-                            if ($thisKey === 'date') {
+                            if($thisKey === "numOfChildren" && $thisVal !== 0){
+                                $numOfChildArticles = $thisVal; 
+                                continue;
+                            }
+                            else if($thisKey === "title"){
+                                $thisVal .= " (" . $numOfChildArticles . ")";
+                            }
+                            else if ($thisKey === 'date') {
                                 $phpdate = strtotime( $thisVal );
 
                                 $today = new DateTime(); // This object represents current date/time
@@ -398,7 +424,7 @@
 <script>
 ////////////////////////////////////////bulletin board/////////////////////////////////////////
 // const writeArticleForm = document.getElementsByTagName("form")[0];
-const user_login = "<?php echo $user_login; ?>";
+var user_login = "<?php echo $user_login; ?>";
 const writeArticleForm = document.querySelector("#new_article");
 
 //Toggle each part (bulletin board/ write article/ read article)
@@ -451,7 +477,7 @@ function backToBB(){
 var input_for_tags = document.querySelector("input[name=tags]");
 var added_tags = document.getElementById("added_tags");
 input_for_tags.addEventListener("keyup",add_tags);
-var allTags = document.querySelectorAll(".tag");
+var allTags = [];
 
 
 // Add new tags to the list of tags. Must be less than 20 characters. Max 10 tags.
@@ -462,18 +488,22 @@ function add_tags(e){
 
         // Checks to see if the new tag is valid.
         for (let i = 0; i < allTags.length; i++) {
-            let thisTagElem = allTags[i];
-            if (thisTagElem.innerHTML === "#" + new_tag) {
+            let thisTag = allTags[i];
+            if (thisTag === new_tag) {
                 errMsg += "That tag already exists.\n";
                 break;
             }
         }
-
-        if (new_tag.length > 20) errMsg += "Tags can have more than 20 characters.\n";
-        if (allTags.length === 10) errMsg += "Can not have more than 10 tags.\n";
+        if (new_tag.length > 20) {
+            errMsg += "Tags can have more than 20 characters.\n";
+        }
+        if (allTags.length === 10) {
+            errMsg += "Can not have more than 10 tags.\n";
+        }
 
         // Everything looks good, add the tag.
         if (new_tag !== "" && errMsg === "") {
+            allTags.push(new_tag);
             added_tags.innerHTML += "<span class='tag'>#" + new_tag + "</span> ";
 
             // For the delete function of each tag.
@@ -598,17 +628,9 @@ function sendArticle(e){
         }
     });
 
-    let tags = [];
-    //allTags => all elements displaying a tags.
-    if(allTags.length > 0){
-        allTags.forEach(function(inputForTags){
-            let thisTag = inputForTags.innterHTML.substr(1);
-            tags.push(thisTag);
-        });
-    }
     
     let json_files = JSON.stringify(files);
-    let json_tags = JSON.stringify(tags);
+    let json_tags = JSON.stringify(allTags);
 
     let sticky = writeArticleForm.querySelector("input[name=sticky]").checked;
     let title = writeArticleForm.querySelector("input[name=title]").value;
@@ -672,6 +694,7 @@ function sendArticle(e){
         file_inputs.forEach(function(file_input){
             file_input.value = "";
         });
+        allTags = [];
         
     }else{
         alert("Please fill all necessary filds.");
@@ -833,13 +856,13 @@ function showArticle(inId){
                     privateOrNot = "Private";
                     e_content.id = "pr_content_" + id; 
                     e_content.classList.add("hideContent");
-                    e_content.innerHTML += "<div class='enter_pw'>" +
+                    document.querySelectorAll(".container")[i].innerHTML += "<div class='enter_pw'>" +
                                                 "<div class='instruction' style='color:black;'>Please enter the password.</div>" + 
                                                 "<input type='password' name='password'>" +
                                                 "<button id='ca_bt_" + id + "'  onclick='showChild(this)'>Enter<button>"
                                             "</div>";
                 }else{
-                    e_content.style = "color:black;";
+                    e_content.classList.remove("hideContent");
                 }
 
                 e_private.innerHTML = privateOrNot;
