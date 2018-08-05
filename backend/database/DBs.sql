@@ -151,4 +151,5 @@ CREATE TABLE `help_articles`(
     `hits` INT(11) NOT NULL DEFAULT 0,
     `tags` VARCHAR(250) NULL,
     `files` VARCHAR(500) NULL,
+    `numOfChildren` TYNYINT(2) NOT NULL DEFAULT 0
 );
